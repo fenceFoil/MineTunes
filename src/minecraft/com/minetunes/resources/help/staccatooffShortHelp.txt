@@ -1,0 +1,5 @@
+StaccatoOff
+
+Removes staccato effects from the current voice.
+
+See: Staccato

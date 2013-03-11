@@ -1,0 +1,24 @@
+§dBasic Tokens:§r
+
+Note: §dA§r, §dB§r, §dC§r, §dD§r, §dE§r, §dF§r, §dG§r
+Chords: §dCi+Ei+Gi§r, etc.
+Rest: §dR
+Switch Voice: §dV
+Tempo: §dT
+Key: §dK
+Change Instrument: §dI
+Show Lyric: §dY
+
+Switch Layer: §dL
+
+§dAdvanced Tokens:§r
+
+Collection: ( )
+Number Notes: [64]
+Polyphonic Pressure: *
+Channel Pressure: +
+Time: @
+Measure: |
+Pitch Bend: &
+Controller Message: X
+Set Constant: $

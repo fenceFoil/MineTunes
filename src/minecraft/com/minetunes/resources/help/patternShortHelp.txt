@@ -1,0 +1,5 @@
+Pattern ##
+
+## is the number of times to repeat (1 if not stated)
+
+0.9.11: Same as §bRepeat

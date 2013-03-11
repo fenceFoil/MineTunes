@@ -1,0 +1,13 @@
+OneLine:
+
+Lines beneath this keyword are combined without spaces. Useful for complex chords or music tokens.
+
+Example: 
+
+OneLine
+C#6i*+E#6i*+
+G#6i*
+
+Is read the same as
+
+C#6i*+E#6i*+G#6i*

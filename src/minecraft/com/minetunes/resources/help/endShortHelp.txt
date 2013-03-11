@@ -1,0 +1,9 @@
+End
+
+Does one of two things:
+
+1) If in the main song, ends it.
+2) If in a pattern, ends it and jumps back to the Pattern or Patt keyword that started it.
+
+§bSee:§r
+EndLine

@@ -1,0 +1,20 @@
+§bKeywords:
+§aFlow:
+Patt, Pattern, Repeat, GoTo, #, End, EndLine, Left, Right, Up, Down, In, Out
+§aMusic:
+Volume, Staccato, StaccatoOff, Tran, TranOff, Octaves, OctavesOff, Accel
+§aSync:
+Reset, SyncVoices, SyncWith
+§aTriggers:
+Area, Proximity, [SignTune]
+§aDitty:
+OneAtATime, IsDitty, SaveMIDI, Mute, PlayLast, MaxPlays
+§aEffects:
+Lyric, PreLyric, Emitter, SFX, SFXInst, SFXInst2, SFXInstOff, PlayMIDI, Firework
+§aMisc:
+OneLine
+§aExperimental:
+Disco, NewBot, Book
+
+§bNew:
+Book, [SignTune] 

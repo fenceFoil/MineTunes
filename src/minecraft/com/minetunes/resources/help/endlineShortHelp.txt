@@ -1,0 +1,6 @@
+EndLine
+
+Instead of reading any signs to the right of this sign, jumps to the start of the next line.
+
+§bSee:§r
+End

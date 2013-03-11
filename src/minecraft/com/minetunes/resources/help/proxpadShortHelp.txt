@@ -1,0 +1,5 @@
+ProxPad [width] [depth] [optional height]
+
+See §bArea§r. Short for "Proximity Pad."
+
+§bSee:§r Area
