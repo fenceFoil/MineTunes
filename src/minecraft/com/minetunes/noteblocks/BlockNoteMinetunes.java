@@ -52,9 +52,6 @@ import com.minetunes.signs.keywords.NoteblockTriggerKeyword;
  * The Herobrine of NoteBlock: hijacked into the list of blocks by id instead of
  * net.minecraft.src.BlockNote. Contains modified methods.
  * 
- * TODO: Move hacky solution for finding pitch of noteblock from EntityFXNote to
- * this class's onBlockEventReceived()
- * 
  */
 public class BlockNoteMinetunes extends BlockNote {
 	public static HashMap<String, String> screenNames = new HashMap<String, String>();

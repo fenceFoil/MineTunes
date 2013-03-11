@@ -1475,3 +1475,9 @@
 /BlockRailBase.java
 /BlockRailPowered.java
 /BlockRedstoneLogic.java
+/EntityNoteFX.java
+/GuiEditSign.java
+/Packet130UpdateSign.java
+/Packet63WorldParticles.java
+/TileEntitySign.java
+/TileEntitySignRenderer.java
