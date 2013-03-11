@@ -1,32 +1,3 @@
-/**
- * 
- * Change (single) from Mojang AB code:
- * 
- * Copyright (c) 2012 William Karnavas All Rights Reserved
- * 
- * My sincere apologies to Mojang AB: I'm trying to get the vanilla code 
- * out of this thing as fast as I can!
- * 
- */
-
-/**
- * 
- * This file is part of MineTunes.
- * 
- * MineTunes is free software: you can redistribute it and/or modify it
- * under the terms of the GNU Lesser General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or (at
- * your option) any later version.
- * 
- * MineTunes is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public
- * License for more details.
- * 
- * You should have received a copy of the GNU Lesser General Public License
- * along with MineTunes. If not, see <http://www.gnu.org/licenses/>.
- * 
- */
 package net.minecraft.src;
 
 import java.util.Random;
@@ -44,7 +15,7 @@ public class BlockSign extends BlockContainer
     {
         super(par1, Material.wood);
         this.isFreestanding = par3;
-        this.blockIndexInTexture = 4;
+
         this.signEntityClass = par2Class;
         float var4 = 0.25F;
         float var5 = 1.0F;
@@ -52,6 +23,14 @@ public class BlockSign extends BlockContainer
         
         // Minetunes: Init the mod (this is our hook into Minecraft, in absence of an API)
         Minetunes.initMinetunesMod();
+    }
+
+    /**
+     * From the specified side and block metadata retrieves the blocks texture. Args: side, metadata
+     */
+    public Icon getBlockTextureFromSideAndMetadata(int par1, int par2)
+    {
+        return Block.planks.getBlockTextureFromSide(par1);
     }
 
     /**
@@ -159,7 +138,7 @@ public class BlockSign extends BlockContainer
      */
     public int idDropped(int par1, Random par2Random, int par3)
     {
-        return Item.sign.shiftedIndex;
+        return Item.sign.itemID;
     }
 
     /**
@@ -206,7 +185,7 @@ public class BlockSign extends BlockContainer
         if (var6)
         {
             this.dropBlockAsItem(par1World, par2, par3, par4, par1World.getBlockMetadata(par2, par3, par4), 0);
-            par1World.setBlockWithNotify(par2, par3, par4, 0);
+            par1World.func_94571_i(par2, par3, par4);
         }
 
         super.onNeighborBlockChange(par1World, par2, par3, par4, par5);
@@ -217,6 +196,8 @@ public class BlockSign extends BlockContainer
      */
     public int idPicked(World par1World, int par2, int par3, int par4)
     {
-        return Item.sign.shiftedIndex;
+        return Item.sign.itemID;
     }
+
+    public void func_94332_a(IconRegister par1IconRegister) {}
 }
