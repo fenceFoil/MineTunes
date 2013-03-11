@@ -66,9 +66,13 @@ public class EntityFXMinetunes extends EntityFX {
 	@Override
 	public void renderParticle(Tessellator par1Tessellator, float par2,
 			float par3, float par4, float par5, float par6, float par7) {
-		int particleTex = Minecraft.getMinecraft().renderEngine
-				.getTexture("/com/minetunes/resources/textures/particles.png");
-		Minecraft.getMinecraft().renderEngine.bindTexture(particleTex);
+//		int particleTex = Minecraft.getMinecraft().renderEngine
+//				.getTexture("/com/minetunes/resources/textures/particles.png");
+//		Minecraft.getMinecraft().renderEngine.bindTexture(particleTex);
+
+		Minecraft.getMinecraft().renderEngine
+				.func_98187_b("/com/minetunes/resources/textures/particles.png");
+		
 		// if (particleAge > particleMaxAge * 0.8) {
 		// particleAlpha = (particleMaxAge - particleAge)
 		// / (particleMaxAge * 0.2f);

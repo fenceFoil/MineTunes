@@ -304,8 +304,7 @@ public class GuiEditSignBase extends GuiEditSign {
 
 		buttonList.clear();
 
-		int iconTexture = mc.renderEngine
-				.getTexture("/com/minetunes/resources/textures/signEditor1.png");
+		String iconTexture = "/com/minetunes/resources/textures/signEditor1.png";
 		// editorModeButton = new GuiButton(1000, width - 100, 10, 80, 20, "");
 		editorModeButton = new GuiButtonL("editorMode", width - 30, 10, 20, 20,
 				iconTexture, 13);
@@ -464,7 +463,7 @@ public class GuiEditSignBase extends GuiEditSign {
 	 * @param entitySign
 	 */
 	public static void sendSignPacket(TileEntitySign entitySign) {
-		NetClientHandler sender = Minecraft.getMinecraft().getSendQueue();
+		NetClientHandler sender = Minecraft.getMinecraft().getNetHandler();
 		if (sender != null) {
 			sender.addToSendQueue(new Packet130UpdateSign(entitySign.xCoord,
 					entitySign.yCoord, entitySign.zCoord, entitySign.signText));

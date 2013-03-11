@@ -85,12 +85,13 @@ public class TutorialGui extends GuiScreen {
 	 */
 	@Override
 	public void drawScreen(int par1, int par2, float par3) {
-		int mcDittyLandPictureNumber = mc.renderEngine
-				.getTexture("/com/minetunes/resources/textures/MCDittyLand1.png");
+//		int mcDittyLandPictureNumber = mc.renderEngine
+//				.getTexture("/com/minetunes/resources/textures/MCDittyLand1.png");
 
 		drawDefaultBackground();
 		// GL11.glColor4f(1.0F, 0F, 1.0F, 0.5f);
-		mc.renderEngine.bindTexture(mcDittyLandPictureNumber);
+		mc.renderEngine
+				.func_98187_b("/com/minetunes/resources/textures/MCDittyLand1.png");
 		GL11.glColor4f(1.0F, 1.0F, 1.0F, 0.5f);
 		drawTexturedModalRect(width - 10 - (width / 2 - 20), 60, 0, 0,
 				Math.min(width / 2 - 20, 256), Math.min(height - 130, 133));
@@ -143,7 +144,8 @@ public class TutorialGui extends GuiScreen {
 			mc.displayGuiScreen(backGui);
 		} else if (guibutton.id == 200) {
 			// Download
-			TutorialWorldUpdater.downloadExampleWorldButton(Minetunes.tutorialUpdater);
+			TutorialWorldUpdater
+					.downloadExampleWorldButton(Minetunes.tutorialUpdater);
 		}
 	}
 

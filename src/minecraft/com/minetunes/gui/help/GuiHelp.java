@@ -172,8 +172,10 @@ public class GuiHelp extends GuiScreen {
 
 		// Draw sign background
 		GL11.glColor4f(0.8f, 0.8f, 0.8f, 1.0f);
-		mc.renderEngine.bindTexture(Minecraft.getMinecraft().renderEngine
-				.getTexture("/com/minetunes/resources/textures/signBG2.png"));
+		// mc.renderEngine.bindTexture(Minecraft.getMinecraft().renderEngine
+		// .getTexture("/com/minetunes/resources/textures/signBG2.png"));
+		Minecraft.getMinecraft().renderEngine
+				.func_98187_b("/com/minetunes/resources/textures/signBG2.png");
 		// drawTexturedModalRect(0, height - BOTTOM_MARGIN, 0, 0, width,
 		// BOTTOM_MARGIN);
 		for (int i = 0; i < height; i += 128) {
@@ -245,10 +247,10 @@ public class GuiHelp extends GuiScreen {
 					try {
 						// Print the file. Filter out the "\." that gets added
 						// into the path sometimes.
-						Desktop.getDesktop()
-								.print(new File(slides.get(currSlide).getFile()
-										.getPath()
-										.replace("./", "").replace(".\\", "")));
+						Desktop.getDesktop().print(
+								new File(slides.get(currSlide).getFile()
+										.getPath().replace("./", "")
+										.replace(".\\", "")));
 					} catch (IOException e1) {
 						e1.printStackTrace();
 						mc.displayGuiScreen(new GuiSimpleMessage(thisGui,

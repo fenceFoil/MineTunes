@@ -33,13 +33,14 @@ import com.minetunes.Finder;
 public class GuiMinetimesGraphicsMenuButton extends GuiButtonL {
 
 	private GuiScreen backscreen;
-	
+
 	private int texNum = -1;
 
 	public GuiMinetimesGraphicsMenuButton(GuiScreen backscreen) {
-		super("signGraphics", 5, 5, 20, 20, -100000, 12);
+		super("signGraphics", 5, 5, 20, 20,
+				"/com/minetunes/resources/textures/signEditor1.png", 12);
 		id = 1923129982;
-		this.backscreen = backscreen;
+		setBackscreen(backscreen);
 	}
 
 	@Override
@@ -59,15 +60,5 @@ public class GuiMinetimesGraphicsMenuButton extends GuiButtonL {
 
 	public void setBackscreen(GuiScreen backscreen) {
 		this.backscreen = backscreen;
-	}
-
-	@Override
-	public void drawButton(Minecraft mc, int mx, int my) {
-		if (texNum == -1) {
-			texNum = Minecraft.getMinecraft().renderEngine
-					.getTexture("/com/minetunes/resources/textures/signEditor1.png");
-			setIconTex(texNum);
-		}
-		super.drawButton(mc, mx, my);
 	}
 }

@@ -68,8 +68,8 @@ public class BookKeyword extends SignTuneKeyword {
 			StringBuilder readMusicString) {
 
 		LinkedList<ItemStack> nearbyBooks = Minetunes.getFramedItemsNearby(
-				world, location, 2, Item.writableBook.shiftedIndex,
-				Item.writtenBook.shiftedIndex);
+				world, location, 2, Item.writableBook.itemID,
+				Item.writtenBook.itemID);
 
 		for (ItemStack item : nearbyBooks) {
 			boolean failure = false;

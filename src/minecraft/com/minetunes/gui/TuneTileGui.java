@@ -73,13 +73,14 @@ public class TuneTileGui extends Gui {
 		this.type = type;
 		this.on = on;
 
-		int tex = Minecraft.getMinecraft().renderEngine
-				.getTexture("/com/minetunes/resources/textures/mineTunesLogo.png");
-		
-		//helpButton = new GuiButton(1, x + 32 - 10, 0, 20, 20, "§b?");
-		helpButton = new GuiButtonL("help", x+32 - 10, 0, 20, 20, tex, 16+15);
-		//settingsButton = new GuiButton(2, x, 0, 64, 20, "Settings");
-		settingsButton = new GuiButtonL ("settings", x, 0, 64, 20, /*tex, 32+15,*/ "Settings");
+		String tex = "/com/minetunes/resources/textures/mineTunesLogo.png";
+
+		// helpButton = new GuiButton(1, x + 32 - 10, 0, 20, 20, "§b?");
+		helpButton = new GuiButtonL("help", x + 32 - 10, 0, 20, 20, tex,
+				16 + 15);
+		// settingsButton = new GuiButton(2, x, 0, 64, 20, "Settings");
+		settingsButton = new GuiButtonL("settings", x, 0, 64, 20, /* tex, 32+15, */
+		"Settings");
 
 		setY(y);
 		setX(x);
@@ -102,10 +103,12 @@ public class TuneTileGui extends Gui {
 	}
 
 	public void draw(Minecraft mc, int mx, int my) {
-		int tex = Minecraft.getMinecraft().renderEngine
-				.getTexture("/com/minetunes/resources/textures/mineTunesLogo.png");
+		// int tex = Minecraft.getMinecraft().renderEngine
+		// .getTexture("/com/minetunes/resources/textures/mineTunesLogo.png");
 		GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0f);
-		Minecraft.getMinecraft().renderEngine.bindTexture(tex);
+		// Minecraft.getMinecraft().renderEngine.bindTexture(tex);
+		Minecraft.getMinecraft().renderEngine
+				.func_98187_b("/com/minetunes/resources/textures/mineTunesLogo.png");
 		drawTexturedModalRect(x, y, getUForType(type), 64, 64, 64);
 		if (on) {
 			GL11.glColor4f(0, 1.0F, 0, 1.0f);

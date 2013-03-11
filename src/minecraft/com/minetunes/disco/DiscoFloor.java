@@ -150,8 +150,9 @@ public class DiscoFloor {
 	public void turnOff(World world) {
 		for (DiscoFloorBlock b : blockList) {
 			if (world.getBlockId(b.x, b.y, b.z) == Block.cloth.blockID) {
+				// TODO: Is 2 really the value we want?
 				world.setBlockMetadataWithNotify(b.x, b.y, b.z,
-						b.originalBlockMeta);
+						b.originalBlockMeta, 2);
 			}
 		}
 	}
@@ -169,8 +170,9 @@ public class DiscoFloor {
 					.nextInt(pulsePalettes.size()));
 			for (DiscoFloorBlock b : blockList) {
 				if (world.getBlockId(b.x, b.y, b.z) == Block.cloth.blockID) {
+					// TODO: Is 2 really the value we want?
 					world.setBlockMetadataWithNotify(b.x, b.y, b.z,
-							pulsePallet[rand.nextInt(pulsePallet.length)]);
+							pulsePallet[rand.nextInt(pulsePallet.length)], 2);
 				}
 			}
 		}

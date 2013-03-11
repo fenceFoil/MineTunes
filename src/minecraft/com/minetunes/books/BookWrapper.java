@@ -533,7 +533,7 @@ public class BookWrapper {
 					Packet.writeItemStack(this.bookItem, dataOut);
 					Minecraft
 							.getMinecraft()
-							.getSendQueue()
+							.getNetHandler()
 							.addToSendQueue(
 									new Packet250CustomPayload(
 											serverInstructionHeader, byteOut

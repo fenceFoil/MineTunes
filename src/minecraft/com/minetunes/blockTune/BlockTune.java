@@ -477,7 +477,7 @@ public class BlockTune implements BlockTuneAccess {
 				// Set itemstack
 				ItemStack itemStack = getItemstackForWorldBlock(world, p.x,
 						p.y - 1, p.z);
-				item.func_92058_a(itemStack);
+				item.setEntityItemStack(itemStack);
 				// Set spin speed
 				if (isAdjacentSwitchOn(world, corners.startCorner)) {
 					item.setAgeMultiplier(1);
@@ -824,7 +824,7 @@ public class BlockTune implements BlockTuneAccess {
 				for (int j = 0; j < cornersList.size(); j++) {
 					Point3D corner = cornersList.get(j);
 					ItemStack cornerItem = blockDisplays.get(corner)
-							.func_92059_d();
+							.getEntityItem();
 					if (cornerItem == null) {
 						continue;
 					}

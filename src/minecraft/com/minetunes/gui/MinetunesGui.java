@@ -85,10 +85,9 @@ public class MinetunesGui extends GuiScreen {
 		drawMinetunesBackground(width, height);
 
 		// Draw logo
-		int bgTextureNumber = Minecraft.getMinecraft().renderEngine
-				.getTexture("/com/minetunes/resources/textures/mineTunesLogo.png");
 		GL11.glColor4f(1.0F, 1.0F, 1.0F, 0.5f);
-		Minecraft.getMinecraft().renderEngine.bindTexture(bgTextureNumber);
+		Minecraft.getMinecraft().renderEngine
+				.func_98187_b("/com/minetunes/resources/textures/mineTunesLogo.png");
 		// drawTexturedModalRect(width / 2 - 64, 10, 100, 0, 128, 64);
 		drawRect(width / 2 - 55, 5, width / 2 + 55, 55, 0xddffffff);
 		drawTexturedModalRect(width / 2 - 50, 10, 0, 0, 100, 36);
@@ -302,8 +301,7 @@ public class MinetunesGui extends GuiScreen {
 		// buttonList.add(new GuiButton(400, 2, 10, 80, 20, "§bBack"));
 		// }
 
-		int tex = Minecraft.getMinecraft().renderEngine
-				.getTexture("/com/minetunes/resources/textures/mineTunesLogo.png");
+		String tex = "/com/minetunes/resources/textures/mineTunesLogo.png";
 		final GuiScreen thisGui = this;
 
 		GuiButtonL backButton = new GuiButtonL("back", 10, 10, 60, 20, tex,
@@ -323,7 +321,7 @@ public class MinetunesGui extends GuiScreen {
 		// - 30, 110,
 		// 20, "Keyboard");
 		GuiButtonL keyboardButton = new GuiButtonL("keys", width / 6 - 55,
-				height - 30, 110, 20, tex, 48+0, "Keyboard");
+				height - 30, 110, 20, tex, 48 + 0, "Keyboard");
 		keyboardButton.id = 200;
 		buttonList.add(keyboardButton);
 
@@ -360,7 +358,7 @@ public class MinetunesGui extends GuiScreen {
 			}
 		});
 		buttonList.add(graphicsButton);
-		
+
 		midiButton = new GuiButtonL("midiFolder", width / 6 * 5 - 55,
 				TILE_RETRACT_Y, 110, 20, tex, 48 + 2, "MIDI Folder");
 		midiButton.addListener(new ActionListener() {
@@ -372,11 +370,11 @@ public class MinetunesGui extends GuiScreen {
 			}
 		});
 		buttonList.add(midiButton);
-		
-		soundfontsButton = new GuiButtonL("soundFonts", width / 6 - 55, TILE_RETRACT_Y,
-				110, 20, tex, 48+15, "SoundFonts");
+
+		soundfontsButton = new GuiButtonL("soundFonts", width / 6 - 55,
+				TILE_RETRACT_Y, 110, 20, tex, 48 + 15, "SoundFonts");
 		soundfontsButton.addListener(new ActionListener() {
-			
+
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				// Soundbank selection
@@ -585,15 +583,10 @@ public class MinetunesGui extends GuiScreen {
 			// tutorialButton.yPosition, 20, 20, "§cX");
 			// buttonList.add(cancelTutorialButton);
 
-			cancelTutorialButton = new GuiButtonL(
-					"cancelTutorial",
+			cancelTutorialButton = new GuiButtonL("cancelTutorial",
 					tutorialButton.xPosition + 100 + 2,
-					tutorialButton.yPosition,
-					20,
-					20,
-					mc.renderEngine
-							.getTexture("/com/minetunes/resources/textures/mineTunesLogo.png"),
-					15);
+					tutorialButton.yPosition, 20, 20,
+					"/com/minetunes/resources/textures/mineTunesLogo.png", 15);
 			buttonList.add(cancelTutorialButton);
 			cancelTutorialButton.addListener(new ActionListener() {
 

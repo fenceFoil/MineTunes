@@ -46,8 +46,7 @@ public class BookEditorGui extends GuiScreen {
 	private GuiScreen backScreen;
 	private BookWrapper book;
 
-	public int tex = Minecraft.getMinecraft().renderEngine
-			.getTexture("/com/minetunes/resources/textures/signEditor1.png");
+	public String tex = "/com/minetunes/resources/textures/signEditor1.png";
 
 	/**
 	 * @param bookGui

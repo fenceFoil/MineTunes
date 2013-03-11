@@ -76,6 +76,10 @@ public class BlockNoteMinetunes extends BlockNote {
 
 	public BlockNoteMinetunes(int par1) {
 		super(par1);
+
+		// Manually add a couple values that are normally added in Block.java
+		setHardness(0.8F);
+		setUnlocalizedName("musicBlock");
 	}
 
 	// /**
@@ -159,7 +163,8 @@ public class BlockNoteMinetunes extends BlockNote {
 	 * Called when the block receives a BlockEvent - see World.addBlockEvent. By
 	 * default, passes it on to the tile entity at this location. Args: world,
 	 * x, y, z, blockID, EventID, event parameter
-	 * @return 
+	 * 
+	 * @return
 	 */
 	public boolean onBlockEventReceived(World world, int x, int y, int z,
 			int noteTypeNum, int noteBlockSetting) {
@@ -219,7 +224,7 @@ public class BlockNoteMinetunes extends BlockNote {
 		world.spawnParticle("note", (double) x + 0.5D, (double) y + 1.2D,
 				(double) z + 0.5D, (double) noteBlockSetting / 24.0D, 0.0D,
 				0.0D);
-		
+
 		return true;
 	}
 
@@ -242,8 +247,8 @@ public class BlockNoteMinetunes extends BlockNote {
 		int lastNull = 0;
 		for (int i = 0; i < nearby.size(); i++) {
 			// If point has no sign, ignore it
-			Block blockType = SignTuneParser.getSignBlockType(
-					nearby.get(i), tile.getWorldObj());
+			Block blockType = SignTuneParser.getSignBlockType(nearby.get(i),
+					tile.getWorldObj());
 			if (blockType == null || blockType == Block.signPost) {
 				// Not a sign, or definitely not attached to noteblock
 				nearby.set(i, null);

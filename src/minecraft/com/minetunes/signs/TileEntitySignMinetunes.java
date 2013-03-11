@@ -221,7 +221,7 @@ public class TileEntitySignMinetunes extends TileEntitySign {
 							} else if (metadata < 8) {
 								metadata += 8;
 							}
-							worldObj.setBlockMetadata(p.x, p.y, p.z, metadata);
+							worldObj.setBlockMetadataWithNotify(p.x, p.y, p.z, metadata, 2);
 						}
 					}
 				}

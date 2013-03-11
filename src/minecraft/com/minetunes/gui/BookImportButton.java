@@ -47,19 +47,11 @@ import com.minetunes.books.BookWrapper;
 public class BookImportButton extends GuiButtonL {
 
 	private GuiScreenBook bookGui;
-	public static final int tex = Minecraft.getMinecraft().renderEngine
-			.getTexture("/com/minetunes/resources/textures/signEditor1.png"); 
+	public static final String tex = "/com/minetunes/resources/textures/signEditor1.png";
 
 	public BookImportButton() {
 		// Arbitrary id number, not likely to conflict with vanilla gui
-		super(
-				"importBook",
-				5,
-				100,
-				20,
-				20,
-				tex,
-				32 + 1);
+		super("importBook", 5, 100, 20, 20, tex, 32 + 1);
 		id = 1398123128;
 		// this.bookGui = bookGui;
 	}

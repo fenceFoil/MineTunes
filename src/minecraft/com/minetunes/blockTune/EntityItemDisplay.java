@@ -70,16 +70,16 @@ public class EntityItemDisplay extends EntityItem {
 
 		// This is the only part of EntityItem.onUpdate() that we need to
 		// preserve
-		age+=ageMultiplier;
+		age += ageMultiplier;
 	}
 
 	@Override
-	public void func_92058_a(ItemStack par1) {
+	public void setEntityItemStack(ItemStack par1) {
 		itemStack = par1;
 	}
 
 	@Override
-	public ItemStack func_92059_d() {
+	public ItemStack getEntityItem() {
 		return itemStack;
 	}
 

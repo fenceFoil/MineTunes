@@ -270,7 +270,7 @@ public class GuiEditSignTune extends GuiEditSignBase {
 
 		// Draw shovel icon
 		GL11.glColor4f(1, 1, 1, 1);
-		GL11.glBindTexture(GL11.GL_TEXTURE_2D, iconTexture);
+		mc.renderEngine.func_98187_b(iconTexture);
 		int iconIndex = 17;
 		drawTexturedModalRect(shovelButtonDown.xPosition - 16,
 				shovelButtonDown.yPosition + 2, (iconIndex % 16) * 16,
@@ -292,8 +292,7 @@ public class GuiEditSignTune extends GuiEditSignBase {
 	public void initGui() {
 		super.initGui();
 
-		iconTexture = mc.renderEngine
-				.getTexture("/com/minetunes/resources/textures/signEditor1.png");
+		iconTexture = "/com/minetunes/resources/textures/signEditor1.png";
 
 		// Changed button label
 		// X is defined in the draw method
@@ -1944,7 +1943,7 @@ public class GuiEditSignTune extends GuiEditSignBase {
 	}
 
 	private static String genericKeywordHelpText = null;
-	private int iconTexture;
+	private String iconTexture;
 	private GuiButtonL shovelButtonUp;
 	private GuiButtonL shovelButtonDown;
 

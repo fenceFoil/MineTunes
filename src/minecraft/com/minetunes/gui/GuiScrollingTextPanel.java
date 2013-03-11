@@ -83,14 +83,15 @@ public class GuiScrollingTextPanel extends Gui {
 			// Draw background
 
 			if (textureBackground) {
-				int bgTextureNumber = Minecraft.getMinecraft().renderEngine
-						.getTexture("/com/minetunes/resources/textures/signBG2.png");
+//				int bgTextureNumber = Minecraft.getMinecraft().renderEngine
+//						.getTexture("/com/minetunes/resources/textures/signBG2.png");
+				Minecraft.getMinecraft().renderEngine.func_98187_b("/com/minetunes/resources/textures/signBG2.png");
 				int currBGTextureY = y;
 				// Tile background texture vertically
 				while (currBGTextureY - y < height) {
 					GL11.glColor4f(1.0F, 1.0F, 1.0F, 0.5f);
-					Minecraft.getMinecraft().renderEngine
-							.bindTexture(bgTextureNumber);
+					// Minecraft.getMinecraft().renderEngine
+					// .bindTexture(bgTextureNumber);
 					GL11.glColor4f(1.0F, 1.0F, 1.0F, 0.5f);
 
 					int textureHeight = 128;

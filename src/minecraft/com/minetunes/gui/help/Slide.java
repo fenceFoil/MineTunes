@@ -193,7 +193,7 @@ public class Slide {
 		}
 
 		GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0f);
-		Minecraft.getMinecraft().renderEngine.bindTexture(texture);
+		GL11.glBindTexture(GL11.GL_TEXTURE_2D, texture);
 
 		// Get the width and height of the slide's image on the texture
 		// Note that the way MC works, U and V in the texture will always max

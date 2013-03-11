@@ -43,7 +43,7 @@ import com.minetunes.Minetunes;
 public class GuiButtonL extends GuiButton {
 
 	private boolean iconShown = false;
-	private int iconTex = 0;
+	private String iconTex = "";
 	private int iconIndex = 0;
 	private String action = null;
 
@@ -59,7 +59,7 @@ public class GuiButtonL extends GuiButton {
 	}
 
 	public GuiButtonL(String action, int x, int y, int width, int height,
-			int iconTex, int iconIndex) {
+			String iconTex, int iconIndex) {
 		super(99999 + Minetunes.rand.nextInt(10000000), x, y, width, height, "");
 		setAction(action);
 		setIconTex(iconTex);
@@ -68,16 +68,16 @@ public class GuiButtonL extends GuiButton {
 	}
 
 	public GuiButtonL(String action, int x, int y, int width, int height,
-			int iconTex, int iconIndex, String label) {
+			String iconTex, int iconIndex, String label) {
 		this(action, x, y, width, height, iconTex, iconIndex);
 		displayString = label;
 	}
 
-	public int getIconTex() {
+	public String getIconTex() {
 		return iconTex;
 	}
 
-	public void setIconTex(int iconTex) {
+	public void setIconTex(String iconTex) {
 		this.iconTex = iconTex;
 	}
 
@@ -145,8 +145,9 @@ public class GuiButtonL extends GuiButton {
 			field_82253_i = isMouseOver(mx, my);
 
 			// Set up texture
-			GL11.glBindTexture(GL11.GL_TEXTURE_2D,
-					mc.renderEngine.getTexture("/gui/gui.png"));
+			// GL11.glBindTexture(GL11.GL_TEXTURE_2D,
+			// mc.renderEngine.getTexture("/gui/gui.png"));
+			mc.renderEngine.func_98187_b("/gui/gui.png");
 			GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
 
 			// Draw texture, grabbing a half from each end of the button texture
@@ -180,7 +181,8 @@ public class GuiButtonL extends GuiButton {
 
 			// Draw icon
 			if (isIconShown()) {
-				GL11.glBindTexture(GL11.GL_TEXTURE_2D, iconTex);
+				//GL11.glBindTexture(GL11.GL_TEXTURE_2D, iconTex);
+				mc.renderEngine.func_98187_b(iconTex);
 				drawTexturedModalRect(xPosition + 2, yPosition + 2,
 						(iconIndex % 16) * 16, (iconIndex / 16) * 16, 16, 16);
 			}

@@ -47,7 +47,7 @@ public class NullItemEntityRemover implements TickListener {
 			Object o = minecraft.theWorld.loadedEntityList.get(i);
 			if (o instanceof EntityItem && !(o instanceof EntityItemDisplay)) {
 				EntityItem e = (EntityItem) o;
-				if (e.func_92059_d().itemID == 0) {
+				if (e.getEntityItem().itemID == 0) {
 					// Buggy item stack found
 					// Kill it with fire!
 					System.err
@@ -64,7 +64,7 @@ public class NullItemEntityRemover implements TickListener {
 					Object o = server.loadedEntityList.get(i);
 					if (o instanceof EntityItem) {
 						EntityItem e = (EntityItem) o;
-						if (e.func_92059_d().itemID == 0) {
+						if (e.getEntityItem().itemID == 0) {
 							// Buggy item stack found
 							// Kill it with fire!
 							System.err
