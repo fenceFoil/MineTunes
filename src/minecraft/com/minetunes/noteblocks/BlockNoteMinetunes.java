@@ -162,8 +162,9 @@ public class BlockNoteMinetunes extends BlockNote {
 	 * Called when the block receives a BlockEvent - see World.addBlockEvent. By
 	 * default, passes it on to the tile entity at this location. Args: world,
 	 * x, y, z, blockID, EventID, event parameter
+	 * @return 
 	 */
-	public void onBlockEventReceived(World world, int x, int y, int z,
+	public boolean onBlockEventReceived(World world, int x, int y, int z,
 			int noteTypeNum, int noteBlockSetting) {
 
 		// Save note block setting
@@ -221,6 +222,8 @@ public class BlockNoteMinetunes extends BlockNote {
 		world.spawnParticle("note", (double) x + 0.5D, (double) y + 1.2D,
 				(double) z + 0.5D, (double) noteBlockSetting / 24.0D, 0.0D,
 				0.0D);
+		
+		return true;
 	}
 
 	private void activateAnyAdjacentSigns(TileEntityNote tile) {
@@ -439,19 +442,6 @@ public class BlockNoteMinetunes extends BlockNote {
 		} else {
 			return 0;
 		}
-	}
-
-	@Override
-	public void onBlockDestroyedByExplosion(World par1World, int par2,
-			int par3, int par4) {
-		for (int i = 0; i < 10; i++) {
-			dropBlockAsItem(par1World, par2, par3, par4, blockID, 0);
-		}
-	}
-
-	@Override
-	public int getBlockTextureFromSide(int par1) {
-		return super.getBlockTextureFromSide(par1);
 	}
 
 }
