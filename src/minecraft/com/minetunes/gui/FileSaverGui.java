@@ -152,8 +152,8 @@ public class FileSaverGui extends GuiScreen {
 	public void initGui() {
 		// Add buttons
 		saveButton = new GuiButton(100, width / 2 - 55, height - 60, 110, 20, "Save");
-		controlList.add(saveButton);
-		controlList.add(new GuiButton(200, width / 2 - 55, height - 20, 110, 20, "Cancel"));
+		buttonList.add(saveButton);
+		buttonList.add(new GuiButton(200, width / 2 - 55, height - 20, 110, 20, "Cancel"));
 
 		saveNameTextField = new GuiTextField(fontRenderer, width / 4, 100, width / 2, 20);
 		saveNameTextField.setFocused(true);

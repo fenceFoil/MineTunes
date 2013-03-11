@@ -297,10 +297,10 @@ public class GuiEditSignTune extends GuiEditSignBase {
 
 		// Changed button label
 		// X is defined in the draw method
-		controlList.remove(doneButton);
+		buttonList.remove(doneButton);
 		doneButton = new GuiButtonL("done", width / 2 - 60, Math.min(
 				height / 4 + 120, height - 40), 120, 20, "Done & Save");
-		controlList.add(doneButton);
+		buttonList.add(doneButton);
 		doneButton.addListener(new ActionListener() {
 
 			@Override
@@ -309,16 +309,16 @@ public class GuiEditSignTune extends GuiEditSignBase {
 			}
 		});
 
-		controlList.add(new MinetunesVersionGuiElement(-100));
+		buttonList.add(new MinetunesVersionGuiElement(-100));
 
 		// // Added new buttons
-		// controlList.add(new GuiButton(400, 5, height - 150, 80, 20,
+		// buttonList.add(new GuiButton(400, 5, height - 150, 80, 20,
 		// "Clear Signs"));
-		// controlList.add(new GuiButton(100, 5, height - 120, 80, 20,
+		// buttonList.add(new GuiButton(100, 5, height - 120, 80, 20,
 		// "Import"));
-		// controlList.add(new GuiButton(200, 5, height - 90, 80, 20,
+		// buttonList.add(new GuiButton(200, 5, height - 90, 80, 20,
 		// "Export"));
-		// controlList.add(new GuiButton(300, 5, height - 60, 80, 20,
+		// buttonList.add(new GuiButton(300, 5, height - 60, 80, 20,
 		// "Open Folder"));
 
 		// recallButton = new GuiButton(1400, width - 100, 60, 80, 20,
@@ -332,12 +332,12 @@ public class GuiEditSignTune extends GuiEditSignBase {
 				recallSignHereBefore();
 			}
 		});
-		controlList.add(recallButton);
+		buttonList.add(recallButton);
 
 		// clearButton = new GuiButton(1500, width - 100, 85, 80, 20, "Clear");
 		clearButton = new GuiButtonL("clear", width - 30, 60, 20, 20,
 				iconTexture, 14);
-		controlList.add(clearButton);
+		buttonList.add(clearButton);
 		clearButton.addListener(new ActionListener() {
 
 			@Override
@@ -348,7 +348,7 @@ public class GuiEditSignTune extends GuiEditSignBase {
 
 		GuiButtonL keysButton = new GuiButtonL("keys", width - 30, 35, 20, 20,
 				iconTexture, 1);
-		controlList.add(keysButton);
+		buttonList.add(keysButton);
 		final GuiScreen thisGui = this;
 		keysButton.addListener(new ActionListener() {
 
@@ -368,7 +368,7 @@ public class GuiEditSignTune extends GuiEditSignBase {
 				scrollSavedBufferUp();
 			}
 		});
-		controlList.add(shovelButtonDown);
+		buttonList.add(shovelButtonDown);
 
 		shovelButtonUp = new GuiButtonL("shovelUp",
 				shovelButtonDown.xPosition - 16 - 20,
@@ -380,17 +380,17 @@ public class GuiEditSignTune extends GuiEditSignBase {
 				scrollSavedBufferDown();
 			}
 		});
-		controlList.add(shovelButtonUp);
+		buttonList.add(shovelButtonUp);
 
 		// Set up the sign color code controls
-		controlList.add(new GuiButton(2000, width - 85, height - 50, 20, 20,
+		buttonList.add(new GuiButton(2000, width - 85, height - 50, 20, 20,
 				"+"));
-		controlList.add(new GuiButton(2100, width - 25, height - 50, 20, 20,
+		buttonList.add(new GuiButton(2100, width - 25, height - 50, 20, 20,
 				"-"));
 		lockButton = new GuiButton(2200, width - 65, height - 70, 40, 20,
 				"Lock");
-		controlList.add(lockButton);
-		controlList.add(new GuiButton(2300, width - 65, height - 30, 40, 20,
+		buttonList.add(lockButton);
+		buttonList.add(new GuiButton(2300, width - 65, height - 30, 40, 20,
 				"Clear"));
 
 		// Add the test sign button
@@ -425,7 +425,7 @@ public class GuiEditSignTune extends GuiEditSignBase {
 				}
 			}
 		});
-		controlList.add(testButton);
+		buttonList.add(testButton);
 
 		// Set up the keyword text area
 		helpTextArea = new GuiScrollingTextPanel(10, 32, 125, height - 60,
@@ -434,7 +434,7 @@ public class GuiEditSignTune extends GuiEditSignBase {
 		// Position the change suggestion mode button below the keywordtextarea
 		selectHelpButton = new GuiButton(1300, helpTextArea.getX(),
 				helpTextArea.getY() + helpTextArea.getHeight() + 5, 70, 20, "");
-		controlList.add(selectHelpButton);
+		buttonList.add(selectHelpButton);
 
 		// Set up minetunes elements
 		updateMineTunesElements();

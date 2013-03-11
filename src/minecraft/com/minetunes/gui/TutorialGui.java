@@ -62,9 +62,9 @@ public class TutorialGui extends GuiScreen {
 	 */
 	@Override
 	public void initGui() {
-		controlList
+		buttonList
 				.add(new GuiButton(100, width / 2 - 100, height - 30, "Done"));
-		controlList.add(new MinetunesVersionGuiElement(100));
+		buttonList.add(new MinetunesVersionGuiElement(100));
 
 		textPanel = new GuiScrollingTextPanel(10, 60, width / 2 - 20,
 				height - 130, false, fontRenderer, false);
@@ -75,7 +75,7 @@ public class TutorialGui extends GuiScreen {
 
 		downloadButton = new GuiButton(200, width / 2 - 100, height - 60,
 				"Download");
-		controlList.add(downloadButton);
+		buttonList.add(downloadButton);
 	}
 
 	/*

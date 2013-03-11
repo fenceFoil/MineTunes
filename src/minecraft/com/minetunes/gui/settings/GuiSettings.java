@@ -158,7 +158,7 @@ public class GuiSettings extends GuiScreen {
 		drawCenteredString(fontRenderer, title, width / 2, 15, 0xffff00);
 
 		// Draw exit button
-		for (Object o : controlList) {
+		for (Object o : buttonList) {
 			if (o instanceof GuiButton) {
 				// GL11.glPopMatrix();
 				((GuiButton) o).drawButton(mc, mx, my);
@@ -265,7 +265,7 @@ public class GuiSettings extends GuiScreen {
 		setPage(0);
 
 		// Add exit button
-		controlList.add(new GuiButton(0, width / 2 - 100, height - 10
+		buttonList.add(new GuiButton(0, width / 2 - 100, height - 10
 				- SPACE_BELOW_SETTINGS / 2, "Back"));
 	}
 

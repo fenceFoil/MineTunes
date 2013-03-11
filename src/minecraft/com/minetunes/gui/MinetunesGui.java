@@ -299,7 +299,7 @@ public class MinetunesGui extends GuiScreen {
 	public void initGui() {
 		// Add buttons
 		// if (backScreen instanceof GuiOptions) {
-		// controlList.add(new GuiButton(400, 2, 10, 80, 20, "§bBack"));
+		// buttonList.add(new GuiButton(400, 2, 10, 80, 20, "§bBack"));
 		// }
 
 		int tex = Minecraft.getMinecraft().renderEngine
@@ -308,7 +308,7 @@ public class MinetunesGui extends GuiScreen {
 
 		GuiButtonL backButton = new GuiButtonL("back", 10, 10, 60, 20, tex,
 				48 + 1, "Done");
-		controlList.add(backButton);
+		buttonList.add(backButton);
 		backButton.addListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -316,7 +316,7 @@ public class MinetunesGui extends GuiScreen {
 			}
 		});
 
-		// controlList.add(new GuiButton(300, width / 3 - 55, height - 130, 110,
+		// buttonList.add(new GuiButton(300, width / 3 - 55, height - 130, 110,
 		// 20, "Settings"));
 
 		// GuiButton keyboardButton = new GuiButton(200, width / 6 - 55, height
@@ -325,26 +325,26 @@ public class MinetunesGui extends GuiScreen {
 		GuiButtonL keyboardButton = new GuiButtonL("keys", width / 6 - 55,
 				height - 30, 110, 20, tex, 48+0, "Keyboard");
 		keyboardButton.id = 200;
-		controlList.add(keyboardButton);
+		buttonList.add(keyboardButton);
 
 		autoUpdateButton = new GuiButton(100, width / 2 - 55, height - 30, 110,
 				20, "Auto-Update");
-		controlList.add(autoUpdateButton);
+		buttonList.add(autoUpdateButton);
 
 		tutorialButton = new GuiButton(800, width / 6 * 5 - 55, height - 30,
 				100, 20, "MineTunesLand");
-		controlList.add(tutorialButton);
+		buttonList.add(tutorialButton);
 
 		// GuiButton switchButton = new GuiButton(2000, width - 85, 10, 80, 20,
 		// "Switch");
 		GuiButtonL switchButton = new GuiButtonL("switch", width - 30, 10, 20,
 				20, tex, 48 + 4);
 		switchButton.id = 2000;
-		controlList.add(switchButton);
+		buttonList.add(switchButton);
 
 		addTutorialCancel();
 
-		// controlList.add(new GuiButton(600, width / 3 * 2 - 55, height - 70,
+		// buttonList.add(new GuiButton(600, width / 3 * 2 - 55, height - 70,
 		// 110, 20, "Sound Test"));
 		// graphicsButton = new GuiButtonL(700, width / 6 * 3 - 55,
 		// TILE_RETRACT_Y,
@@ -359,7 +359,7 @@ public class MinetunesGui extends GuiScreen {
 				mc.displayGuiScreen(new GraphicsGui(thisGui));
 			}
 		});
-		controlList.add(graphicsButton);
+		buttonList.add(graphicsButton);
 		
 		midiButton = new GuiButtonL("midiFolder", width / 6 * 5 - 55,
 				TILE_RETRACT_Y, 110, 20, tex, 48 + 2, "MIDI Folder");
@@ -371,7 +371,7 @@ public class MinetunesGui extends GuiScreen {
 				openMidiFolder();
 			}
 		});
-		controlList.add(midiButton);
+		buttonList.add(midiButton);
 		
 		soundfontsButton = new GuiButtonL("soundFonts", width / 6 - 55, TILE_RETRACT_Y,
 				110, 20, tex, 48+15, "SoundFonts");
@@ -383,12 +383,12 @@ public class MinetunesGui extends GuiScreen {
 				mc.displayGuiScreen(new SoundfontGui(thisGui));
 			}
 		});
-		controlList.add(soundfontsButton);
+		buttonList.add(soundfontsButton);
 		// turnedOffButton = new GuiButton(1000, 15, 15, 110, 20,
 		// MinetunesConfig.getMCDittyTurnedOffText());
-		// controlList.add(turnedOffButton);
+		// buttonList.add(turnedOffButton);
 
-		// controlList.add(new MinetunesVersionGuiElement(100));
+		// buttonList.add(new MinetunesVersionGuiElement(100));
 
 		// Check for updates
 		// outdated = GuiMineTunesUpdates.checkForUpdates();
@@ -577,13 +577,13 @@ public class MinetunesGui extends GuiScreen {
 	 * 
 	 */
 	private void addTutorialCancel() {
-		controlList.remove(cancelTutorialButton);
+		buttonList.remove(cancelTutorialButton);
 		cancelTutorialButton = null;
 		if (tutorialUpdated) {
 			// cancelTutorialButton = new GuiButton(1100,
 			// tutorialButton.xPosition + 100 + 2,
 			// tutorialButton.yPosition, 20, 20, "§cX");
-			// controlList.add(cancelTutorialButton);
+			// buttonList.add(cancelTutorialButton);
 
 			cancelTutorialButton = new GuiButtonL(
 					"cancelTutorial",
@@ -594,7 +594,7 @@ public class MinetunesGui extends GuiScreen {
 					mc.renderEngine
 							.getTexture("/com/minetunes/resources/textures/mineTunesLogo.png"),
 					15);
-			controlList.add(cancelTutorialButton);
+			buttonList.add(cancelTutorialButton);
 			cancelTutorialButton.addListener(new ActionListener() {
 
 				@Override

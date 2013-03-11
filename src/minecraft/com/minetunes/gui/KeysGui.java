@@ -100,21 +100,21 @@ public class KeysGui extends GuiScreen {
 			GuiButton button = new GuiButton(i, (width / 2) + 80, 20 + 30 * i,
 					70, 20, "");
 			keyButtons.add(button);
-			controlList.add(button);
+			buttonList.add(button);
 			settingKey.add(false);
 
 			GuiButton modButton = new GuiButton(i + 500, (width / 2),
 					20 + 30 * i, 70, 20, "");
 			keyModButtons.add(modButton);
-			controlList.add(modButton);
+			buttonList.add(modButton);
 		}
 		updateButtonLabels();
 
 		// Add other buttons
-		controlList.add(new GuiButton(100, width / 8 * 3, height - 30,
+		buttonList.add(new GuiButton(100, width / 8 * 3, height - 30,
 				width / 4, 20, "Exit"));
 
-		controlList.add(new MinetunesVersionGuiElement(100));
+		buttonList.add(new MinetunesVersionGuiElement(100));
 	}
 
 	/*

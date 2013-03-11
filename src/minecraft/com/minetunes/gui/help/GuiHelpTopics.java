@@ -142,11 +142,11 @@ public class GuiHelpTopics extends GuiScreen {
 			int id = ++nextButtonID;
 			subButtons.put(s, new GuiButton(id, width / 2 - 100, HEADER_Y * id,
 					subNames.get(s)));
-			controlList.add(subButtons.get(s));
+			buttonList.add(subButtons.get(s));
 			buttonIDToSub.put(id, s);
 		}
 
-		controlList.add(new GuiButton(-1, width / 2 - 100, height - HEADER_Y,
+		buttonList.add(new GuiButton(-1, width / 2 - 100, height - HEADER_Y,
 				"Back"));
 	}
 }

@@ -56,7 +56,7 @@ public class SignEditorGuideGui extends GuiScreen {
 	 */
 	@Override
 	public void initGui() {
-		controlList
+		buttonList
 				.add(new GuiButton(100, width / 2 - 100, height - 30, "Done"));
 
 		textPanel = new GuiScrollingTextPanel(10, 40, width - 20, height - 80,

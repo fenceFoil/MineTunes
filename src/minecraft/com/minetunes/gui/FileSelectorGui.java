@@ -72,8 +72,8 @@ public class FileSelectorGui extends GuiScreen {
 	public void initGui() {
 		// Add buttons
 		openButton = new GuiButton(100, 10, height - 30, 70, 20, "Open");
-		controlList.add(openButton);
-		controlList.add(new GuiButton(200, width - 80, height - 30, 70, 20, "Cancel"));
+		buttonList.add(openButton);
+		buttonList.add(new GuiButton(200, width - 80, height - 30, 70, 20, "Cancel"));
 
 		fileNameTextField = new GuiTextField(fontRenderer, width / 4, 45, width / 2, 20);
 		fileNameTextField.setFocused(true);

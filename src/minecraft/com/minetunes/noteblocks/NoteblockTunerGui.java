@@ -382,7 +382,7 @@ public class NoteblockTunerGui extends GuiScreen {
 	@Override
 	public void initGui() {
 		// Add MineTunes version readout
-		controlList.add(new MinetunesVersionGuiElement(0));
+		buttonList.add(new MinetunesVersionGuiElement(0));
 
 		// Add transpostion slider
 		// Try to have it keep the same settings as the last time this screen
@@ -393,13 +393,13 @@ public class NoteblockTunerGui extends GuiScreen {
 		}
 		transpostionSlider = new GuiSlider(1000, width - 150, 40, label,
 				persistantTranspose);
-		controlList.add(transpostionSlider);
+		buttonList.add(transpostionSlider);
 
 		muteToggleButton = new GuiButton(2000, width - 50 - 5, height - 25, 50,
 				20, "");
-		controlList.add(muteToggleButton);
+		buttonList.add(muteToggleButton);
 
-		controlList.add(new GuiButton(3000, 5, height - 25, 50, 20, "Exit"));
+		buttonList.add(new GuiButton(3000, 5, height - 25, 50, 20, "Exit"));
 
 		// Add keyboard
 		resetPianoKeyboard();

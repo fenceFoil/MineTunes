@@ -52,13 +52,13 @@ public class GraphicsGui extends GuiScreen {
 	 */
 	@Override
 	public void initGui() {
-		controlList
+		buttonList
 				.add(new GuiButton(100, width / 2 - 100, height - 30, "Done"));
-		controlList.add(new MinetunesVersionGuiElement(100));
+		buttonList.add(new MinetunesVersionGuiElement(100));
 
 		renderToggleTempButton = new GuiButton(-100, width / 2 - 100,
 				height - 70, "Render Toggle");
-		controlList.add(renderToggleTempButton);
+		buttonList.add(renderToggleTempButton);
 	}
 
 	/*

@@ -165,7 +165,7 @@ public class OldSettingsGui extends GuiScreen {
 		int yOffset = 30;
 
 		// Add buttons
-		controlList.add(new GuiButton(100, width / 3, height - 30, width / 3,
+		buttonList.add(new GuiButton(100, width / 3, height - 30, width / 3,
 				20, "Exit"));
 
 		particlesOnButton = new GuiButton(200, (width / 3) - 60, 10 + yOffset,
@@ -204,24 +204,24 @@ public class OldSettingsGui extends GuiScreen {
 		signColorSlider = new GuiSlider(5000, (width / 2) - 60, 155 + yOffset,
 				"Sign Highlight Color",
 				MinetunesConfig.getFloat("signs.playingColor.sliderPos"));
-		controlList.add(signColorSlider);
+		buttonList.add(signColorSlider);
 
-		controlList.add(particlesOnButton);
-		// controlList.add(oneParticleButton);
-		controlList.add(onlyFirstErrorButton);
-		controlList.add(signBlinkMSButton);
-		controlList.add(saveMIDIButton);
-		// controlList.add(blinkSignsButton);
-		controlList.add(highlightButton);
-		controlList.add(lyricsEnabledButton);
-		controlList.add(debugButton);
-		controlList.add(proxPadsEnabledButton);
-		controlList.add(useMCMusicVolumeButton);
-		controlList.add(midiMessageButton);
-		controlList.add(noPlayTokensButton);
-		controlList.add(noteBlockTooltipsButton);
+		buttonList.add(particlesOnButton);
+		// buttonList.add(oneParticleButton);
+		buttonList.add(onlyFirstErrorButton);
+		buttonList.add(signBlinkMSButton);
+		buttonList.add(saveMIDIButton);
+		// buttonList.add(blinkSignsButton);
+		buttonList.add(highlightButton);
+		buttonList.add(lyricsEnabledButton);
+		buttonList.add(debugButton);
+		buttonList.add(proxPadsEnabledButton);
+		buttonList.add(useMCMusicVolumeButton);
+		buttonList.add(midiMessageButton);
+		buttonList.add(noPlayTokensButton);
+		buttonList.add(noteBlockTooltipsButton);
 
-		controlList.add(new MinetunesVersionGuiElement(100));
+		buttonList.add(new MinetunesVersionGuiElement(100));
 
 		debugButton.drawButton = false;
 		highlightButton.drawButton = false;

@@ -56,8 +56,8 @@ public class ChangelogGui extends GuiScreen {
 	 */
 	@Override
 	public void initGui() {
-		controlList.add(new GuiButton(100, width / 2 - 100, height - 30, "Done"));
-		controlList.add(new MinetunesVersionGuiElement(100));
+		buttonList.add(new GuiButton(100, width / 2 - 100, height - 30, "Done"));
+		buttonList.add(new MinetunesVersionGuiElement(100));
 
 		textPanel = new GuiScrollingTextPanel(10, 40, width - 20, height - 80, false, fontRenderer, true);
 

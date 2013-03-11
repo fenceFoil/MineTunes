@@ -60,7 +60,7 @@ public class GuiSimpleMessage extends GuiScreen {
 	@Override
 	public void initGui() {
 		super.initGui();
-		controlList.add(new GuiButton(0, width / 2 - 100, height / 7 * 6, "Back"));
+		buttonList.add(new GuiButton(0, width / 2 - 100, height / 7 * 6, "Back"));
 	}
 
 }

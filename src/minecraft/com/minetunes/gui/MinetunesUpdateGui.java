@@ -301,17 +301,17 @@ public class MinetunesUpdateGui extends GuiScreen implements
 	@Override
 	public void initGui() {
 		// Add buttons
-		// controlList.add(new GuiButton(100, width / 4, height - 90, width / 2,
+		// buttonList.add(new GuiButton(100, width / 4, height - 90, width / 2,
 		// 20, "Check Now"));
-		controlList.add(new GuiButton(300, width / 4, height - 120, width / 2,
+		buttonList.add(new GuiButton(300, width / 4, height - 120, width / 2,
 				20, "MinecraftForums Thread"));
-		controlList.add(new GuiButton(400, width / 4, height - 90, width / 2,
+		buttonList.add(new GuiButton(400, width / 4, height - 90, width / 2,
 				20, "Changelog"));
 		autoUpdateButton = new GuiButton(600, width / 4, height - 60,
 				width / 2, 20, "Auto-Update");
 		autoUpdateButton.enabled = false;
-		controlList.add(autoUpdateButton);
-		controlList.add(new GuiButton(500, width / 8 * 3, height - 30,
+		buttonList.add(autoUpdateButton);
+		buttonList.add(new GuiButton(500, width / 8 * 3, height - 30,
 				width / 4, 20, "Exit"));
 
 		isUpToDateColor = DOWNLOADING_VERSION_COLOR;

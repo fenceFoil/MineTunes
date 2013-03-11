@@ -85,7 +85,7 @@ public class SoundTestGui extends GuiScreen {
 
 	@Override
 	public void initGui() {
-		controlList.add(new MinetunesVersionGuiElement(100));
+		buttonList.add(new MinetunesVersionGuiElement(100));
 
 		int panelMargins = 10;
 		int topMargin = 30;
@@ -93,7 +93,7 @@ public class SoundTestGui extends GuiScreen {
 		// Left third of screen: sfx tests
 		testSFXButton = new GuiButton(200, (width / 3) - 35, topMargin, 30, 20,
 				"Play");
-		controlList.add(testSFXButton);
+		buttonList.add(testSFXButton);
 		sfxField = new GuiTextField(fontRenderer, panelMargins, topMargin,
 				width / 3 - (2 * panelMargins) - 30, 20);
 		sfxTextPanel = new GuiScrollingTextPanel(panelMargins, topMargin + 30,
@@ -101,27 +101,27 @@ public class SoundTestGui extends GuiScreen {
 						- topMargin - 30 - 30, false, fontRenderer, true);
 		changeSFXSourceButton = new GuiButton(2000, panelMargins, height - 20
 				- panelMargins, 100, 20, "Alpha to 1.3");
-		controlList.add(changeSFXSourceButton);
+		buttonList.add(changeSFXSourceButton);
 
 		// Center third of screen: MusicString tests
 		testMusicStringSampleButton = new GuiButton(300, width / 2 - 50,
 				topMargin, 100, 20, "Test MusicString");
-		controlList.add(testMusicStringSampleButton);
+		buttonList.add(testMusicStringSampleButton);
 
 		// Also, a mute button
 		muteButton = new GuiButton(500, width / 2 - 50, topMargin + 60, 100,
 				20, "Mute All");
-		controlList.add(muteButton);
+		buttonList.add(muteButton);
 
 		// Finally, an exit button
 		exitButton = new GuiButton(100, width / 2 - 50, height - panelMargins
 				- 20, 100, 20, "Exit");
-		controlList.add(exitButton);
+		buttonList.add(exitButton);
 
 		// Right third of screen: midi file tests
 		testMidiButton = new GuiButton(400, width - 35, topMargin, 30, 20,
 				"Play");
-		controlList.add(testMidiButton);
+		buttonList.add(testMidiButton);
 		midiField = new GuiTextField(fontRenderer, (width / 3) * 2
 				+ panelMargins, topMargin, (width / 3) - (2 * panelMargins)
 				- 30, 20);

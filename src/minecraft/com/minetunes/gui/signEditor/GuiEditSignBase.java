@@ -283,8 +283,8 @@ public class GuiEditSignBase extends GuiEditSign {
 		// This now calls GuiSign.drawScreen, drawing both vanilla and the
 		// Minetunes gui at once!
 		// Luckily, GuiScreen.drawScreen is no great shakes. Copied below.
-		for (int var4 = 0; var4 < this.controlList.size(); ++var4) {
-			GuiButton var5 = (GuiButton) this.controlList.get(var4);
+		for (int var4 = 0; var4 < this.buttonList.size(); ++var4) {
+			GuiButton var5 = (GuiButton) this.buttonList.get(var4);
 			var5.drawButton(this.mc, par1, par2);
 		}
 	}
@@ -302,7 +302,7 @@ public class GuiEditSignBase extends GuiEditSign {
 			sendSignAndCloseSignGui();
 		}
 
-		controlList.clear();
+		buttonList.clear();
 
 		int iconTexture = mc.renderEngine
 				.getTexture("/com/minetunes/resources/textures/signEditor1.png");
@@ -335,11 +335,11 @@ public class GuiEditSignBase extends GuiEditSign {
 				}
 			}
 		});
-		controlList.add(editorModeButton);
+		buttonList.add(editorModeButton);
 
 		doneButton = new GuiButtonL("done", width / 2 - 100, height - 50, 200,
 				20, "Done");
-		controlList.add(doneButton);
+		buttonList.add(doneButton);
 		doneButton.addListener(new ActionListener() {
 
 			@Override

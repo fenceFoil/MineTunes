@@ -31,7 +31,7 @@ import com.minetunes.Finder;
 /**
  * A button that appears in the upper left corner of a gui. Opens the MineTunes
  * menu when pressed. To add to a vanilla gui screen, put a new instance of this
- * into its controlList. No need to modifiy vanilla gui to do this!
+ * into its buttonList. No need to modifiy vanilla gui to do this!
  * 
  */
 public class MinetunesMenuButton extends GuiButton {

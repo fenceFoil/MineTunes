@@ -41,7 +41,7 @@ import com.minetunes.books.BookWrapper;
 /**
  * A button that appears in the upper left corner of a gui. Opens the MineTunes
  * menu when pressed. To add to a vanilla gui screen, put a new instance of this
- * into its controlList. No need to modify vanilla gui to do this!
+ * into its buttonList. No need to modify vanilla gui to do this!
  * 
  */
 public class BookImportButton extends GuiButtonL {

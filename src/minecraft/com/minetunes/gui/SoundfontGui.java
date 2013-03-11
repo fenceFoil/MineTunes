@@ -55,14 +55,14 @@ public class SoundfontGui extends GuiScreen {
 	 */
 	@Override
 	public void initGui() {
-		controlList
+		buttonList
 				.add(new GuiButton(100, width / 2 - 100, height - 30, "Done"));
-		controlList.add(new MinetunesVersionGuiElement(100));
+		buttonList.add(new MinetunesVersionGuiElement(100));
 
 		renderToggleTempButton = new GuiButton(-100, width / 2 - 100,
 				height - 90, "Load SoundFont");
-		controlList.add(renderToggleTempButton);
-		controlList.add(new GuiButton(-200, width / 2 - 100, height - 60,
+		buttonList.add(renderToggleTempButton);
+		buttonList.add(new GuiButton(-200, width / 2 - 100, height - 60,
 				"Restore Default"));
 	}
 
