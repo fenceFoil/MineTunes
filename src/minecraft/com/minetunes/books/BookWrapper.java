@@ -29,6 +29,7 @@ import java.util.ArrayList;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.src.ChatAllowedCharacters;
+import net.minecraft.src.EnumChatFormatting;
 import net.minecraft.src.Item;
 import net.minecraft.src.ItemStack;
 import net.minecraft.src.NBTTagCompound;
@@ -78,7 +79,7 @@ public class BookWrapper {
 	/**
 	 * The version of valid page length detector to use
 	 */
-	private static int usePageLengthValidatorVersion = 1;
+	private static int usePageLengthValidatorVersion = 2;
 
 	// Determines whether I forgot to add a new "validPageLength" method for
 	// this version of MC
@@ -86,6 +87,8 @@ public class BookWrapper {
 		if (MinetunesConfig.MC_CURRENT_VERSION.equalsIgnoreCase("1.4.6")) {
 			// All is right
 			usePageLengthValidatorVersion = 1;
+		} else if (MinetunesConfig.MC_CURRENT_VERSION.startsWith("1.5")) {
+			usePageLengthValidatorVersion = 2;
 		} else {
 			// Have not yet updated the page length validator
 			// Warn person updating
@@ -441,10 +444,25 @@ public class BookWrapper {
 	 * @return
 	 */
 	public boolean isPageValidLength(String pageText) {
-		if (usePageLengthValidatorVersion == 1) {
+		if (usePageLengthValidatorVersion == 2) {
+			return isPageValidLengthFor1_5_0(pageText);
+		} else if (usePageLengthValidatorVersion == 1) {
+
 			return isPageValidLengthFor1_3_2(pageText);
 		} else {
 			return true;
+		}
+	}
+
+	private boolean isPageValidLengthFor1_5_0(String pageText) {
+		int textHeightOnPage = Minecraft.getMinecraft().fontRenderer
+				.splitStringWidth(pageText + "" + EnumChatFormatting.BLACK
+						+ "_", 118);
+
+		if (textHeightOnPage <= 118 && pageText.length() < 256) {
+			return true;
+		} else {
+			return false;
 		}
 	}
 

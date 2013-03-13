@@ -2267,10 +2267,8 @@ public class Minetunes {
 			controlList.add(BOOKGUI_IMPORT_BUTTON);
 			BOOKGUI_EXPORT_BUTTON.setBookGui(gui);
 			controlList.add(BOOKGUI_EXPORT_BUTTON);
-			if (!MinetunesConfig.CURRENT_VERSION.equals("0.9.12.00")) {
-				BOOKGUI_EDITOR_BUTTON.setBookGui(gui);
-				controlList.add(BOOKGUI_EDITOR_BUTTON);
-			}
+//				BOOKGUI_EDITOR_BUTTON.setBookGui(gui);
+//				controlList.add(BOOKGUI_EDITOR_BUTTON);
 		}
 	}
 
