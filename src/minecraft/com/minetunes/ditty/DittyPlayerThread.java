@@ -182,9 +182,9 @@ public class DittyPlayerThread extends Thread implements
 			// System.out.println(dittyPlayers.size());
 			// System.out.println(queuedPlayers.size());
 			while ((dittyPlayers.size() > queuedPlayers.size() || queuedPlayers
-					.poll() != this) && !muting) {
+					.peek() != this) && !muting) {
 				try {
-					Thread.sleep(20);
+					Thread.sleep(10);
 				} catch (InterruptedException e) {
 					e.printStackTrace();
 				}
