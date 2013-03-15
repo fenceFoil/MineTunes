@@ -50,12 +50,12 @@ public class MinetunesConfig {
 	/**
 	 * Current MineTunes version.
 	 */
-	public static final String CURRENT_VERSION = "3.0.01";
+	public static final String CURRENT_VERSION = "3.0.02";
 	/**
 	 * Minecraft version that the mod is designed for.
 	 */
 	public static final String MC_CURRENT_VERSION = "1.5.0";
-	private static final String[] UPDATE_MESSAGE = {  };
+	private static final String[] UPDATE_MESSAGE = {};
 	/**
 	 * Disable to stop costly printlns from being called
 	 */
@@ -147,6 +147,11 @@ public class MinetunesConfig {
 	public static File getMinetunesDir() {
 		return new File(Minecraft.getMinecraftDir().getPath() + File.separator
 				+ "mineTunes" + File.separator);
+	}
+
+	public static File getMidiDir() {
+		return new File(getMinetunesDir() + File.separator + "midi"
+				+ File.separator);
 	}
 
 	/**
