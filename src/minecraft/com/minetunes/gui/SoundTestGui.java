@@ -38,6 +38,7 @@ import org.lwjgl.input.Keyboard;
 
 import com.minetunes.Minetunes;
 import com.minetunes.MidiFileFilter;
+import com.minetunes.config.MinetunesConfig;
 import com.minetunes.ditty.DittyPlayerThread;
 import com.minetunes.ditty.event.PlayMidiDittyEvent;
 import com.minetunes.ditty.event.SFXEvent;
@@ -69,7 +70,7 @@ public class SoundTestGui extends GuiScreen {
 	private GuiScrollingTextPanel midiTextPanel;
 
 	private String currentMatchingSFX = null;
-	private File currentMatchingMIDI = null;
+	private String currentMatchingMIDI = null;
 
 	private GuiButton muteButton;
 
@@ -141,8 +142,8 @@ public class SoundTestGui extends GuiScreen {
 		drawDefaultBackground();
 
 		// Draw label at top of screen
-		drawCenteredString(fontRenderer, "MineTunes Sound Tests", width / 2, 10,
-				0x4444bb);
+		drawCenteredString(fontRenderer, "MineTunes Sound Tests", width / 2,
+				10, 0x4444bb);
 
 		// Draw elements that are not buttons
 		sfxTextPanel.draw(par1, par2);
@@ -248,17 +249,16 @@ public class SoundTestGui extends GuiScreen {
 	}
 
 	private void updateMidiTestPanel() {
-		File[] midiFileList = new File(
-				Minecraft.getMinecraftDir() + "/MCDitty", "midi")
-				.listFiles(new MidiFileFilter());
+		File[] midiFileList = MinetunesConfig.getMidiDir().listFiles(
+				new MidiFileFilter());
 
-		LinkedList<File> matchingMidis = new LinkedList<File>();
+		LinkedList<String> matchingMidis = new LinkedList<String>();
 
 		if (midiFileList != null) {
 			for (File f : midiFileList) {
 				if (f.getName().toLowerCase()
 						.startsWith(midiField.getText().toLowerCase())) {
-					matchingMidis.add(f);
+					matchingMidis.add(f.getName());
 				}
 			}
 		}
@@ -266,11 +266,11 @@ public class SoundTestGui extends GuiScreen {
 		StringBuilder midiMatchListText = new StringBuilder();
 		midiMatchListText.append("§bMIDIs:§r\n");
 		boolean firstMatch = true;
-		for (File midiFile : matchingMidis) {
+		for (String midiFile : matchingMidis) {
 			if (firstMatch) {
 				midiMatchListText.append("§a>  ");
 			}
-			midiMatchListText.append(midiFile.getName());
+			midiMatchListText.append(midiFile);
 			if (firstMatch) {
 				midiMatchListText.append("  <§r");
 				firstMatch = false;

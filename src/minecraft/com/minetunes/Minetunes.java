@@ -127,7 +127,9 @@ import com.minetunes.gui.ChangelogGui;
 import com.minetunes.gui.GuiButtonTweenAccessor;
 import com.minetunes.gui.GuiMinetimesGraphicsMenuButton;
 import com.minetunes.gui.MinetunesMenuButton;
+import com.minetunes.gui.help.GuiSimpleMessage;
 import com.minetunes.gui.signEditor.GuiEditSignBase;
+import com.minetunes.gui.signEditor.GuiEditSignTune;
 import com.minetunes.keyboard.KeypressProcessor;
 import com.minetunes.noteblocks.BlockNoteMinetunes;
 import com.minetunes.noteblocks.EntityNoteBlockTooltip;
@@ -150,6 +152,7 @@ import com.minetunes.signs.TileEntitySignMinetunes;
 import com.minetunes.signs.TileEntitySignRendererMinetunes;
 import com.minetunes.signs.keywords.SignTuneKeyword;
 import com.minetunes.signs.keywords.ProxPadKeyword;
+import com.sun.media.sound.SoftSynthesizer;
 
 /**
  * The central, singleton class of the MineTunes mod. Houses code to play
@@ -1872,12 +1875,13 @@ public class Minetunes {
 	 * 
 	 * @param midiFile
 	 */
-	public static void playMidiFile(File midiFile) {
+	public static void playMidiFile(String midi) {
+		File midiFile = toMidiFile(midi);
 		if (midiFile.exists()) {
 			try {
 				// From file
 				Sequence sequence = MidiSystem.getSequence(midiFile);
-
+				
 				// Create a sequencer for the sequence
 				Sequencer sequencer = MidiSystem.getSequencer();
 				sequencer.open();
@@ -2267,8 +2271,8 @@ public class Minetunes {
 			controlList.add(BOOKGUI_IMPORT_BUTTON);
 			BOOKGUI_EXPORT_BUTTON.setBookGui(gui);
 			controlList.add(BOOKGUI_EXPORT_BUTTON);
-//				BOOKGUI_EDITOR_BUTTON.setBookGui(gui);
-//				controlList.add(BOOKGUI_EDITOR_BUTTON);
+			// BOOKGUI_EDITOR_BUTTON.setBookGui(gui);
+			// controlList.add(BOOKGUI_EDITOR_BUTTON);
 		}
 	}
 
@@ -2601,5 +2605,37 @@ public class Minetunes {
 			}
 		}
 		return found;
+	}
+
+	/**
+	 * Turns the 15 character MIDI file names used by Minetunes to filenames
+	 * located in the midi folder. Accounts for different extensions.
+	 * 
+	 * @param name
+	 *            no extension
+	 * @return
+	 */
+	public static File toMidiFile(String name) {
+		File match = null;
+
+		// Get all known midi files
+		File[] midiFiles = MinetunesConfig.getMidiDir().listFiles(
+				new MidiFileFilter());
+
+		// Check for files that match exactly except for case and extension
+		for (File f : midiFiles) {
+			String fNoExt = GuiEditSignTune.stripFilenameExtension(f.getName());
+			if (fNoExt.equalsIgnoreCase(name)) {
+				match = f;
+				break;
+			}
+		}
+
+		// If a match has been found, bingo
+		if (match != null) {
+			return match;
+		} else {
+			return new File(MinetunesConfig.getMidiDir(), name + ".mid");
+		}
 	}
 }

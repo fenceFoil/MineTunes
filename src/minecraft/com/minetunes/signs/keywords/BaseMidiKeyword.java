@@ -35,7 +35,7 @@ import com.minetunes.signs.SignParser;
  */
 public class BaseMidiKeyword extends SignTuneKeyword {
 
-	protected File midiFile;
+	protected String midiFile;
 
 	public BaseMidiKeyword(String wholeKeyword) {
 		super(wholeKeyword);
@@ -81,8 +81,7 @@ public class BaseMidiKeyword extends SignTuneKeyword {
 
 		// Otherwise, good filename. Note it, and move on.
 		// Will save later, once signs are read.
-		setMidiFile(new File(MinetunesConfig.getMinetunesDir().getPath()
-				+ File.separator + "midi", givenFilename + ".mid"));
+		setMidiFile(givenFilename);
 		// simpleLog("Good filename: midi is " + midiSaveFile.getPath());
 	}
 
@@ -96,11 +95,11 @@ public class BaseMidiKeyword extends SignTuneKeyword {
 		return true;
 	}
 
-	public File getMidiFile() {
+	public String getMidiFile() {
 		return midiFile;
 	}
 
-	public void setMidiFile(File midiFile) {
+	public void setMidiFile(String midiFile) {
 		this.midiFile = midiFile;
 	}
 

@@ -277,13 +277,14 @@ public class GuiEditSignTune extends GuiEditSignBase {
 				(iconIndex / 16) * 16, 16, 16);
 		if (savedSigns.size() > 1) {
 			int posToShow = bufferPosition;
-			
+
 			if (bufferPosition >= savedSigns.size()) {
 				posToShow = 0;
 			}
-			
-			drawCenteredString(fontRenderer, posToShow + " / "
-					+ (savedSigns.size() - 1), shovelButtonDown.xPosition - 7,
+
+			drawCenteredString(fontRenderer,
+					posToShow + " / " + (savedSigns.size() - 1),
+					shovelButtonDown.xPosition - 7,
 					shovelButtonDown.yPosition - 10, 0xffffff);
 		}
 	}
@@ -382,10 +383,10 @@ public class GuiEditSignTune extends GuiEditSignBase {
 		buttonList.add(shovelButtonUp);
 
 		// Set up the sign color code controls
-		buttonList.add(new GuiButton(2000, width - 85, height - 50, 20, 20,
-				"+"));
-		buttonList.add(new GuiButton(2100, width - 25, height - 50, 20, 20,
-				"-"));
+		buttonList
+				.add(new GuiButton(2000, width - 85, height - 50, 20, 20, "+"));
+		buttonList
+				.add(new GuiButton(2100, width - 25, height - 50, 20, 20, "-"));
 		lockButton = new GuiButton(2200, width - 65, height - 70, 40, 20,
 				"Lock");
 		buttonList.add(lockButton);
@@ -1638,15 +1639,14 @@ public class GuiEditSignTune extends GuiEditSignBase {
 						.setText("§6Put the MIDI to play §6on the next line.");
 			} else {
 				//
-				File[] midiFileList = new File(
-						MinetunesConfig.getMinetunesDir(), "midi")
-						.listFiles(new MidiFileFilter());
+				File[] midiFileList = MinetunesConfig.getMidiDir().listFiles(
+						new MidiFileFilter());
 
 				LinkedList<File> matchingMidis = new LinkedList<File>();
 				File exactMatch = null;
 
 				String filenameFromKeyword = ((BaseMidiKeyword) parsedSign
-						.getLine(line)).getMidiFile().getPath();
+						.getLine(line)).getMidiFile();
 				if (filenameFromKeyword == null) {
 					// Replace null filenames with empty strings
 					filenameFromKeyword = "";
@@ -2001,9 +2001,11 @@ public class GuiEditSignTune extends GuiEditSignBase {
 	 * @param filename
 	 * @return
 	 */
-	private String stripFilenameExtension(String filename) {
+	public static String stripFilenameExtension(String filename) {
 		if (filename.contains(".")) {
-			return filename.substring(0, filename.lastIndexOf("."));
+			String stripped = filename.substring(0, filename.lastIndexOf("."));
+			// System.out.println("Stripped: " + stripped);
+			return stripped;
 		} else {
 			return filename;
 		}

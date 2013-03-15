@@ -47,7 +47,7 @@ public class Ditty {
 	private boolean muting = false;
 	private boolean loud = false;
 	private boolean midiAlreadySaved = false;
-	private File midiSaveFile = null;
+	private String midiSaveFile = null;
 	
 	private boolean playLast = false;
 
@@ -176,11 +176,11 @@ public class Ditty {
 		midiAlreadySaved = b;
 	}
 
-	public void setMidiSaveFile(File midiSaveFile) {
-		this.midiSaveFile = midiSaveFile;
+	public void setMidiSaveFile(String midi) {
+		this.midiSaveFile = midi;
 	}
 
-	public File getMidiSaveFile() {
+	public String getMidiSaveFile() {
 		return midiSaveFile;
 	}
 

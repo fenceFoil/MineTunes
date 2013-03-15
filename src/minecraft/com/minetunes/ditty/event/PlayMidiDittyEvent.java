@@ -31,18 +31,18 @@ import java.io.File;
  */
 public class PlayMidiDittyEvent extends TimedDittyEvent {
 	
-	private File midiFile = null;
+	private String midiFile = null;
 
-	public PlayMidiDittyEvent (File midiFile, int dittyID) {
+	public PlayMidiDittyEvent (String midiFile, int dittyID) {
 		super(dittyID);
 		setMidiFile(midiFile);
 	}
 
-	public File getMidiFile() {
+	public String getMidiFile() {
 		return midiFile;
 	}
 
-	public void setMidiFile(File midiFile) {
+	public void setMidiFile(String midiFile) {
 		this.midiFile = midiFile;
 	}
 }

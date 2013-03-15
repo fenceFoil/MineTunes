@@ -29,7 +29,7 @@ import java.io.FilenameFilter;
 
 public class MidiFileFilter implements FileFilter {
 
-	private String[] extensions = {".mid"};
+	private String[] extensions = { ".mid", ".midi" };
 
 	@Override
 	public boolean accept(File f) {

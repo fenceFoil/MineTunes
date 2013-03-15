@@ -189,6 +189,8 @@ public class MinetunesGui extends GuiScreen {
 					"/com/minetunes/resources/textures/CGAFont.png",
 					mc.renderEngine, false);
 			FontRendererUtils.changeCharWidth(8, mc.fontRenderer);
+		} else if (typedKeys.toLowerCase().endsWith("soundtest")) {
+			mc.displayGuiScreen(new SoundTestGui(this));
 		}
 	}
 
@@ -245,9 +247,8 @@ public class MinetunesGui extends GuiScreen {
 	}
 
 	private void openMidiFolder() {
-		String fileLocation = (new File(MinetunesConfig.getMinetunesDir()
-				.getPath(), "midi")).getAbsolutePath();
-		new File(MinetunesConfig.getMinetunesDir().getPath(), "midi").mkdirs();
+		String fileLocation = (MinetunesConfig.getMidiDir()).getAbsolutePath();
+		MinetunesConfig.getMidiDir().mkdirs();
 
 		// (Code from GuiTexturePacks)
 		if (Minecraft.getOs() == EnumOS.MACOS) {
@@ -278,10 +279,8 @@ public class MinetunesGui extends GuiScreen {
 			Class var3 = Class.forName("java.awt.Desktop");
 			Object var4 = var3.getMethod("getDesktop", new Class[0]).invoke(
 					(Object) null, new Object[0]);
-			var3.getMethod("browse", new Class[] { URI.class })
-					.invoke(var4,
-							new File(MinetunesConfig.getMinetunesDir(), "midi")
-									.toURI());
+			var3.getMethod("browse", new Class[] { URI.class }).invoke(var4,
+					MinetunesConfig.getMidiDir().toURI());
 		} catch (Throwable var5) {
 			var5.printStackTrace();
 			useSys = true;

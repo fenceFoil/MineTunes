@@ -467,7 +467,6 @@ public class SignTuneParser {
 				if (dittyProperties.getMidiSaveFile() != null
 						&& MinetunesConfig.getBoolean("signs.saveMidiEnabled")) {
 					try {
-
 						saveMidiFile(dittyProperties.getMidiSaveFile(), ditty,
 								dittyProperties.getMidiSavePoint());
 						if (!silent
@@ -475,8 +474,7 @@ public class SignTuneParser {
 										.getBoolean("midiSavedMessage")) {
 							// Show midi message
 							Minetunes.writeChatMessage(world, "§dSaved Midi: "
-									+ dittyProperties.getMidiSaveFile()
-											.getName());
+									+ dittyProperties.getMidiSaveFile());
 						}
 					} catch (IOException e) {
 						e.printStackTrace();
@@ -1605,17 +1603,16 @@ public class SignTuneParser {
 		}
 	}
 
-	private static void saveMidiFile(File saveFile, String tune,
+	private static void saveMidiFile(String midiFile, String tune,
 			Point3D location) throws IOException, Exception {
 		// Create midi save dir
-		File midiDir = saveFile.getParentFile();
-		midiDir.mkdirs();
+		MinetunesConfig.getMidiDir().mkdirs();
 
 		// Only one midi can be saved at any given instant
 		synchronized (DittyPlayerThread.staticPlayerMutex) {
 			// Save midi of tune to saveFile
 			Player p = new Player();
-			p.saveMidi(tune, saveFile);
+			p.saveMidi(tune, Minetunes.toMidiFile(midiFile));
 			p.close();
 		}
 
