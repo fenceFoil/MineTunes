@@ -119,25 +119,27 @@ public class BookEditorGui extends GuiScreen {
 		if (midiFileSection != null) {
 			if (midiFileSection.getName() != null) {
 				drawCenteredString(fontRenderer, midiFileSection.getName(),
-						width / 2, height - 50, 0xffffff);
+						width / 2, 85, 0xffffff);
 				if (midiFileSection.getData() != null && compressedBytes != 0) {
 					drawCenteredString(
 							fontRenderer,
 							String.format(
-									"%,6.2f",
+									"%,.2f",
 									((double) midiFileSection.getData().length / 1024d))
 									+ " KB ---> "
-									+ String.format("%,6.2f",
+									+ String.format("%,.2f",
 											(compressedBytes / 1024d)) + " KB",
-							width / 2, height - 65, 0x00ffff);
+							width / 2, 135, 0xffffff);
 				}
 			}
 		}
 
 		if (booksRqd != 0) {
-			drawCenteredString(fontRenderer, "Books Required: " + booksRqd
-					+ " (~" + String.format("%,6.2f", (255d * 50d / 1024d))
-					+ "KB per Book)", width / 2, 50, 0xffff00);
+			int color = 0x00ff00;
+			if (booksRqd > 1.0) {
+				color = 0xff5500;
+			}
+			drawCenteredString(fontRenderer, "Books Required: " + String.format("%,.2f", booksRqd), width / 2, height - 90, color);
 		}
 
 		super.drawScreen(par1, par2, par3);
@@ -146,25 +148,29 @@ public class BookEditorGui extends GuiScreen {
 	@Override
 	protected void keyTyped(char par1, int par2) {
 		if (par2 == Keyboard.KEY_ESCAPE) {
-			// Write new book
-			try {
-				String bookTuneString = bookTune.saveToXML();
-				book.fillWithText(bookTuneString, false, true, true);
-				book.flushPages();
-				book.sendBookToServer(false);
-			} catch (XMLStreamException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			} catch (FactoryConfigurationError e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-
-			mc.displayGuiScreen(backScreen);
+			closeAndSave();
 		}
+	}
+
+	private void closeAndSave() {
+		// Write new book
+		try {
+			String bookTuneString = bookTune.saveToXML();
+			book.fillWithText(bookTuneString, false, true, true);
+			book.flushPages();
+			book.sendBookToServer(false);
+		} catch (XMLStreamException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (FactoryConfigurationError e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+		mc.displayGuiScreen(backScreen);
 	}
 
 	@Override
@@ -184,7 +190,7 @@ public class BookEditorGui extends GuiScreen {
 		super.initGui();
 
 		GuiButtonL browseButton = new GuiButtonL("browseMidi", width / 2 - 40,
-				height - 100, 80, 20, "Select MIDI");
+				100, 80, 20, "Select MIDI");
 		final BookEditorGui thisGui = this;
 		browseButton.addListener(new ActionListener() {
 
@@ -214,6 +220,17 @@ public class BookEditorGui extends GuiScreen {
 			}
 		});
 		buttonList.add(browseButton);
+
+		GuiButtonL saveButton = new GuiButtonL("save", width / 2 - 100,
+				height - 60, 200, 20, "Save & Close");
+		buttonList.add(saveButton);
+		saveButton.addListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				closeAndSave();
+			}
+		});
 	}
 
 	protected void loadMidiFile(File file) {
