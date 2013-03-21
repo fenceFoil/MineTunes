@@ -2512,7 +2512,7 @@ public class Minetunes {
 		// }
 
 		ChangelogGui changelogGui = new ChangelogGui(backScreen,
-				changeLogTempFile, "MCDitty Changelog");
+				changeLogTempFile, "MineTunes Change Log");
 		Minecraft.getMinecraft().displayGuiScreen(changelogGui);
 		return null;
 	}
