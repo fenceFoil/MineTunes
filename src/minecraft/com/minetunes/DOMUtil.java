@@ -35,7 +35,6 @@ import org.w3c.dom.NodeList;
  * Contains various methods that simplify working with org.w3c.dom classes.
  */
 public class DOMUtil {
-
 	/**
 	 * Returns a list (possibly empty) with any Elements in the list of nodes
 	 * with the given name (case sensitive version).
@@ -187,6 +186,27 @@ public class DOMUtil {
 	}
 
 	/**
+	 * If the string is "true", return true. If "false", return false. Otherwise
+	 * null.
+	 * 
+	 * @param boolString
+	 * @return
+	 */
+	public static Boolean parseBooleanString(String boolString) {
+		if (boolString == null) {
+			return null;
+		}
+
+		if (boolString.toLowerCase().equals("true")) {
+			return true;
+		} else if (boolString.toLowerCase().equals("false")) {
+			return false;
+		} else {
+			return null;
+		}
+	}
+
+	/**
 	 * As parseIntString, but returns defaultInt in those situations where
 	 * parseIntString would fail and return null.
 	 * 
@@ -201,6 +221,16 @@ public class DOMUtil {
 			return defaultInt;
 		} else {
 			return returnInt;
+		}
+	}
+
+	public static Boolean parseBooleanStringWithDefault(String boolString,
+			Boolean defaultBool) {
+		Boolean returnBool = parseBooleanString(boolString);
+		if (returnBool == null) {
+			return defaultBool;
+		} else {
+			return returnBool;
 		}
 	}
 

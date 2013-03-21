@@ -32,9 +32,11 @@ import net.minecraft.src.ItemStack;
 import org.w3c.dom.Element;
 import org.xml.sax.SAXException;
 
-import com.minetunes.Finder;
 import com.minetunes.Minetunes;
 import com.minetunes.Point3D;
+import com.minetunes.books.booktunes.BookSection;
+import com.minetunes.books.booktunes.BookTune;
+import com.minetunes.books.booktunes.MidiFileSection;
 import com.minetunes.config.MinetunesConfig;
 import com.minetunes.ditty.Ditty;
 import com.minetunes.ditty.DittyPlayerThread;
@@ -87,7 +89,7 @@ public class BookPlayer {
 		// Attempt to parse the book's DittyXML container
 		LinkedList<Element> heldBookDittyXMLContainers;
 		try {
-			heldBookDittyXMLContainers = BookDittyXMLParser
+			heldBookDittyXMLContainers = BookTuneParser
 					.getDittyXMLContainers(book);
 		} catch (SAXException e1) {
 			// Error parsing XML.
@@ -108,6 +110,35 @@ public class BookPlayer {
 			Minetunes.writeChatMessage(Minecraft.getMinecraft().theWorld,
 					"Book does not contain a Ditty.");
 			return;
+		}
+
+		// XXX: hijack the parse here to play midi books with auto-play in them.
+		BookTune tune = new BookTune();
+		if (tune.loadFromBooks(book)) {
+			if (tune.getSections().size() > 0) {
+				// Look for a midi file section with auto-play enabled
+				for (BookSection s : tune.getSections()) {
+					if (s instanceof MidiFileSection) {
+						if (((MidiFileSection) s).isAutoPlay()) {
+							// Found.
+
+							MidiFileSection midiSection = (MidiFileSection) s;
+							if (midiSection.getName() != null) {
+								Minecraft.getMinecraft().ingameGUI
+										.setRecordPlayingMessage(midiSection
+												.getName());
+							}
+
+							if (midiSection.getData() != null) {
+								byte[] midiData = midiSection.getData();
+								Minetunes.playMidiFile(midiData);
+							}
+
+							return;
+						}
+					}
+				}
+			}
 		}
 
 		// TODO: Check version, check whether book is in a set, etc.
@@ -166,7 +197,7 @@ public class BookPlayer {
 					// Parse for DittyXML containers
 					LinkedList<Element> invBookDittyXMLContainers = null;
 					try {
-						invBookDittyXMLContainers = BookDittyXMLParser
+						invBookDittyXMLContainers = BookTuneParser
 								.getDittyXMLContainers(invBook);
 					} catch (SAXException e) {
 						// TODO: Error parsing XML. Do not show a message.

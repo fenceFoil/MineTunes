@@ -50,7 +50,7 @@ import com.minetunes.ditty.Ditty;
  * element, if it exists in the book.
  * 
  */
-public class BookDittyXMLParser {
+public class BookTuneParser {
 
 	/**
 	 * Parses the book for valid DittyXML containers (\<bookTune\> elements) and
