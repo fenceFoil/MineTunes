@@ -71,7 +71,7 @@ public class EntityFXMinetunes extends EntityFX {
 //		Minecraft.getMinecraft().renderEngine.bindTexture(particleTex);
 
 		Minecraft.getMinecraft().renderEngine
-				.func_98187_b("/com/minetunes/resources/textures/particles.png");
+				.bindTexture("/com/minetunes/resources/textures/particles.png");
 		
 		// if (particleAge > particleMaxAge * 0.8) {
 		// particleAlpha = (particleMaxAge - particleAge)

@@ -79,7 +79,9 @@ public class BlockNoteMinetunes extends BlockNote {
 
 		// Manually add a couple values that are normally added in Block.java
 		setHardness(0.8F);
-		setUnlocalizedName("musicBlock");
+		//setUnlocalizedName("musicBlock");
+		// Oh god please please fix this
+		getIndirectPowerOutput("musicBlock");
 	}
 
 	// /**
