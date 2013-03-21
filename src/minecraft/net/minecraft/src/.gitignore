@@ -1481,3 +1481,10 @@
 /Packet63WorldParticles.java
 /TileEntitySign.java
 /TileEntitySignRenderer.java
+/CallableEffectAmplifier.java
+/CallableEffectDuration.java
+/CallableEffectID.java
+/CallableEffectIsAmbient.java
+/CallableEffectIsSplash.java
+/CallableEffectName.java
+/TimerTaskMcoServerListUpdateComparator.java

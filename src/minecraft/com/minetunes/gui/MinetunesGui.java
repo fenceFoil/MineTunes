@@ -87,7 +87,7 @@ public class MinetunesGui extends GuiScreen {
 		// Draw logo
 		GL11.glColor4f(1.0F, 1.0F, 1.0F, 0.5f);
 		Minecraft.getMinecraft().renderEngine
-				.func_98187_b("/com/minetunes/resources/textures/mineTunesLogo.png");
+				.bindTexture("/com/minetunes/resources/textures/mineTunesLogo.png");
 		// drawTexturedModalRect(width / 2 - 64, 10, 100, 0, 128, 64);
 		drawRect(width / 2 - 55, 5, width / 2 + 55, 55, 0xddffffff);
 		drawTexturedModalRect(width / 2 - 50, 10, 0, 0, 100, 36);

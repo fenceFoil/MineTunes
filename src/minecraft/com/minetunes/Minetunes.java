@@ -2464,7 +2464,7 @@ public class Minetunes {
 			// changeLogURL = new
 			// URL("http://mcditty.wikispaces.com/file/view/MCDitty_Changelog.txt");
 			changeLogURL = new URL(
-					"http://dl.dropbox.com/s/td2etwtujs5635n/MCDitty_Changelog.txt");
+					"http://dl.dropbox.com/s/szzl05l66tcg069/Changes.txt");
 		} catch (MalformedURLException e) {
 			e.printStackTrace();
 			// If the person (fenceFoil, hopefully) editing this has half a wit
@@ -2474,7 +2474,7 @@ public class Minetunes {
 
 		File changeLogTempFile;
 		try {
-			changeLogTempFile = File.createTempFile("MCDittyChangelogTemp",
+			changeLogTempFile = File.createTempFile("MinetunesChangelogTemp",
 					".txt");
 			changeLogTempFile.deleteOnExit();
 			BufferedReader changeLogIn = new BufferedReader(
@@ -2512,7 +2512,7 @@ public class Minetunes {
 		// }
 
 		ChangelogGui changelogGui = new ChangelogGui(backScreen,
-				changeLogTempFile, "MCDitty Changelog");
+				changeLogTempFile, "MineTunes Change Log");
 		Minecraft.getMinecraft().displayGuiScreen(changelogGui);
 		return null;
 	}
@@ -2527,7 +2527,7 @@ public class Minetunes {
 			try {
 				Desktop.getDesktop()
 						.browse(new URI(
-								"http://www.minecraftforum.net/topic/1146661-wip-086-125-mcditty-make-music-with-vanilla-signs/"));
+								"http://www.minecraftforum.net/topic/1723901-/"));
 			} catch (IOException e) {
 				e.printStackTrace();
 				return "Can't open browser for some reason";
