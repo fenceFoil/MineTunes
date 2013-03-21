@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2012 William Karnavas 
+ * Copyright (c) 2012-2013 William Karnavas 
  * All Rights Reserved
  */
 
@@ -21,30 +21,31 @@
  * along with MineTunes. If not, see <http://www.gnu.org/licenses/>.
  * 
  */
-package com.minetunes;
+package com.minetunes.books.booktunes;
 
-import java.io.File;
-import java.io.FileFilter;
-import java.io.FilenameFilter;
+import java.io.IOException;
 
-public class MidiFileFilter implements FileFilter {
+import javax.xml.stream.XMLStreamException;
+import javax.xml.stream.XMLStreamWriter;
 
-	private String[] extensions = { ".mid", ".midi", ".tmp" };
+import org.w3c.dom.Element;
 
-	@Override
-	public boolean accept(File f) {
-		if (!f.getName().contains(".")) {
-			return false;
-		}
+/**
+ * An abstract representation of a base element in a BookTune written to XML. It
+ * contains one type of content, usually one just item. Ex. A music Section with
+ * one sub-pattern of music, or a bot skin file.
+ * 
+ */
+public abstract class BookSection {
 
-		boolean isMidi = false;
-		for (String extension : extensions) {
-			if (f.getName().substring(f.getName().lastIndexOf('.'))
-					.equalsIgnoreCase(extension)) {
-				isMidi = true;
-			}
-		}
-		return isMidi;
-	}
+	/**
+	 * 
+	 * @param element
+	 * @return false indicates errors
+	 * @throws IOException 
+	 */
+	public abstract boolean load(Element element) throws IOException;
 
+	public abstract void save(XMLStreamWriter xmlOut) throws XMLStreamException, IOException;
+	
 }

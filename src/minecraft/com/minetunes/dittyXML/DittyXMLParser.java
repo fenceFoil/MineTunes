@@ -27,6 +27,8 @@ package com.minetunes.dittyXML;
 import java.io.File;
 import java.util.LinkedList;
 
+import net.minecraft.client.Minecraft;
+
 import org.jfugue.elements.Note;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -34,6 +36,10 @@ import org.w3c.dom.NodeList;
 
 import com.minetunes.CueScheduler;
 import com.minetunes.DOMUtil;
+import com.minetunes.Minetunes;
+import com.minetunes.books.booktunes.BookSection;
+import com.minetunes.books.booktunes.BookTune;
+import com.minetunes.books.booktunes.MidiFileSection;
 import com.minetunes.config.MinetunesConfig;
 import com.minetunes.ditty.Ditty;
 import com.minetunes.ditty.event.SFXInstrumentEvent;

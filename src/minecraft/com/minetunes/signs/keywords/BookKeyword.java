@@ -25,6 +25,7 @@ package com.minetunes.signs.keywords;
 
 import java.util.LinkedList;
 
+import net.minecraft.client.Minecraft;
 import net.minecraft.src.Item;
 import net.minecraft.src.ItemStack;
 import net.minecraft.src.TileEntitySign;
@@ -35,8 +36,11 @@ import org.xml.sax.SAXException;
 
 import com.minetunes.Minetunes;
 import com.minetunes.Point3D;
-import com.minetunes.books.BookDittyXMLParser;
+import com.minetunes.books.BookTuneParser;
 import com.minetunes.books.BookWrapper;
+import com.minetunes.books.booktunes.BookSection;
+import com.minetunes.books.booktunes.BookTune;
+import com.minetunes.books.booktunes.MidiFileSection;
 import com.minetunes.ditty.Ditty;
 import com.minetunes.ditty.event.ParticleEvent;
 import com.minetunes.dittyXML.DittyXMLParser;
@@ -74,8 +78,36 @@ public class BookKeyword extends SignTuneKeyword {
 		for (ItemStack item : nearbyBooks) {
 			boolean failure = false;
 			BookWrapper book = BookWrapper.wrapBook(item);
+			
+			// XXX: hijack the parse here to play midi books with auto-play in them.
+			BookTune tune = new BookTune();
+			if (tune.loadFromBooks(book)) {
+				if (tune.getSections().size() > 0) {
+					// Look for a midi file section with auto-play enabled
+					for (BookSection s : tune.getSections()) {
+						if (s instanceof MidiFileSection) {
+							if (((MidiFileSection) s).isAutoPlay()) {
+								// Found.
+
+								MidiFileSection midiSection = (MidiFileSection) s;
+//								if (midiSection.getName() != null) {
+//									Minecraft.getMinecraft().ingameGUI
+//											.setRecordPlayingMessage(midiSection
+//													.getName());
+//								}
+
+								if (midiSection.getData() != null) {
+									byte[] midiData = midiSection.getData();
+									Minetunes.playMidiFile(midiData);
+								}
+							}
+						}
+					}
+				}
+			}
+			
 			try {
-				LinkedList<Element> mcdittyelements = BookDittyXMLParser
+				LinkedList<Element> mcdittyelements = BookTuneParser
 						.getDittyXMLContainers(book);
 				DittyXMLParser.parseDittyXMLContainers(mcdittyelements, ditty);
 			} catch (SAXException e) {

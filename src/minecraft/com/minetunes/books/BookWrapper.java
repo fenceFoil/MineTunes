@@ -26,11 +26,12 @@ package com.minetunes.books;
 import java.io.ByteArrayOutputStream;
 import java.io.DataOutputStream;
 import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.List;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.src.ChatAllowedCharacters;
 import net.minecraft.src.EnumChatFormatting;
-import net.minecraft.src.Item;
 import net.minecraft.src.ItemStack;
 import net.minecraft.src.NBTTagCompound;
 import net.minecraft.src.NBTTagList;
@@ -38,7 +39,6 @@ import net.minecraft.src.NBTTagString;
 import net.minecraft.src.Packet;
 import net.minecraft.src.Packet250CustomPayload;
 
-import com.minetunes.Finder;
 import com.minetunes.config.MinetunesConfig;
 
 /**
@@ -53,12 +53,12 @@ import com.minetunes.config.MinetunesConfig;
  * into it; the only way to do actually "change the actual book" wrapped is to
  * send the changes to the server, in the same way as GuiScreenBook.<br>
  * <br>
- * The mechanism for doing the above might be added to this class someday.<br>
- * <br>
  * Cannot be instantiated by constructor; use wrapBook(ItemStack) instead which
  * will also tell you if a stack cannot be wrapped as a book.<br>
+ * <br>
+ * A BookWrapper is also a BookSource, one book long.
  */
-public class BookWrapper {
+public class BookWrapper implements BookSource {
 	/**
 	 * The Minecraft ID numbers for book items of different kinds
 	 */
@@ -274,7 +274,7 @@ public class BookWrapper {
 		if (ensureANewlineBetweenPages) {
 			return getAllTextWithPageSeperator("\n");
 		} else {
-			return getAllTextWithPageSeperator("");
+			return getAllTextWithPageSeperator(null);
 		}
 	}
 
@@ -562,4 +562,49 @@ public class BookWrapper {
 			}
 		}
 	}
+
+	/**
+	 * A bookwrapper is its own book source. It is only one book long, so this
+	 * is for getNextBook.
+	 */
+	private boolean bookSourceRead = false;
+
+	@Override
+	public BookWrapper getNextBook() {
+		if (!bookSourceRead) {
+			bookSourceRead = true;
+			return this;
+		}
+		return null;
+	}
+
+	@Override
+	public int getBooksAvailable() {
+		// This book
+		return 1;
+	}
+
+	@Override
+	public List<BookWrapper> getBookCache() {
+		if (bookSourceRead) {
+			LinkedList<BookWrapper> l = new LinkedList<BookWrapper>();
+			l.add(this);
+			return l;
+		} else {
+			return null;
+		}
+	}
+
+	@Override
+	public List<BookWrapper> getAllBooks() {
+		LinkedList<BookWrapper> l = new LinkedList<BookWrapper>();
+		l.add(this);
+		return l;
+	}
+
+	@Override
+	public void resetBookSource() {
+		bookSourceRead = false;
+	}
+
 }

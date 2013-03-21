@@ -26,8 +26,10 @@ package com.minetunes;
 import java.awt.Desktop;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
+import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -48,6 +50,7 @@ import java.util.Map;
 import java.util.Random;
 
 import javax.sound.midi.InvalidMidiDataException;
+import javax.sound.midi.MidiChannel;
 import javax.sound.midi.MidiSystem;
 import javax.sound.midi.MidiUnavailableException;
 import javax.sound.midi.Sequence;
@@ -65,7 +68,6 @@ import net.minecraft.src.EntityFireworkRocket;
 import net.minecraft.src.EntityHeartFX;
 import net.minecraft.src.EntityItemFrame;
 import net.minecraft.src.EntityPlayerSP;
-import net.minecraft.src.FontRenderer;
 import net.minecraft.src.GuiButton;
 import net.minecraft.src.GuiEditSign;
 import net.minecraft.src.GuiOptions;
@@ -127,7 +129,6 @@ import com.minetunes.gui.ChangelogGui;
 import com.minetunes.gui.GuiButtonTweenAccessor;
 import com.minetunes.gui.GuiMinetimesGraphicsMenuButton;
 import com.minetunes.gui.MinetunesMenuButton;
-import com.minetunes.gui.help.GuiSimpleMessage;
 import com.minetunes.gui.signEditor.GuiEditSignBase;
 import com.minetunes.gui.signEditor.GuiEditSignTune;
 import com.minetunes.keyboard.KeypressProcessor;
@@ -143,15 +144,15 @@ import com.minetunes.particle.NoteParticleRequest;
 import com.minetunes.particle.ParticleRequest;
 import com.minetunes.resources.UpdateResourcesThread;
 import com.minetunes.sfx.SFXManager;
-import com.minetunes.signs.SignTuneParser;
 import com.minetunes.signs.Comment;
 import com.minetunes.signs.Packet130UpdateSignMinetunes;
 import com.minetunes.signs.SignLine;
 import com.minetunes.signs.SignParser;
+import com.minetunes.signs.SignTuneParser;
 import com.minetunes.signs.TileEntitySignMinetunes;
 import com.minetunes.signs.TileEntitySignRendererMinetunes;
-import com.minetunes.signs.keywords.SignTuneKeyword;
 import com.minetunes.signs.keywords.ProxPadKeyword;
+import com.minetunes.signs.keywords.SignTuneKeyword;
 import com.sun.media.sound.SoftSynthesizer;
 
 /**
@@ -1871,17 +1872,21 @@ public class Minetunes {
 	}
 
 	/**
-	 * Currently assumes that midiFile ends with ".mid"
 	 * 
 	 * @param midiFile
+	 *            a PlayMIDI-style handle, such as "heartbreaker"
 	 */
 	public static void playMidiFile(String midi) {
 		File midiFile = toMidiFile(midi);
+		playMidiFile(midiFile);
+	}
+
+	public static void playMidiFile(File midiFile) {
 		if (midiFile.exists()) {
 			try {
 				// From file
 				Sequence sequence = MidiSystem.getSequence(midiFile);
-				
+
 				// Create a sequencer for the sequence
 				Sequencer sequencer = MidiSystem.getSequencer();
 				sequencer.open();
@@ -1892,6 +1897,75 @@ public class Minetunes {
 
 				// Add to list of sequencers, in case of muting
 				playMidiSequencers.add(sequencer);
+			} catch (IOException e) {
+			} catch (MidiUnavailableException e) {
+			} catch (InvalidMidiDataException e) {
+			}
+		}
+	}
+
+	public static void playMidiFile(byte[] midiData) {
+		if (midiData != null) {
+			try {
+				// File f = new File("C:/users/william/desktop/temp.mid");
+				// f.createNewFile();
+				// FileOutputStream fout = new FileOutputStream(f);
+				// fout.write(midiData);
+				// fout.flush();
+				// fout.close();
+
+				// From file
+				Sequence sequence = MidiSystem
+						.getSequence(new ByteArrayInputStream(midiData));
+
+				// Create a sequencer for the sequence
+				final Sequencer sequencer = MidiSystem.getSequencer(false);
+				sequencer.open();
+				sequencer.setSequence(sequence);
+
+				// Todo: Find way to close this puppy after the midi is played
+				// Also, fix pitch bends (they seem to be too powerful right
+				// now)
+				final SoftSynthesizer ss = synthPool.getOpenedSynth();
+				for (MidiChannel mc : ss.getChannels()) {
+					 //mc.controlChange(0, 0xffff);
+				}
+				if (MinetunesConfig.customSF2.isSF2Loaded()) {
+					ss.loadAllInstruments(MinetunesConfig.customSF2
+							.getCachedSoundbank());
+				}
+				sequencer.getTransmitter().setReceiver(ss.getReceiver());
+
+				// Start playing
+				sequencer.start();
+
+				// Add to list of sequencers, in case of muting
+				playMidiSequencers.add(sequencer);
+
+				// Close the synth after we're done
+				final long sequenceMicrosecondLength = sequence
+						.getMicrosecondLength() + 1000000 * 6;
+				// Give it 6 more seconds after sequence is done
+
+				// Wait until the playback is done, then kill the synth and
+				// sequencer
+				// TODO: Muting doesn't close the synth!!!
+				Thread t = new Thread(new Runnable() {
+
+					@Override
+					public void run() {
+						try {
+							// mS to MS
+							Thread.sleep(sequenceMicrosecondLength / 1000);
+						} catch (InterruptedException e) {
+							e.printStackTrace();
+						}
+						synthPool.returnUsedSynth(ss, null, null);
+						sequencer.close();
+					}
+				});
+				t.start();
+				t.setName("MineTunes MIDI Synth Closer");
 			} catch (IOException e) {
 			} catch (MidiUnavailableException e) {
 			} catch (InvalidMidiDataException e) {
@@ -2271,8 +2345,8 @@ public class Minetunes {
 			controlList.add(BOOKGUI_IMPORT_BUTTON);
 			BOOKGUI_EXPORT_BUTTON.setBookGui(gui);
 			controlList.add(BOOKGUI_EXPORT_BUTTON);
-			// BOOKGUI_EDITOR_BUTTON.setBookGui(gui);
-			// controlList.add(BOOKGUI_EDITOR_BUTTON);
+			BOOKGUI_EDITOR_BUTTON.setBookGui(gui);
+			controlList.add(BOOKGUI_EDITOR_BUTTON);
 		}
 	}
 
