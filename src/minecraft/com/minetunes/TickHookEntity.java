@@ -176,6 +176,11 @@ public class TickHookEntity extends Entity {
 		}
 
 		try {
+			if (hookEntity != null && mc.theWorld.getEntityByID(hookEntity.entityId) != null) {
+				// hook entity is in world
+				return;
+			}
+			
 			if (TickHookEntity.hookEntity != null) {
 				TickHookEntity.hookEntity.setDead();
 			}
