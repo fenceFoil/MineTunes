@@ -25,6 +25,7 @@ package com.minetunes.blockTune;
 
 import java.util.HashMap;
 import java.util.LinkedList;
+import java.util.Random;
 
 import javax.sound.midi.MidiChannel;
 import javax.sound.midi.Patch;
@@ -35,8 +36,8 @@ import com.sun.media.sound.SoftSynthesizer;
 
 /**
  * Handles the synthesizer, playback, and timing for a BlockTune via an abstract
- * interface. Should be easily separable from the rest of MineTunes, give or take
- * MIDISynthPool and Gervill.
+ * interface. Should be easily separable from the rest of MineTunes, give or
+ * take MIDISynthPool and Gervill.
  * 
  */
 public class BlockTunePlayer extends Thread {
@@ -55,6 +56,11 @@ public class BlockTunePlayer extends Thread {
 	 * 0-127: Midi attack velocity for a note
 	 */
 	private static final int NOTE_VELOCITY = 63;
+	
+	/**
+	 * 0-127: Max allowed velocity when mixing
+	 */
+	private static final int MAX_NOTE_VELOCITY = 63;
 
 	/**
 	 * Source of music
@@ -95,6 +101,22 @@ public class BlockTunePlayer extends Thread {
 	private Patch[] instruments = new Patch[16];
 
 	private double lastMasterVolume = 1;
+
+	/**
+	 * Used for mixing; is cleared and changed again every remix
+	 */
+	private LinkedList<Byte> mixedOutChannels = new LinkedList<Byte>();
+
+	/**
+	 * Used for mixing; is cleared and changed again every remix
+	 */
+	private HashMap<Byte, Integer> channelPressures = new HashMap<Byte, Integer>();
+
+	private boolean mixing = true;
+
+	private static final Random rand = new Random();
+
+	private int loopsUntilNextMix = 3;
 
 	/**
 	 * Set up a new blocktune player
@@ -177,6 +199,7 @@ public class BlockTunePlayer extends Thread {
 		if (currFrame >= tuneAccess.getFrameCount()) {
 			if (tuneAccess.isLooping()) {
 				currFrame = 0;
+				setUpNewLoop();
 			} else {
 				return false;
 			}
@@ -197,7 +220,8 @@ public class BlockTunePlayer extends Thread {
 		tuneAccess.onFramePlayed(frame, currFrame);
 
 		// Delay until next frame
-		long endTime = (long) (System.nanoTime() + (1000000000d / beatsPerSecond));
+		long endTime = (long) (System.nanoTime() + (1000000000d / beatsPerSecond)
+				* frame.getLength());
 		while (System.nanoTime() < endTime && !exiting) {
 			try {
 				Thread.sleep(20);
@@ -210,6 +234,48 @@ public class BlockTunePlayer extends Thread {
 
 		// Say that we still need to repeat
 		return true;
+	}
+
+	/**
+	 * Manages mixing, etc. that is done each time the BlockTune is played over
+	 * again.
+	 * 
+	 * TODO: Assumes four channels are being used, arbitrarily.
+	 */
+	private void setUpNewLoop() {
+		loopsUntilNextMix--;
+		if (loopsUntilNextMix > 0) {
+			return;
+		} else {
+			// Decide how long to wait until next remix
+			loopsUntilNextMix = rand.nextInt(3);
+		}
+
+		// Remove last remix
+		mixedOutChannels.clear();
+		channelPressures.clear();
+
+		if (mixing) {
+			int channelsToMute = rand.nextInt(3);
+			for (int i = 0; i < channelsToMute; i++) {
+				mixedOutChannels.add((byte) rand.nextInt(4));
+			}
+
+			int channelsToRepressure = rand.nextInt(4);
+			for (int i = 0; i < channelsToRepressure; i++) {
+				channelPressures.put((byte) rand.nextInt(4), rand.nextInt(MAX_NOTE_VELOCITY));
+			}
+		}
+	}
+
+	/**
+	 * Used in mixing, setting values in this array is not guaranteed to alter
+	 * the channels for more than a single loop.
+	 * 
+	 * @return
+	 */
+	public HashMap<Byte, Integer> getChannelPressures() {
+		return channelPressures;
 	}
 
 	/**
@@ -250,14 +316,34 @@ public class BlockTunePlayer extends Thread {
 		HashMap<Integer, LinkedList<Byte>> notesStarted = frame
 				.getChannelNotesStarted();
 		for (int channel : notesStarted.keySet()) {
+			// Make sure that we're playing this channel this time around
+			if (mixedOutChannels.contains((byte) channel)) {
+				continue;
+			}
+
 			LinkedList<Byte> notes = notesStarted.get(channel);
 			if (notes != null) {
+				Integer pressure = channelPressures.get((byte) channel);
+				if (pressure == null) {
+					pressure = NOTE_VELOCITY;
+				}
+
 				for (byte note : notes) {
-					synth.getChannels()[channel].noteOn(note, NOTE_VELOCITY);
+					synth.getChannels()[channel].noteOn(note, pressure);
 					channelsUsedLastFrame[channel] = true;
 				}
 			}
 		}
+	}
+
+	/**
+	 * Used in mixing, setting values in this array is not guaranteed to alter
+	 * the channels for more than a single loop.
+	 * 
+	 * @return
+	 */
+	public LinkedList<Byte> getMixedOutChannels() {
+		return mixedOutChannels;
 	}
 
 	/**

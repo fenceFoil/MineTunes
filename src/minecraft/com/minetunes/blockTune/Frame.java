@@ -37,7 +37,7 @@ public class Frame {
 	/**
 	 * Length of this frame, where one beat = 1 and instant = 0
 	 */
-	private double length;
+	private double length = 1;
 
 	/**
 	 * Notes started for a given instrument

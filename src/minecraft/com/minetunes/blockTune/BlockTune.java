@@ -36,6 +36,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.src.AxisAlignedBB;
 import net.minecraft.src.BiomeGenBase;
 import net.minecraft.src.Block;
+import net.minecraft.src.BlockRedstoneRepeater;
 import net.minecraft.src.GuiMainMenu;
 import net.minecraft.src.ItemStack;
 import net.minecraft.src.TileEntity;
@@ -461,16 +462,18 @@ public class BlockTune implements BlockTuneAccess {
 	 * 
 	 */
 	private void updateBlockDisplays(World world) {
+		float yAboveCorner = 1.4f;
 		if (blockDisplays.size() <= 0) {
 			for (Point3D p : corners.getCorners()) {
 				// Set up block displays
 				EntityItemDisplay item = new EntityItemDisplay(world,
-						p.x + 0.5, p.y + 1.4, p.z + 0.5,
+						p.x + 0.5, p.y + yAboveCorner, p.z + 0.5,
 						getItemstackForWorldBlock(world, p.x, p.y - 1, p.z));
 				world.loadedEntityList.add(item);
 				blockDisplays.put(p, item);
 			}
 		} else {
+			int currChannel = 0;
 			// Update block displays
 			for (Point3D p : corners.getCorners()) {
 				EntityItemDisplay item = blockDisplays.get(p);
@@ -484,6 +487,14 @@ public class BlockTune implements BlockTuneAccess {
 				} else {
 					item.setAgeMultiplier(0);
 				}
+				// Raise or lower based on current mixing
+				if (player.getMixedOutChannels().contains((byte)currChannel)) {
+					item.posY = p.y + yAboveCorner - 1f;
+				} else {
+					item.posY = p.y + yAboveCorner;
+				}
+				// Increment counter
+				currChannel++;
 			}
 		}
 	}
@@ -538,6 +549,27 @@ public class BlockTune implements BlockTuneAccess {
 			}
 		}
 		return false;
+	}
+
+	/**
+	 * Reutrns the setting of the redstone repeater in block if present.
+	 * 
+	 * @param world
+	 * @param block
+	 *            the location to look for a repeater at
+	 * @return null if the block at "block" isn't a repeater, or the setting
+	 *         from 0 to 3
+	 */
+	private Integer getRepeaterSetting(World world, Point3D block) {
+		int blockID = world.getBlockId(block.x, block.y, block.z);
+		if (blockID == Block.redstoneRepeaterIdle.blockID
+				|| blockID == Block.redstoneRepeaterActive.blockID) {
+			int meta = world.getBlockMetadata(block.x, block.y, block.z);
+			int setting = (meta & 0xC) / 4;
+			return setting;
+		} else {
+			return null;
+		}
 	}
 
 	private void prepareForRemoval() {
@@ -807,7 +839,20 @@ public class BlockTune implements BlockTuneAccess {
 
 	@Override
 	public Frame getFrame(int frameNum) {
-		Frame frame = new Frame(1);
+		// Get frame length from repeater at base of row
+		Integer repeaterSetting = getRepeaterSetting(world,
+				corners.getInteriorPoint(frameNum, -1));
+		
+		// Default is 1 if there is no repeater.
+		if (repeaterSetting == null) {
+			repeaterSetting = 1;
+		}
+		
+		// Length is the one quarter per repeater setting
+		double frameLength = (double) (repeaterSetting + 1);
+
+		// Create new frame
+		Frame frame = new Frame(frameLength);
 
 		// Climb upwards through the column
 		for (int y = 0; y < corners.getInteriorHeight(); y++) {
@@ -1125,8 +1170,10 @@ public class BlockTune implements BlockTuneAccess {
 				topCount++;
 			}
 			for (int i = 0; i < topCount; i++) {
-				picks.add(getInteriorPoint(rand.nextInt(Math.max(0, getInteriorWidth())), -1));
-				picks.add(getInteriorPoint(rand.nextInt(Math.max(0, getInteriorWidth())),
+				picks.add(getInteriorPoint(
+						rand.nextInt(Math.max(0, getInteriorWidth())), -1));
+				picks.add(getInteriorPoint(
+						rand.nextInt(Math.max(0, getInteriorWidth())),
 						getInteriorHeight()));
 			}
 
