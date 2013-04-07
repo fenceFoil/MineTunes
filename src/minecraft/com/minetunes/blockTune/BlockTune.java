@@ -141,9 +141,11 @@ public class BlockTune implements BlockTuneAccess {
 	}
 
 	/**
-	 * 
+	 * TODO: Inefficient, as the biome instruments are loaded THEN the block
+	 * instruments, EVEN IF THE BIOME INSTRUMENTS ARE NOT USED.
 	 */
 	private void setUpInstruments() {
+		// First, assign some default instruments from the BlockTune's biome
 		biome = world.getBiomeGenForCoords(nodePoint.x, nodePoint.z);
 		if (biome == BiomeGenBase.mushroomIsland
 				|| biome == BiomeGenBase.mushroomIslandShore) {
@@ -172,6 +174,18 @@ public class BlockTune implements BlockTuneAccess {
 				}
 			} catch (IOException e) {
 				e.printStackTrace();
+			}
+		}
+
+		// Then try to assign instruments from the blocks under each corner
+		LinkedList<Point3D> cornerPoints = corners.getCorners();
+		for (int i = 0; i < 4; i++) {
+			ItemStack cornerBlock = blockDisplays.get(cornerPoints.get(i))
+					.getEntityItem();
+			Integer blockInstrument = BlockUtils.getInstForBlock(
+					cornerBlock.itemID, cornerBlock.getItemDamage());
+			if (blockInstrument != null) {
+				player.setInstrument(i, blockInstrument);
 			}
 		}
 	}
@@ -474,12 +488,22 @@ public class BlockTune implements BlockTuneAccess {
 			}
 		} else {
 			int currChannel = 0;
+			boolean blocksChanged = false;
 			// Update block displays
 			for (Point3D p : corners.getCorners()) {
 				EntityItemDisplay item = blockDisplays.get(p);
 				// Set itemstack
 				ItemStack itemStack = getItemstackForWorldBlock(world, p.x,
 						p.y - 1, p.z);
+				// Check to see whether the block has changed
+				if (!blocksChanged) {
+					if (!BlockUtils.blocksAreSimilar(itemStack, item
+							.getEntityItem().itemID, item.getEntityItem()
+							.getItemDamage())) {
+						// Changed!
+						blocksChanged = true;
+					}
+				}
 				item.setEntityItemStack(itemStack);
 				// Set spin speed
 				if (isAdjacentSwitchOn(world, corners.startCorner)) {
@@ -488,13 +512,18 @@ public class BlockTune implements BlockTuneAccess {
 					item.setAgeMultiplier(0);
 				}
 				// Raise or lower based on current mixing
-				if (player.getMixedOutChannels().contains((byte)currChannel)) {
+				if (player.getMixedOutChannels().contains((byte) currChannel)) {
 					item.posY = p.y + yAboveCorner - 1f;
 				} else {
 					item.posY = p.y + yAboveCorner;
 				}
 				// Increment counter
 				currChannel++;
+			}
+			
+			// Update instruments if necessary
+			if (blocksChanged) {
+				setUpInstruments();
 			}
 		}
 	}
@@ -842,12 +871,12 @@ public class BlockTune implements BlockTuneAccess {
 		// Get frame length from repeater at base of row
 		Integer repeaterSetting = getRepeaterSetting(world,
 				corners.getInteriorPoint(frameNum, -1));
-		
+
 		// Default is 1 if there is no repeater.
 		if (repeaterSetting == null) {
 			repeaterSetting = 1;
 		}
-		
+
 		// Length is the one quarter per repeater setting
 		double frameLength = (double) (repeaterSetting + 1);
 
@@ -874,7 +903,8 @@ public class BlockTune implements BlockTuneAccess {
 						continue;
 					}
 
-					if (blockAreSimilar(cornerItem, pointID, pointMeta)) {
+					if (BlockUtils.blocksAreSimilar(cornerItem, pointID,
+							pointMeta)) {
 						// Switches on corners are redundant: can break
 						// block below!
 						// if ((getNumAdjacent(world, Block.lever.blockID,
@@ -901,104 +931,6 @@ public class BlockTune implements BlockTuneAccess {
 		}
 
 		return frame;
-	}
-
-	/**
-	 * Block IDs that cannot be judged as the same block (for purposes of
-	 * instrument blocks) by their block ID alone. MUST BE SORTED.
-	 */
-	private static final int[] idsWhereMetaMatters = { 6, 17, 18, 34, 35, 43,
-			44, 59, 69, 70, 72, 78, 84, 92, 93, 94, 97, 98, 104, 105, 107, 115,
-			118, 120, 125, 126, 127, 139, 140, 141, 142, 147, 148, 155 };
-
-	/**
-	 * Like idsWhereMetaMatters except that there is nothing special about
-	 * comparing the meta values: if they're different, the blocks are
-	 * different, period. Contrast with saplings (2 bits specify types, 1 is
-	 * just a counter for their growth that should be ignored) and several other
-	 * blocks. MUST BE SORTED.
-	 */
-	private static final int[] idsWhereMetaMattersStrictly = { 24, 35, 43, 59,
-			70, 72, 78, 84, 92, 97, 98, 104, 105, 115, 118, 125, 139, 140, 141,
-			142, 147, 148, 155 };
-
-	private static final HashMap<Integer, Integer> metaCompareMasks = new HashMap<Integer, Integer>();
-	static {
-		// 6, 17, 18, 44, 69, 93, 94, 107, 120, 126, 127
-
-		// Only care about first two bits
-		metaCompareMasks.put(6, 0x3);
-		metaCompareMasks.put(17, 0x3);
-		metaCompareMasks.put(18, 0x3);
-
-		// Only care about first three bits
-		metaCompareMasks.put(44, 0x7);
-		metaCompareMasks.put(126, 0x7);
-
-		// Only care about last bit
-		metaCompareMasks.put(69, 0x8);
-
-		// Only care about top two bits
-		metaCompareMasks.put(93, 0xC);
-		metaCompareMasks.put(94, 0xC);
-		metaCompareMasks.put(127, 0xC);
-
-		// Only care about third bit
-		metaCompareMasks.put(107, 0x4);
-		metaCompareMasks.put(120, 0x4);
-	}
-
-	/**
-	 * @param cornerItem
-	 * @param pointID
-	 * @param pointMeta
-	 * @return
-	 */
-	private boolean blockAreSimilar(ItemStack cornerItem, int pointID,
-			int pointMeta) {
-		// If ids are dissimilar, then duh, the blocks are different
-		if (cornerItem.itemID != pointID) {
-			return false;
-		}
-
-		if (contains(idsWhereMetaMatters, pointID)) {
-			// Meta matters; can we get away with a meta == meta?
-			if (contains(idsWhereMetaMattersStrictly, pointID)) {
-				// Yes!
-				return cornerItem.getItemDamage() == pointMeta;
-			} else {
-				// No, there's a special comparison
-				Integer mask = metaCompareMasks.get(pointID);
-				if (mask == null) {
-					mask = 0xf;
-				}
-				// Mask metadata values and compare remaining bits
-				if ((cornerItem.getItemDamage() & mask) == (pointMeta & mask)) {
-					return true;
-				} else {
-					return false;
-				}
-			}
-		} else {
-			// Just compare ids (was done already at top of method)
-			return true;
-		}
-	}
-
-	/**
-	 * True if passed array contains v
-	 * 
-	 * @param array
-	 * @param v
-	 * @return
-	 */
-	public static boolean contains(int[] array, int v) {
-		for (int i : array) {
-			if (i == v) {
-				return true;
-			}
-		}
-		return false;
 	}
 
 	@Override

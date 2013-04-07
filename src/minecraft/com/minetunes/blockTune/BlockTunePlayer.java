@@ -56,7 +56,7 @@ public class BlockTunePlayer extends Thread {
 	 * 0-127: Midi attack velocity for a note
 	 */
 	private static final int NOTE_VELOCITY = 63;
-	
+
 	/**
 	 * 0-127: Max allowed velocity when mixing
 	 */
@@ -112,7 +112,10 @@ public class BlockTunePlayer extends Thread {
 	 */
 	private HashMap<Byte, Integer> channelPressures = new HashMap<Byte, Integer>();
 
-	private boolean mixing = true;
+	/**
+	 * Until further notice, ix-nay on the ixing-may.
+	 */
+	private boolean mixing = false;
 
 	private static final Random rand = new Random();
 
@@ -263,7 +266,8 @@ public class BlockTunePlayer extends Thread {
 
 			int channelsToRepressure = rand.nextInt(4);
 			for (int i = 0; i < channelsToRepressure; i++) {
-				channelPressures.put((byte) rand.nextInt(4), rand.nextInt(MAX_NOTE_VELOCITY));
+				channelPressures.put((byte) rand.nextInt(4),
+						rand.nextInt(MAX_NOTE_VELOCITY));
 			}
 		}
 	}
@@ -371,17 +375,26 @@ public class BlockTunePlayer extends Thread {
 		setUpChannelInstruments();
 	}
 
+	/**
+	 * Applies all patches specified in the instruments[] array to the synth,
+	 * and loads any custom SF2 instruments as needed.
+	 */
 	private void setUpChannelInstruments() {
 		for (int i = 0; i < instruments.length; i++) {
 			Patch p = instruments[i];
+			// Ensure that there are no nulls lurking around like Grues
 			if (p != null && synth != null && synth.getChannels() != null
 					&& synth.getChannels()[i] != null) {
+				// If instrument is not already set
 				if (synth.getChannels()[i].getProgram() != p.getProgram()) {
+					
+					// Load custom sf2 instrument, if needed
 					if (MinetunesConfig.customSF2 != null
 							&& MinetunesConfig.customSF2.isSF2Loaded()) {
 						synth.loadInstrument(MinetunesConfig.customSF2
 								.getCachedSoundbank().getInstrument(p));
 					}
+					// Switch to patch
 					synth.getChannels()[i].programChange(p.getProgram());
 				}
 			}
