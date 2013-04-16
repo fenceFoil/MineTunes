@@ -55,7 +55,7 @@ public class MinetunesConfig {
 	 * Minecraft version that the mod is designed for.
 	 */
 	public static final String MC_CURRENT_VERSION = "1.5.1";
-	private static final String[] UPDATE_MESSAGE = { "New: Buttons, levers, etc. activate signs!" };
+	private static final String[] UPDATE_MESSAGE = { "New: Redstone power activates SignTunes and BlockTunes." };
 	/**
 	 * Disable to stop costly printlns from being called
 	 */
