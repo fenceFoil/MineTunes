@@ -49,6 +49,15 @@ public class TileEntitySignMinetunes extends TileEntitySign {
 	public boolean[] errorBlinkLine;
 	public String signColorCode = null;
 	/**
+	 * Whether the sign was next to an activated redstone thingy last tick.
+	 */
+	private boolean lastRedstoneState = false;
+	/**
+	 * Used to prevent loading the game next to an ON sign from starting the
+	 * sign immediately.
+	 */
+	private boolean redstoneStateChecked = false;
+	/**
 	 * Text that is appended to the beginning of each line of the sign before
 	 * display.
 	 */
@@ -166,6 +175,7 @@ public class TileEntitySignMinetunes extends TileEntitySign {
 	 */
 	@Override
 	public void updateEntity() {
+		// Update color code
 		if (signText[2].length() >= 2
 				&& signText[2].toCharArray()[signText[2].length() - 2] == '%') {
 			if (signColorCode == null) {
@@ -175,6 +185,46 @@ public class TileEntitySignMinetunes extends TileEntitySign {
 			signColorCode = null;
 		}
 
+		// Update face
+		updateFace();
+
+		// Update redstone activation
+		updateRedstone();
+	}
+
+	private void updateRedstone() {
+		boolean powered = getWorldObj().isBlockIndirectlyGettingPowered(xCoord,
+				yCoord, zCoord);
+
+		// Prevent loading a powered sign starting a song immediately
+		if (!redstoneStateChecked) {
+			redstoneStateChecked = true;
+			lastRedstoneState = powered;
+			return;
+		}
+
+		// Check for activation
+		if (powered && !lastRedstoneState) {
+			// Activate!
+
+			// Are we too far from the player ( > 48 blocks away) ? If so, don't
+			// play.
+			if (Point3D.getTileEntityPos(this).distanceToRel(
+					new Point3D((int) Minecraft.getMinecraft().thePlayer.posX,
+							(int) Minecraft.getMinecraft().thePlayer.posY,
+							(int) Minecraft.getMinecraft().thePlayer.posZ)) > 48 * 48) {
+				// To far :(
+			} else {
+				// Start ditty
+				SignTuneParser.playDittyFromSigns(getWorldObj(), xCoord,
+						yCoord, zCoord, true);
+			}
+		}
+
+		lastRedstoneState = powered;
+	}
+
+	private void updateFace() {
 		if (isFace(false)) {
 			// Emit particles
 			if (Minetunes.rand.nextInt(100000) == 0) {
@@ -210,18 +260,19 @@ public class TileEntitySignMinetunes extends TileEntitySign {
 			// Wiggle arms
 			if (worldObj.isRemote) {
 				if (Minetunes.rand.nextInt(500) == 0) {
-					Point3D anchor = SignTuneParser
-							.getBlockAttachedTo(this);
+					Point3D anchor = SignTuneParser.getBlockAttachedTo(this);
 					for (Point3D p : Point3D.getAdjacentBlocks(anchor)) {
 						if (worldObj.getBlockId(p.x, p.y, p.z) == Block.lever.blockID) {
 							// Wiggle lever
-							int metadata = worldObj.getBlockMetadata(p.x, p.y, p.z);
+							int metadata = worldObj.getBlockMetadata(p.x, p.y,
+									p.z);
 							if (metadata >= 8) {
-								metadata -= 8; 
+								metadata -= 8;
 							} else if (metadata < 8) {
 								metadata += 8;
 							}
-							worldObj.setBlockMetadataWithNotify(p.x, p.y, p.z, metadata, 2);
+							worldObj.setBlockMetadataWithNotify(p.x, p.y, p.z,
+									metadata, 2);
 						}
 					}
 				}
