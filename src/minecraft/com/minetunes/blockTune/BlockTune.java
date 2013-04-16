@@ -732,7 +732,9 @@ public class BlockTune implements BlockTuneAccess {
 	@Override
 	public boolean isPaused() {
 		try {
-			if (!isAdjacentSwitchOn(world, 0)) {
+			// if (!isAdjacentSwitchOn(world, 0)) {
+			if (!world.isBlockIndirectlyGettingPowered(getNodePoint().x,
+					getNodePoint().y, getNodePoint().z)) {
 				return true;
 			} else if (Minecraft.getMinecraft().isGamePaused) {
 				return true;
@@ -1125,8 +1127,10 @@ public class BlockTune implements BlockTuneAccess {
 				topCount++;
 			}
 			for (int i = 0; i < topCount; i++) {
-				picks.add(getInteriorPoint(rand.nextInt(Math.max(0, getInteriorWidth())), -1));
-				picks.add(getInteriorPoint(rand.nextInt(Math.max(0, getInteriorWidth())),
+				picks.add(getInteriorPoint(
+						rand.nextInt(Math.max(0, getInteriorWidth())), -1));
+				picks.add(getInteriorPoint(
+						rand.nextInt(Math.max(0, getInteriorWidth())),
 						getInteriorHeight()));
 			}
 
