@@ -15,6 +15,7 @@ Updating Minetunes:
 - Copy from old mcp's /src/ dir:
 	- BlockSign.java
 	- and all other minetunes dirs
+- Copy over the /lib/ dir
 
 - Open the copied repo in SmartGit Hg
 
