@@ -50,7 +50,7 @@ public class MinetunesConfig {
 	/**
 	 * Current MineTunes version.
 	 */
-	public static final String CURRENT_VERSION = "3.2.00";
+	public static final String CURRENT_VERSION = "3.3.00";
 	/**
 	 * Minecraft version that the mod is designed for.
 	 */

@@ -1641,6 +1641,9 @@ public class GuiEditSignTune extends GuiEditSignBase {
 				//
 				File[] midiFileList = MinetunesConfig.getMidiDir().listFiles(
 						new MidiFileFilter());
+				if (midiFileList == null) {
+					midiFileList = new File[0];
+				}
 
 				LinkedList<File> matchingMidis = new LinkedList<File>();
 				File exactMatch = null;

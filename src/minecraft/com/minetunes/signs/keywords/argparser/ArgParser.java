@@ -89,6 +89,13 @@ public class ArgParser {
 		// Clear any previous parsings first
 		clearParsedData();
 
+		// Check that there aren't too few lines
+		if (signLines.size() < lines.size()) {
+			// Too few
+			parseErrors.add(new ArgParseError(null, "Move keyword up "
+					+ (lines.size() - signLines.size()) + " line(s)", true));
+		}
+
 		// Iterate over lines
 		for (int currLine = 0; currLine < signLines.size(); currLine++) {
 			// Tokenize sign line, after checking for a null element
@@ -138,12 +145,12 @@ public class ArgParser {
 								true));
 					}
 				}
-			}
 
-			// Check for excess tokens that went unused
-			if (tokens.size() > 0) {
-				parseErrors.add(new ArgParseError(null, llToString(tokens)
-						+ " should be removed.", true));
+				// Check for excess tokens that went unused
+				if (tokens.size() > 0) {
+					parseErrors.add(new ArgParseError(null, llToString(tokens)
+							+ " should be removed.", true));
+				}
 			}
 		}
 	}
