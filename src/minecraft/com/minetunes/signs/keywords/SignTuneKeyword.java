@@ -118,7 +118,7 @@ public abstract class SignTuneKeyword {
 		if (argParser != null) {
 			ArgParseError e = argParser.getParseErrors().peekFirst();
 			if (e != null) {
-				return (e.isFatal())? ERROR : WARNING;
+				return (e.isFatal()) ? ERROR : WARNING;
 			} else {
 				return NO_ERRORS;
 			}
@@ -314,6 +314,9 @@ public abstract class SignTuneKeyword {
 	/**
 	 * Indicates that a keyword can handle its entire effect on a ditty with its
 	 * execute method. If false..afjekjaefkl
+	 * 
+	 * Normally false, because only asshole keywords that hate my beautiful
+	 * keyword model have a special execution.
 	 * 
 	 * @return
 	 */

@@ -28,6 +28,8 @@ import java.io.File;
 import com.minetunes.config.MinetunesConfig;
 import com.minetunes.signs.ParsedSign;
 import com.minetunes.signs.SignParser;
+import com.minetunes.signs.keywords.argparser.ArgParser;
+import com.minetunes.signs.keywords.argparser.SimpleFilenameArg;
 
 /**
  * @author William
@@ -36,9 +38,12 @@ import com.minetunes.signs.SignParser;
 public class BaseMidiKeyword extends SignTuneKeyword {
 
 	protected String midiFile;
+	protected SimpleFilenameArg filenameArg = new SimpleFilenameArg(
+			"File Name", false);
 
 	public BaseMidiKeyword(String wholeKeyword) {
 		super(wholeKeyword);
+		argParser = new ArgParser().addLine().addLine(filenameArg);
 	}
 
 	@Override
@@ -46,43 +51,28 @@ public class BaseMidiKeyword extends SignTuneKeyword {
 			ParsedSign parsedSign, int keywordLine, T k) {
 		super.parseWithMultiline(parsedSign, keywordLine, k);
 
-		String[] signText = parsedSign.getSignText();
+		// String[] signText = parsedSign.getSignText();
+		//
+		// // Read the filename from line 2
+		// String givenFilename = signText[1].trim();
+		// if (SignParser.recognizeKeyword(signText[1]) != null) {
+		// // If a keyword is found beneath the midi sign, notify user
+		// setErrorMessage("Instead of a filename, a keyword was found beneath a Midi keyword.");
+		// setErrorMessageType(ERROR);
+		// // Bad filename: non-alphanumeric characters
+		// } else if (!givenFilename.matches("[\\d\\w]*")
+		// && (!givenFilename.equals(""))) {
+		// setErrorMessage("A MIDI file name should only contains letters and numbers (no spaces)");
+		// setErrorMessageType(ERROR);
+		// // Bad filename: non-alphanumeric characters
+		// } else if (givenFilename.equals("")) {
+		// // Empty filenames are frowned upon
+		// setErrorMessage("No MIDI file is given after a MIDI keyword.");
+		// setErrorMessageType(ERROR);
+		// }
 
-		// Read the filename from line 2
-		// Line 2 contains the filename
-		String givenFilename = signText[1].trim();
-		if (SignParser.recognizeKeyword(signText[1]) != null) {
-			// If a keyword is found beneath the midi sign,
-			// notify user
-			// ditty.addErrorHighlight(currSignPoint, 1);
-			// ditty.addErrorMessage("§cA keyword (§b"
-			// + SignParser.recognizeKeyword(signText[1])
-			// +
-			// "§c) was found on the second line of a midi sign instead of a filename.");
-			setErrorMessage("Instead of a filename, a keyword was found beneath a Midi keyword.");
-			setErrorMessageType(ERROR);
-			// Bad filename: non-alphanumeric characters
-			// simpleLog("Bad filename is keyword: " + givenFilename);
-		} else if (!givenFilename.matches("[\\d\\w]*")
-				&& (!givenFilename.equals(""))) {
-			// ditty.addErrorHighlight(currSignPoint, 1);
-			// ditty.addErrorMessage("§cA midi file name should only contain letters and numbers (no spaces)");
-			setErrorMessage("A MIDI file name should only contains letters and numbers (no spaces)");
-			setErrorMessageType(ERROR);
-			// Bad filename: non-alphanumeric characters
-			// simpleLog("Bad filename: " + givenFilename);
-		} else if (givenFilename.equals("")) {
-			// Empty filenames are frowned upon
-			// ditty.addErrorHighlight(currSignPoint, 0);
-			// ditty.addErrorMessage("§cNo file name was written on the second line of the midi sign");
-			setErrorMessage("No MIDI file is given after a MIDI keyword.");
-			setErrorMessageType(ERROR);
-		}
-
-		// Otherwise, good filename. Note it, and move on.
-		// Will save later, once signs are read.
-		setMidiFile(givenFilename);
-		// simpleLog("Good filename: midi is " + midiSaveFile.getPath());
+		// Save the newly-approved filename
+		setMidiFile(filenameArg.getFilename());
 	}
 
 	@Override
@@ -92,7 +82,7 @@ public class BaseMidiKeyword extends SignTuneKeyword {
 
 	@Override
 	public boolean isFirstLineOnly() {
-		return true;
+		return false;
 	}
 
 	public String getMidiFile() {

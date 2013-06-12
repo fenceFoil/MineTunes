@@ -26,7 +26,8 @@ package com.minetunes.signs.keywords.argparser;
 import java.util.LinkedList;
 
 /**
- * @author William
+ * A single or multi-digit integer number, positive or negative,
+ * possibly ranged.
  * 
  */
 public class IntArg extends Arg {
@@ -36,8 +37,9 @@ public class IntArg extends Arg {
 	private int highBound = 0;
 	private Integer defaultValue = null;
 
-	public IntArg(String name, boolean optional, int lowBound, int highBound, Integer defaultValue) {
-		super (name, optional);
+	public IntArg(String name, boolean optional, int lowBound, int highBound,
+			Integer defaultValue) {
+		super(name, optional);
 		setLowBound(lowBound);
 		setHighBound(highBound);
 		setDefaultValue(defaultValue);
@@ -50,7 +52,7 @@ public class IntArg extends Arg {
 	public IntArg(String name, boolean optional, Integer defaultValue) {
 		this(name, optional, Integer.MIN_VALUE, Integer.MAX_VALUE, defaultValue);
 	}
-	
+
 	public IntArg(String name, boolean optional) {
 		this(name, optional, null);
 	}
@@ -78,11 +80,11 @@ public class IntArg extends Arg {
 			}
 			return 0;
 		}
-		
+
 		setParsed(true);
 
 		// Validate token as integer and in range
-		String regex = "-?\\d+";
+		String regex = "[-\\+]?\\d+";
 		if (!numToken.matches(regex)) {
 			addParseError(new ArgParseError(this, "not a number.", true));
 			return 0;
