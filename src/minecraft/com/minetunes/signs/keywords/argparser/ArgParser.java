@@ -52,7 +52,7 @@ public class ArgParser {
 	public void parse(String signLine) {
 		LinkedList<String> l = new LinkedList<String>();
 		l.add(signLine);
-		parse(l);
+		parse(l, true);
 	}
 
 	/**
@@ -75,7 +75,7 @@ public class ArgParser {
 			}
 		}
 
-		parse(l);
+		parse(l, false);
 	}
 
 	/**
@@ -85,15 +85,19 @@ public class ArgParser {
 	 * @param signLines
 	 *            null okay
 	 */
-	public void parse(LinkedList<String> signLines) {
+	public void parse(LinkedList<String> signLines, boolean firstLineParseOnly) {
 		// Clear any previous parsings first
 		clearParsedData();
 
-		// Check that there aren't too few lines
-		if (signLines.size() < lines.size()) {
-			// Too few
-			parseErrors.add(new ArgParseError(null, "Move keyword up "
-					+ (lines.size() - signLines.size()) + " line(s)", true));
+		if (!firstLineParseOnly) {
+			// Check that there aren't too few lines
+			if (signLines.size() < lines.size()) {
+				// Too few
+				parseErrors
+						.add(new ArgParseError(null, "Move keyword up "
+								+ (lines.size() - signLines.size())
+								+ " line(s)", true));
+			}
 		}
 
 		// Iterate over lines
