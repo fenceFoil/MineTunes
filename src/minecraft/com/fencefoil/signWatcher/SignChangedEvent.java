@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2012 William Karnavas 
+ * Copyright (c) 2013 William Karnavas 
  * All Rights Reserved
  * 
  * This file is part of SignWatcher.

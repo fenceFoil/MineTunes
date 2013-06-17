@@ -39,8 +39,8 @@ public class Packet130UpdateSignHooked extends Packet130UpdateSign {
 			throws IOException {
 		super.readPacketData(par1DataInputStream);
 
-		SignWatcher.onSignReadFromPacket(this.xPosition, this.yPosition, this.zPosition,
-				this.signLines);
+		SignWatcher.onSignReadFromPacket(this.xPosition, this.yPosition,
+				this.zPosition, this.signLines);
 	}
 
 }

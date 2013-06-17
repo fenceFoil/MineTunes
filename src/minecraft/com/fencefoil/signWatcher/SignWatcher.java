@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2012 William Karnavas 
+ * Copyright (c) 2013 William Karnavas 
  * All Rights Reserved
  * 
  * This file is part of SignWatcher.
@@ -67,6 +67,14 @@ import com.fencefoil.signWatcher.interfaces.SignChangedListener;
  * 
  */
 public class SignWatcher {
+	public static int getMinorVersion() {
+		return 0;
+	}
+
+	public static int getMajorVersion() {
+		return 1;
+	}
+
 	private static HashSet<SignChangedListener> signChangedListeners = new HashSet<SignChangedListener>();
 
 	private static HashSet<TileEntitySign> knownSigns = new HashSet<TileEntitySign>();

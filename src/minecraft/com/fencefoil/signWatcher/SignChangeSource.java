@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2012-2013 William Karnavas 
+ * Copyright (c) 2013 William Karnavas 
  * All Rights Reserved
  * 
  * This file is part of SignWatcher.
@@ -44,6 +44,13 @@ public enum SignChangeSource {
 	/**
 	 * A TileEntitySign was loaded from an NBT tag.
 	 */
-	LOADED_FROM_NBT
-
+	LOADED_FROM_NBT,
+	/**
+	 *
+	 */
+	UNKNOWN,
+	/**
+	 * 
+	 */
+	OTHER
 }
