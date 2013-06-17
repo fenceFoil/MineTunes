@@ -18,47 +18,27 @@
  * along with SignWatcher. If not, see <http://www.gnu.org/licenses/>.
  * 
  */
-package com.fencefoil.signWatcher;
+package com.fencefoil.signWatcher.interfaces;
 
-import java.util.EventObject;
+import com.fencefoil.signWatcher.SignChangedEvent;
 
 /**
- * 
+ * An instance of this can be registered with ******** to receive an event
+ * whenever a sign is changed.
  * 
  * @since 0.5
  * 
  */
-public class SignChangedEvent {
-
-	private Sign sign;
-	private SignChangeSource changeSource;
-
-	public Sign getSign() {
-		return sign;
-	}
-
-	public void setSign(Sign sign) {
-		this.sign = sign;
-	}
-
-	public SignChangedEvent(Sign sign, SignChangeSource changeSource) {
-		setSign(sign);
-		setChangeSource(changeSource);
-	}
+public interface SignChangedListener {
 
 	/**
-	 * Any SignChangeSource that applies, not necessarily the most specific. For
-	 * example, if a player finishes a sign in the sign editor, you may get a
-	 * sign changed even that says it's from a 'packet' as opposed to 'sign
-	 * editor closing'.
+	 * Called whenever a sign has been changed. May be called multiple times per
+	 * change, for the same sign.
 	 * 
-	 * @return
+	 * @param event
+	 *            note that the "text" field in the sign event should not be
+	 *            modified, as it may be a reference to a sign text array still
+	 *            being used in MineCraft
 	 */
-	public SignChangeSource getChangeSource() {
-		return changeSource;
-	}
-
-	public void setChangeSource(SignChangeSource changeSource) {
-		this.changeSource = changeSource;
-	}
+	public void signChanged(SignChangedEvent event);
 }

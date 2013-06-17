@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2012 William Karnavas 
+ * Copyright (c) 2012-2013 William Karnavas 
  * All Rights Reserved
  * 
  * This file is part of SignWatcher.
@@ -20,20 +20,30 @@
  */
 package com.fencefoil.signWatcher;
 
-/**
- * An instance of this can be registered with ******** to receive an event
- * whenever a sign is changed.
- * 
- * @since 0.5
- * 
- */
-public interface SignChangedListener {
-
+public enum SignChangeSource {
 	/**
-	 * Called whenever a sign has been changed. May be called multiple times per
-	 * change, for the same sign.
-	 * 
-	 * @param event
+	 * Sign was received from a server packet.
 	 */
-	public void signChanged(SignChangedEvent event);
+	PACKET_CREATED,
+	/**
+	 * The player closed the sign editor gui, and a sign change event was sent
+	 * in response. Note that a packet is sent in this process as well, so a
+	 * PACKET_CREATED may also be sent in this situation, possibly instead of
+	 * this source.
+	 */
+	SIGN_EDITOR_CLOSED,
+	/**
+	 * Sign was noted as missing, removed, or unloaded in a manual check of
+	 * signs in the world.
+	 */
+	MANUAL_CHECK_REMOVED,
+	/**
+	 * Sign was discovered in a manual check of signs in the world.
+	 */
+	MANUAL_CHECK_FOUND,
+	/**
+	 * A TileEntitySign was loaded from an NBT tag
+	 */
+	 LOADED_FROM_NBT
+	
 }

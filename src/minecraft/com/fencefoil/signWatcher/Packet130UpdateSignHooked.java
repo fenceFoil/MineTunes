@@ -39,7 +39,7 @@ public class Packet130UpdateSignHooked extends Packet130UpdateSign {
 			throws IOException {
 		super.readPacketData(par1DataInputStream);
 
-		SignRegistry.onSignReadFromPacket(this.xPosition, this.yPosition, this.zPosition,
+		SignWatcher.onSignReadFromPacket(this.xPosition, this.yPosition, this.zPosition,
 				this.signLines);
 	}
 
