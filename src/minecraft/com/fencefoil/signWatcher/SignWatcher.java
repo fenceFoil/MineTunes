@@ -21,11 +21,14 @@
 package com.fencefoil.signWatcher;
 
 import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
 
-import com.fencefoil.signWatcher.interfaces.SignChangedListener;
-
+import net.minecraft.client.Minecraft;
 import net.minecraft.src.Packet;
+import net.minecraft.src.TileEntitySign;
+
+import com.fencefoil.signWatcher.interfaces.SignChangedListener;
 
 /**
  * The main class of SignWatcher. To use, call init() as your mod loads early in
@@ -36,8 +39,8 @@ import net.minecraft.src.Packet;
  * This library is designed to be Forge-independent, client-side only.<br>
  * <br>
  * As of Minecraft 1.5.2 (June 2013), there are dependable ways to detect sign
- * changes. In <b>Multiplayer</b>, all changes can be detected by watching for
- * 'Packet130UpdateSign'.<br>
+ * changes. In <b>Multiplayer</b>, all changes (except removals) can be detected
+ * by watching for 'Packet130UpdateSign'.<br>
  * <br>
  * In <b>SinglePlayer</b>, however, you must call scanWorldForSignsManually to
  * check the world for added and removed sign tile entities. <br>
@@ -57,11 +60,12 @@ import net.minecraft.src.Packet;
 public class SignWatcher {
 	private static HashSet<SignChangedListener> signChangedListeners = new HashSet<SignChangedListener>();
 
+	private static HashSet<TileEntitySign> knownSigns = new HashSet<TileEntitySign>();
+
 	/**
-	 * This must be called as the game loads. It sets up the Sign Registry in
-	 * general and replaces things in MineCraft with new versions containing
-	 * hooks. It is okay to call this multiple times, or in multiple mods' load
-	 * methods.
+	 * This must be called as the game loads. It sets up SignWatcher in general
+	 * and replaces things in MineCraft with new versions containing hooks. It
+	 * is okay to call this multiple times, or in multiple mods' load methods.
 	 */
 	public static void init() {
 		// Set up modified sign update packet
@@ -98,8 +102,44 @@ public class SignWatcher {
 		}
 	}
 
+	/**
+	 * 
+	 */
 	public static void scanWorldForSignsManually() {
+		// Get a list of all loaded Sign Tile Entities in the world
+		List tileEntitiesRaw = Minecraft.getMinecraft().theWorld.loadedTileEntityList;
+		HashSet<TileEntitySign> tileEntitySigns = new HashSet<TileEntitySign>();
+		for (int i = 0; i < tileEntitiesRaw.size(); i++) {
+			Object o = tileEntitiesRaw.get(i);
+			if (o instanceof TileEntitySign) {
+				tileEntitySigns.add((TileEntitySign) o);
+			}
+		}
 
+		HashSet<TileEntitySign> newSigns, removedSigns;
+
+		// Search for new signs
+		newSigns = (HashSet<TileEntitySign>) tileEntitySigns.clone();
+		newSigns.removeAll(knownSigns);
+
+		// Search for removed signs
+		removedSigns = (HashSet<TileEntitySign>) knownSigns.clone();
+		removedSigns.removeAll(tileEntitySigns);
+
+		// React to findings
+		for (TileEntitySign t : newSigns) {
+			fireSignChangedEvent(new SignChangedEvent(new Sign(t.signText,
+					t.xCoord, t.yCoord, t.zCoord),
+					SignChangeSource.MANUAL_CHECK_FOUND));
+		}
+		for (TileEntitySign t : removedSigns) {
+			fireSignChangedEvent(new SignChangedEvent(new Sign(t.signText,
+					t.xCoord, t.yCoord, t.zCoord),
+					SignChangeSource.MANUAL_CHECK_REMOVED));
+		}
+
+		// Update knownSigns
+		knownSigns = tileEntitySigns;
 	}
 
 	public static void addSignChangedListener(SignChangedListener l) {
@@ -115,7 +155,7 @@ public class SignWatcher {
 		System.out.println("Sign Watcher: Sign Read From Packet: " + xPosition
 				+ "," + yPosition + "," + zPosition + "," + signLines[0] + ","
 				+ signLines[1] + "," + signLines[2] + "," + signLines[3]);
-	
+
 		fireSignChangedEvent(new SignChangedEvent(new Sign(signLines,
 				xPosition, yPosition, zPosition),
 				SignChangeSource.LOADED_FROM_NBT));
