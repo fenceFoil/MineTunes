@@ -20,8 +20,6 @@
  */
 package com.fencefoil.signWatcher;
 
-import java.util.EventObject;
-
 /**
  * 
  * 
@@ -46,6 +44,13 @@ public class SignChangedEvent {
 		setChangeSource(changeSource);
 	}
 
+//	@Override
+//	public String toString() {
+//		return "SignChangedEvent:Sign:"
+//				+ ((sign == null) ? "null" : sign.toString() + "Source:"
+//						+ ((changeSource == null) ? "null" : changeSource));
+//	}
+
 	/**
 	 * Any SignChangeSource that applies, not necessarily the most specific. For
 	 * example, if a player finishes a sign in the sign editor, you may get a
@@ -60,5 +65,11 @@ public class SignChangedEvent {
 
 	public void setChangeSource(SignChangeSource changeSource) {
 		this.changeSource = changeSource;
+	}
+
+	@Override
+	public String toString() {
+		return "SignChangedEvent [sign=" + sign + ", changeSource="
+				+ changeSource + "]";
 	}
 }

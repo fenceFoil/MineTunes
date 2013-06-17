@@ -42,8 +42,8 @@ public enum SignChangeSource {
 	 */
 	MANUAL_CHECK_FOUND,
 	/**
-	 * A TileEntitySign was loaded from an NBT tag
+	 * A TileEntitySign was loaded from an NBT tag.
 	 */
-	 LOADED_FROM_NBT
-	
+	LOADED_FROM_NBT
+
 }

@@ -20,6 +20,8 @@
  */
 package com.fencefoil.signWatcher;
 
+import java.util.Arrays;
+
 /**
  * A sign's basic attributes. Not as complete as a SignTileEntity, and used when
  * we only know some aspects of a sign's data.
@@ -70,5 +72,11 @@ public class Sign {
 
 	public void setZ(int z) {
 		this.z = z;
+	}
+
+	@Override
+	public String toString() {
+		return "Sign [text=" + Arrays.toString(text) + ", x=" + x + ", y=" + y
+				+ ", z=" + z + "]";
 	}
 }
