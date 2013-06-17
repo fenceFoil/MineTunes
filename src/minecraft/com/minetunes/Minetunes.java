@@ -164,7 +164,7 @@ import com.sun.media.sound.SoftSynthesizer;
  * TODO: Move many ditty-playing related methods from BlockSignMinetunes to
  * MineTunes
  */
-public class Minetunes implements SignChangedListener {
+public class Minetunes {
 
 	static {
 		// Register tweens
@@ -436,7 +436,14 @@ public class Minetunes implements SignChangedListener {
 		}
 
 		// Set up SignRegistry
-		SignWatcher.init();
+		SignWatcher.init(true);
+		SignWatcher.addSignChangedListener(new SignChangedListener() {
+
+			@Override
+			public void signChanged(SignChangedEvent event) {
+				Minetunes.signChanged(event);
+			}
+		});
 
 		// Add a TileEntity mapping for TileEntityNoteMineTunes,
 		// TileEntitySignMinetunes
@@ -695,6 +702,13 @@ public class Minetunes implements SignChangedListener {
 	 * @return
 	 */
 	public static boolean onTick(float partialTick, Minecraft minecraft) {
+		// Update SignWatcher
+		// Note: due to all the old, pre-signwatcher code still in place, it is
+		// unnecessary for MineTunes to run the manual sign scan. Could change
+		// some happy day, though! For now, we only need SignWatcher's hooked
+		// packet.
+		// SignWatcher.scanWorldForSignsManually();
+
 		// Do in any tick, not just in game (see below section)
 		addButtonsToGuis();
 		swapSignGui();
@@ -2713,8 +2727,7 @@ public class Minetunes implements SignChangedListener {
 		}
 	}
 
-	@Override
-	public void signChanged(SignChangedEvent event) {
+	public static void signChanged(SignChangedEvent event) {
 		onSignLoaded(event.getSign().getX(), event.getSign().getY(), event
 				.getSign().getZ(), event.getSign().getText());
 	}
