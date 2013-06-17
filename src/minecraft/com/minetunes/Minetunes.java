@@ -29,7 +29,6 @@ import java.io.BufferedWriter;
 import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -94,7 +93,9 @@ import org.xml.sax.SAXException;
 
 import aurelienribon.tweenengine.Tween;
 
-import com.fencefoil.signWatcher.Packet130UpdateSignHooked;
+import com.fencefoil.signWatcher.SignChangedEvent;
+import com.fencefoil.signWatcher.SignWatcher;
+import com.fencefoil.signWatcher.interfaces.SignChangedListener;
 import com.minetunes.autoUpdate.CompareVersion;
 import com.minetunes.autoUpdate.ModUpdater;
 import com.minetunes.autoUpdate.TutorialWorldUpdater;
@@ -163,7 +164,7 @@ import com.sun.media.sound.SoftSynthesizer;
  * TODO: Move many ditty-playing related methods from BlockSignMinetunes to
  * MineTunes
  */
-public class Minetunes {
+public class Minetunes implements SignChangedListener {
 
 	static {
 		// Register tweens
@@ -419,16 +420,12 @@ public class Minetunes {
 				Map packetClassToIdMap = (Map) packetClassToIdMapObj;
 				packetClassToIdMap.put(Packet62LevelSoundMinetunes.class,
 						Integer.valueOf(62));
-				packetClassToIdMap.put(Packet130UpdateSignHooked.class,
-						Integer.valueOf(130));
 
 				// Also put into the other map of packets
 				// Only do this if the first map was found and added to
 				// successfully
 				Packet.packetIdToClassMap.addKey(62,
 						Packet62LevelSoundMinetunes.class);
-				Packet.packetIdToClassMap.addKey(130,
-						Packet130UpdateSignHooked.class);
 			}
 		} catch (IllegalArgumentException e) {
 			// TODO Auto-generated catch block
@@ -437,6 +434,9 @@ public class Minetunes {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+
+		// Set up SignRegistry
+		SignWatcher.init();
 
 		// Add a TileEntity mapping for TileEntityNoteMineTunes,
 		// TileEntitySignMinetunes
@@ -1928,7 +1928,7 @@ public class Minetunes {
 				// now)
 				final SoftSynthesizer ss = synthPool.getOpenedSynth();
 				for (MidiChannel mc : ss.getChannels()) {
-					 //mc.controlChange(0, 0xffff);
+					// mc.controlChange(0, 0xffff);
 				}
 				if (MinetunesConfig.customSF2.isSF2Loaded()) {
 					ss.loadAllInstruments(MinetunesConfig.customSF2
@@ -2711,5 +2711,11 @@ public class Minetunes {
 		} else {
 			return new File(MinetunesConfig.getMidiDir(), name + ".mid");
 		}
+	}
+
+	@Override
+	public void signChanged(SignChangedEvent event) {
+		onSignLoaded(event.getSign().getX(), event.getSign().getY(), event
+				.getSign().getZ(), event.getSign().getText());
 	}
 }
