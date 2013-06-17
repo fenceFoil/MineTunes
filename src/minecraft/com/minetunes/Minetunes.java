@@ -94,6 +94,7 @@ import org.xml.sax.SAXException;
 
 import aurelienribon.tweenengine.Tween;
 
+import com.fencefoil.signWatcher.Packet130UpdateSignHooked;
 import com.minetunes.autoUpdate.CompareVersion;
 import com.minetunes.autoUpdate.ModUpdater;
 import com.minetunes.autoUpdate.TutorialWorldUpdater;
@@ -145,7 +146,6 @@ import com.minetunes.particle.ParticleRequest;
 import com.minetunes.resources.UpdateResourcesThread;
 import com.minetunes.sfx.SFXManager;
 import com.minetunes.signs.Comment;
-import com.minetunes.signs.Packet130UpdateSignMinetunes;
 import com.minetunes.signs.SignLine;
 import com.minetunes.signs.SignParser;
 import com.minetunes.signs.SignTuneParser;
@@ -419,7 +419,7 @@ public class Minetunes {
 				Map packetClassToIdMap = (Map) packetClassToIdMapObj;
 				packetClassToIdMap.put(Packet62LevelSoundMinetunes.class,
 						Integer.valueOf(62));
-				packetClassToIdMap.put(Packet130UpdateSignMinetunes.class,
+				packetClassToIdMap.put(Packet130UpdateSignHooked.class,
 						Integer.valueOf(130));
 
 				// Also put into the other map of packets
@@ -428,7 +428,7 @@ public class Minetunes {
 				Packet.packetIdToClassMap.addKey(62,
 						Packet62LevelSoundMinetunes.class);
 				Packet.packetIdToClassMap.addKey(130,
-						Packet130UpdateSignMinetunes.class);
+						Packet130UpdateSignHooked.class);
 			}
 		} catch (IllegalArgumentException e) {
 			// TODO Auto-generated catch block
