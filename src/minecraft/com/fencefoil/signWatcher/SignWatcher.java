@@ -25,6 +25,7 @@ import java.util.List;
 import java.util.Map;
 
 import net.minecraft.client.Minecraft;
+import net.minecraft.src.GuiEditSign;
 import net.minecraft.src.Packet;
 import net.minecraft.src.TileEntitySign;
 
@@ -40,10 +41,11 @@ import com.fencefoil.signWatcher.interfaces.SignChangedListener;
  * <br>
  * As of Minecraft 1.5.2 (June 2013), there are dependable ways to detect sign
  * changes. In <b>Multiplayer</b>, all changes (except removals) can be detected
- * by watching for 'Packet130UpdateSign'.<br>
- * <br>
- * In <b>SinglePlayer</b>, however, you must call scanWorldForSignsManually to
- * check the world for added and removed sign tile entities. <br>
+ * by watching for 'Packet130UpdateSign'. In singleplayer, the packet-hook
+ * events do not occur at all. In <b>SinglePlayer</b>, you must call
+ * scanWorldForSignsManually to check the world for added and removed sign tile
+ * entities. This method works in multiplayer too, and (over the packet hook)
+ * tells you when signs are unloaded. <br>
  * <br>
  * Alternatively, if you modify TileEntitySign in your mod, there is an
  * alternative and more effiecent route. (This is NOT RECOMMENDED for many
@@ -52,7 +54,14 @@ import com.fencefoil.signWatcher.interfaces.SignChangedListener;
  * extend onLoadFromNBT (or similar) in TileEntitySign to call super(..) and
  * then "onSignReadFromNBT" in this class. If you do that, and manually check
  * for the sign editor closing and note a change to that sign as well, you do
- * not need to call scanWorldForSignsManually.
+ * not need to call scanWorldForSignsManually.<br>
+ * <br>
+ * In summary, this library (if the manual method is used) will inform you of:<br>
+ * Newly loaded signs (manual, packethook)<br>
+ * Unloading signs (manual)<br>
+ * Signs that the player has finished editing(manual, packethook)<br>
+ * Signs that other players have finished editing (packethook)<br>
+ * And possibly more.<br>
  * 
  * @since 0.5
  * 
@@ -66,46 +75,68 @@ public class SignWatcher {
 	 * This must be called as the game loads. It sets up SignWatcher in general
 	 * and replaces things in MineCraft with new versions containing hooks. It
 	 * is okay to call this multiple times, or in multiple mods' load methods.
+	 * 
+	 * @since 0.5
 	 */
-	public static void init() {
-		// Set up modified sign update packet
-		// Put it into Packet's directories of packet types, replacing the
-		// normal packet
+	public static void init(boolean setUpHookedPacket) {
+		if (setUpHookedPacket) {
+			// Set up modified sign update packet
+			// Put it into Packet's directories of packet types, replacing the
+			// normal packet
 
-		// In an ideal world, we would use one line like this, but can't due to
-		// visibility and a check to prevent overriding existing packets... like
-		// we're doing
-		// Packet.packetClassToIdMap.put(Packet62LevelSoundMineTunes.class,
-		// Integer.valueOf(62));
+			// In an ideal world, we would use one line like this, but can't due
+			// to
+			// visibility and a check to prevent overriding existing packets...
+			// like
+			// we're doing
+			// Packet.packetClassToIdMap.put(Packet62LevelSoundMineTunes.class,
+			// Integer.valueOf(62));
 
-		// Instead, we use reflection to prod the relevant fields manually
-		try {
-			Object packetClassToIdMapObj = Finder.getUniqueTypedFieldFromClass(
-					Packet.class, Map.class, null);
-			if (packetClassToIdMapObj != null) {
-				Map packetClassToIdMap = (Map) packetClassToIdMapObj;
-				packetClassToIdMap.put(Packet130UpdateSignHooked.class,
-						Integer.valueOf(130));
+			// Instead, we use reflection to prod the relevant fields manually
+			try {
+				Object packetClassToIdMapObj = Finder
+						.getUniqueTypedFieldFromClass(Packet.class, Map.class,
+								null);
+				if (packetClassToIdMapObj != null) {
+					Map packetClassToIdMap = (Map) packetClassToIdMapObj;
+					packetClassToIdMap.put(Packet130UpdateSignHooked.class,
+							Integer.valueOf(130));
 
-				// Also put into the other map of packets
-				// Only do this if the first map was found and added to
-				// successfully
-				Packet.packetIdToClassMap.addKey(130,
-						Packet130UpdateSignHooked.class);
+					// Also put into the other map of packets
+					// Only do this if the first map was found and added to
+					// successfully
+					Packet.packetIdToClassMap.addKey(130,
+							Packet130UpdateSignHooked.class);
+				}
+			} catch (IllegalArgumentException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (IllegalAccessException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
 			}
-		} catch (IllegalArgumentException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (IllegalAccessException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
 		}
 	}
 
+	private static boolean signGuiOpenBefore = false;
+	private static TileEntitySign signBeingEdited = null;
+
 	/**
+	 * This method will prompt change events for everything except <i>other
+	 * players</i> editing their newly-placed signs. This is covered by the sign
+	 * packet events, which require a call to init(true) as your mod loads and
+	 * nothing else.
 	 * 
+	 * @since 0.5
 	 */
 	public static void scanWorldForSignsManually() {
+		// Fail safely if anything in Minecraft is still null
+		if (Minecraft.getMinecraft() == null
+				|| Minecraft.getMinecraft().theWorld == null
+				|| Minecraft.getMinecraft().theWorld.loadedTileEntityList == null) {
+			return;
+		}
+
 		// Get a list of all loaded Sign Tile Entities in the world
 		List tileEntitiesRaw = Minecraft.getMinecraft().theWorld.loadedTileEntityList;
 		HashSet<TileEntitySign> tileEntitySigns = new HashSet<TileEntitySign>();
@@ -140,16 +171,60 @@ public class SignWatcher {
 
 		// Update knownSigns
 		knownSigns = tileEntitySigns;
+
+		// Next, check for the sign gui closing
+		boolean signGuiOpenRightNow = (Minecraft.getMinecraft().currentScreen instanceof GuiEditSign);
+		if (signGuiOpenBefore && signGuiOpenRightNow == false) {
+			// Throw a sign changed event for the sign being edited
+			if (signBeingEdited != null) {
+				fireSignChangedEvent(new SignChangedEvent(new Sign(
+						signBeingEdited.signText, signBeingEdited.xCoord,
+						signBeingEdited.yCoord, signBeingEdited.zCoord),
+						SignChangeSource.SIGN_EDITOR_CLOSED));
+			}
+		}
+
+		// Update sign gui open flat
+		if (signGuiOpenRightNow) {
+			GuiEditSign editor = (GuiEditSign) Minecraft.getMinecraft().currentScreen;
+			TileEntitySign signEntity = null;
+			try {
+				signEntity = (TileEntitySign) Finder
+						.getUniqueTypedFieldFromClass(GuiEditSign.class,
+								TileEntitySign.class, editor);
+			} catch (IllegalArgumentException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (IllegalAccessException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			if (signEntity != null) {
+				signBeingEdited = signEntity;
+			}
+		}
+		signGuiOpenBefore = signGuiOpenRightNow;
 	}
 
+	/**
+	 * @since 0.5
+	 * @param l
+	 */
 	public static void addSignChangedListener(SignChangedListener l) {
 		signChangedListeners.add(l);
 	}
 
+	/**
+	 * @since 0.5
+	 * @param l
+	 */
 	public static void removeSignChangedListener(SignChangedListener l) {
 		signChangedListeners.remove(l);
 	}
 
+	/**
+	 * @since 0.5
+	 */
 	public static void onSignReadFromNBT(int xPosition, int yPosition,
 			int zPosition, String[] signLines) {
 		System.out.println("Sign Watcher: Sign Read From Packet: " + xPosition
@@ -186,6 +261,7 @@ public class SignWatcher {
 	 * @param e
 	 */
 	private static void fireSignChangedEvent(SignChangedEvent e) {
+		System.out.println(e);
 		for (SignChangedListener l : signChangedListeners) {
 			l.signChanged(e);
 		}
