@@ -29,7 +29,6 @@ import java.io.BufferedWriter;
 import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -94,6 +93,9 @@ import org.xml.sax.SAXException;
 
 import aurelienribon.tweenengine.Tween;
 
+import com.fencefoil.signWatcher.SignChangedEvent;
+import com.fencefoil.signWatcher.SignWatcher;
+import com.fencefoil.signWatcher.interfaces.SignChangedListener;
 import com.minetunes.autoUpdate.CompareVersion;
 import com.minetunes.autoUpdate.ModUpdater;
 import com.minetunes.autoUpdate.TutorialWorldUpdater;
@@ -145,7 +147,6 @@ import com.minetunes.particle.ParticleRequest;
 import com.minetunes.resources.UpdateResourcesThread;
 import com.minetunes.sfx.SFXManager;
 import com.minetunes.signs.Comment;
-import com.minetunes.signs.Packet130UpdateSignMinetunes;
 import com.minetunes.signs.SignLine;
 import com.minetunes.signs.SignParser;
 import com.minetunes.signs.SignTuneParser;
@@ -419,16 +420,12 @@ public class Minetunes {
 				Map packetClassToIdMap = (Map) packetClassToIdMapObj;
 				packetClassToIdMap.put(Packet62LevelSoundMinetunes.class,
 						Integer.valueOf(62));
-				packetClassToIdMap.put(Packet130UpdateSignMinetunes.class,
-						Integer.valueOf(130));
 
 				// Also put into the other map of packets
 				// Only do this if the first map was found and added to
 				// successfully
 				Packet.packetIdToClassMap.addKey(62,
 						Packet62LevelSoundMinetunes.class);
-				Packet.packetIdToClassMap.addKey(130,
-						Packet130UpdateSignMinetunes.class);
 			}
 		} catch (IllegalArgumentException e) {
 			// TODO Auto-generated catch block
@@ -437,6 +434,16 @@ public class Minetunes {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+
+		// Set up SignRegistry
+		SignWatcher.init(true);
+		SignWatcher.addSignChangedListener(new SignChangedListener() {
+
+			@Override
+			public void signChanged(SignChangedEvent event) {
+				Minetunes.signChanged(event);
+			}
+		});
 
 		// Add a TileEntity mapping for TileEntityNoteMineTunes,
 		// TileEntitySignMinetunes
@@ -695,6 +702,13 @@ public class Minetunes {
 	 * @return
 	 */
 	public static boolean onTick(float partialTick, Minecraft minecraft) {
+		// Update SignWatcher
+		// Note: due to all the old, pre-signwatcher code still in place, it is
+		// unnecessary for MineTunes to run the manual sign scan. Could change
+		// some happy day, though! For now, we only need SignWatcher's hooked
+		// packet.
+		// SignWatcher.scanWorldForSignsManually();
+
 		// Do in any tick, not just in game (see below section)
 		addButtonsToGuis();
 		swapSignGui();
@@ -1928,7 +1942,7 @@ public class Minetunes {
 				// now)
 				final SoftSynthesizer ss = synthPool.getOpenedSynth();
 				for (MidiChannel mc : ss.getChannels()) {
-					 //mc.controlChange(0, 0xffff);
+					// mc.controlChange(0, 0xffff);
 				}
 				if (MinetunesConfig.customSF2.isSF2Loaded()) {
 					ss.loadAllInstruments(MinetunesConfig.customSF2
@@ -2711,5 +2725,10 @@ public class Minetunes {
 		} else {
 			return new File(MinetunesConfig.getMidiDir(), name + ".mid");
 		}
+	}
+
+	public static void signChanged(SignChangedEvent event) {
+		onSignLoaded(event.getSign().getX(), event.getSign().getY(), event
+				.getSign().getZ(), event.getSign().getText());
 	}
 }
