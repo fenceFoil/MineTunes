@@ -79,6 +79,8 @@ public class SignWatcher {
 
 	private static HashSet<TileEntitySign> knownSigns = new HashSet<TileEntitySign>();
 
+	private static boolean debugMessages = false;
+
 	/**
 	 * This must be called as the game loads. It sets up SignWatcher in general
 	 * and replaces things in MineCraft with new versions containing hooks. It
@@ -235,9 +237,6 @@ public class SignWatcher {
 	 */
 	public static void onSignReadFromNBT(int xPosition, int yPosition,
 			int zPosition, String[] signLines) {
-		System.out.println("Sign Watcher: Sign Read From Packet: " + xPosition
-				+ "," + yPosition + "," + zPosition + "," + signLines[0] + ","
-				+ signLines[1] + "," + signLines[2] + "," + signLines[3]);
 
 		fireSignChangedEvent(new SignChangedEvent(new Sign(signLines,
 				xPosition, yPosition, zPosition),
@@ -254,9 +253,6 @@ public class SignWatcher {
 	 */
 	protected static void onSignReadFromPacket(int xPosition, int yPosition,
 			int zPosition, String[] signLines) {
-		System.out.println("Sign Watcher: Sign Read From Packet: " + xPosition
-				+ "," + yPosition + "," + zPosition + "," + signLines[0] + ","
-				+ signLines[1] + "," + signLines[2] + "," + signLines[3]);
 
 		fireSignChangedEvent(new SignChangedEvent(new Sign(signLines,
 				xPosition, yPosition, zPosition),
@@ -269,9 +265,19 @@ public class SignWatcher {
 	 * @param e
 	 */
 	private static void fireSignChangedEvent(SignChangedEvent e) {
-		System.out.println(e);
+		if (debugMessages) {
+			System.out.println(e);
+		}
 		for (SignChangedListener l : signChangedListeners) {
 			l.signChanged(e);
 		}
+	}
+
+	public static boolean getDebugMessages() {
+		return debugMessages;
+	}
+
+	public static void setDebugMessages(boolean debugMessages) {
+		SignWatcher.debugMessages = debugMessages;
 	}
 }
