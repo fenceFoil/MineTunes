@@ -27,6 +27,7 @@ import net.minecraft.src.Entity;
 import net.minecraft.src.FontRenderer;
 import net.minecraft.src.MathHelper;
 import net.minecraft.src.Render;
+import net.minecraft.src.ResourceLocation;
 import net.minecraft.src.Tessellator;
 
 import org.lwjgl.opengl.GL11;
@@ -112,6 +113,13 @@ public class RenderNoteBlockTooltip extends Render {
 
 	public static float getRedForNote(double xVel) {
 		return MathHelper.sin(((float) xVel + 0.0F) * (float) Math.PI * 2.0F) * 0.65F + 0.35F;
+	}
+
+	@Override
+	protected ResourceLocation func_110775_a(Entity var1) {
+		// TODO Auto-generated method stub
+		// MC161: Is a  null func_110775_a a problem?
+		return null;
 	}
 
 }
