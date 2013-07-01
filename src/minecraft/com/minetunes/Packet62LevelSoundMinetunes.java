@@ -24,20 +24,20 @@
  */
 package com.minetunes;
 
-import java.io.DataInputStream;
-import java.io.File;
+import java.io.DataInput;
 import java.io.IOException;
+
+import net.minecraft.src.Packet62LevelSound;
 
 import com.minetunes.config.MinetunesConfig;
 import com.minetunes.noteblocks.BlockNoteMinetunes;
-
-import net.minecraft.src.Packet62LevelSound;
 
 public class Packet62LevelSoundMinetunes extends Packet62LevelSound {
 	/**
 	 * Abstract. Reads the raw packet data from the data stream.
 	 */
-	public void readPacketData(DataInputStream par1DataInputStream)
+	@Override
+	public void readPacketData(DataInput par1DataInputStream)
 			throws IOException {
 		super.readPacketData(par1DataInputStream);
 

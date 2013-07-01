@@ -23,7 +23,7 @@
  */
 package com.fencefoil.signWatcher;
 
-import java.io.DataInputStream;
+import java.io.DataInput;
 import java.io.IOException;
 
 import net.minecraft.src.Packet130UpdateSign;
@@ -35,7 +35,7 @@ import net.minecraft.src.Packet130UpdateSign;
 public class Packet130UpdateSignHooked extends Packet130UpdateSign {
 
 	@Override
-	public void readPacketData(DataInputStream par1DataInputStream)
+	public void readPacketData(DataInput par1DataInputStream)
 			throws IOException {
 		super.readPacketData(par1DataInputStream);
 

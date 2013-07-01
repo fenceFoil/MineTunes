@@ -87,7 +87,8 @@ public class BookWrapper implements BookSource {
 		if (MinetunesConfig.MC_CURRENT_VERSION.equalsIgnoreCase("1.4.6")) {
 			// All is right
 			usePageLengthValidatorVersion = 1;
-		} else if (MinetunesConfig.MC_CURRENT_VERSION.startsWith("1.5")) {
+		} else if (MinetunesConfig.MC_CURRENT_VERSION.startsWith("1.5")
+				|| MinetunesConfig.MC_CURRENT_VERSION.startsWith("1.6")) {
 			usePageLengthValidatorVersion = 2;
 		} else {
 			// Have not yet updated the page length validator
