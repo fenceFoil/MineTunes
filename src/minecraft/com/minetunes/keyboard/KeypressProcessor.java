@@ -34,6 +34,7 @@ import java.util.LinkedList;
 import net.minecraft.src.Block;
 import net.minecraft.src.EnumOS;
 import net.minecraft.src.Minecraft;
+import net.minecraft.src.Util;
 
 import org.lwjgl.input.Keyboard;
 
@@ -114,7 +115,7 @@ public class KeypressProcessor {
 							break;
 						} else {
 							// Not pressed
-							if (Minecraft.getOs() == EnumOS.MACOS) {
+							if (Util.func_110647_a() == EnumOS.MACOS) {
 								// If checking for a ctrl key, automatically
 								// check
 								// for the mac meta key as well

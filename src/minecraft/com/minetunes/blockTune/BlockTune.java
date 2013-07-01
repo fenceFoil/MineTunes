@@ -46,6 +46,9 @@ import net.minecraft.src.WorldClient;
 
 import org.jfugue.elements.Note;
 
+import aurelienribon.tweenengine.Tween;
+import aurelienribon.tweenengine.equations.Sine;
+
 import com.minetunes.Minetunes;
 import com.minetunes.Point3D;
 import com.minetunes.resources.ResourceManager;

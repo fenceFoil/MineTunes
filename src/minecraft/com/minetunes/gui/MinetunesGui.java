@@ -35,10 +35,16 @@ import net.minecraft.src.GuiButton;
 import net.minecraft.src.GuiScreen;
 import net.minecraft.src.Minecraft;
 import net.minecraft.src.Timer;
+import net.minecraft.src.Util;
 
 import org.lwjgl.Sys;
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.opengl.GL11;
+
+import aurelienribon.tweenengine.Tween;
+import aurelienribon.tweenengine.TweenManager;
+import aurelienribon.tweenengine.equations.Linear;
+import aurelienribon.tweenengine.equations.Quart;
 
 import com.minetunes.Finder;
 import com.minetunes.FontRendererUtils;
@@ -177,11 +183,11 @@ public class MinetunesGui extends GuiScreen {
 			mc.displayGuiScreen(new OldSettingsGui());
 		} else if (typedKeys.toLowerCase().endsWith("blockarina")) {
 			mc.displayGuiScreen(new GuiBlockarinaTest(this));
-		} else if (typedKeys.toLowerCase().endsWith("cga")) {
-			mc.fontRenderer = new FontRenderer(mc.gameSettings,
-					"/com/minetunes/resources/textures/CGAFont.png",
-					mc.renderEngine, false);
-			FontRendererUtils.changeCharWidth(8, mc.fontRenderer);
+//		} else if (typedKeys.toLowerCase().endsWith("cga")) {
+//			mc.fontRenderer = new FontRenderer(mc.gameSettings,
+//					"/com/minetunes/resources/textures/CGAFont.png",
+//					mc.renderEngine, false);
+//			FontRendererUtils.changeCharWidth(8, mc.fontRenderer);
 		} else if (typedKeys.toLowerCase().endsWith("soundtest")) {
 			mc.displayGuiScreen(new SoundTestGui(this));
 		}
@@ -244,7 +250,7 @@ public class MinetunesGui extends GuiScreen {
 		MinetunesConfig.getMidiDir().mkdirs();
 
 		// (Code from GuiTexturePacks)
-		if (Minecraft.getOs() == EnumOS.MACOS) {
+		if (Util.func_110647_a() == EnumOS.MACOS) {
 			try {
 				System.out.println(fileLocation);
 				Runtime.getRuntime().exec(
@@ -253,7 +259,7 @@ public class MinetunesGui extends GuiScreen {
 			} catch (IOException var7) {
 				var7.printStackTrace();
 			}
-		} else if (Minecraft.getOs() == EnumOS.WINDOWS) {
+		} else if (Util.func_110647_a() == EnumOS.WINDOWS) {
 			String var2 = String.format(
 					"cmd.exe /C start \"Open file\" \"%s\"",
 					new Object[] { fileLocation });

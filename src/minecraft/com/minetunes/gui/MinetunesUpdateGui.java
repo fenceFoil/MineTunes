@@ -149,7 +149,7 @@ public class MinetunesUpdateGui extends GuiScreen implements
 			mc.displayGuiScreen(null);
 
 			boolean isInstalledFromModsFolder = false;
-			File modsFolder2 = new File(Minecraft.getMinecraftDir(), "mods");
+			File modsFolder2 = new File(Minecraft.getMinecraft().mcDataDir, "mods");
 			File[] modsInFolder = modsFolder2.listFiles();
 			if (modsFolder2 != null && modsInFolder != null) {
 				for (File f : modsInFolder) {

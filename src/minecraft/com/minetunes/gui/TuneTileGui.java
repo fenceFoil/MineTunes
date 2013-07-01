@@ -32,6 +32,8 @@ import net.minecraft.src.Minecraft;
 
 import org.lwjgl.opengl.GL11;
 
+import aurelienribon.tweenengine.Tween;
+
 /**
  * @author William
  * 

@@ -24,6 +24,7 @@
 package com.minetunes.gui;
 
 import net.minecraft.src.GuiButton;
+import aurelienribon.tweenengine.TweenAccessor;
 
 /**
  * @author William

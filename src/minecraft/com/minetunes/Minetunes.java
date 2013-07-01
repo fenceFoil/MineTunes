@@ -91,6 +91,8 @@ import org.lwjgl.input.Keyboard;
 import org.lwjgl.input.Mouse;
 import org.xml.sax.SAXException;
 
+import aurelienribon.tweenengine.Tween;
+
 import com.fencefoil.signWatcher.SignChangedEvent;
 import com.fencefoil.signWatcher.SignWatcher;
 import com.fencefoil.signWatcher.interfaces.SignChangedListener;
@@ -2390,7 +2392,8 @@ public class Minetunes {
 					String soundName = prefix + f.getName();
 					// System.out.println
 					// ("Registering sound effect: "+soundName);
-					Minecraft.getMinecraft().sndManager.addSound(soundName, f);
+					// MC161 Sound problems?
+					Minecraft.getMinecraft().sndManager.addSound(soundName);
 				} else if (f.isDirectory()) {
 					registerSoundResources(f, f.getName() + "/");
 				}

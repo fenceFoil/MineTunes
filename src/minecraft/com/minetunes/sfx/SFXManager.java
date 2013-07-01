@@ -174,7 +174,7 @@ public class SFXManager {
 
 		// Base filename, complete up to the newsound dir.
 		StringBuilder filename = new StringBuilder()
-				.append(Minecraft.getMinecraft().getMinecraftDir())
+				.append(Minecraft.getMinecraft().mcDataDir)
 				.append(File.separator).append("resources")
 				.append(File.separator)
 				.append(sources.get(source).resourceFolder)

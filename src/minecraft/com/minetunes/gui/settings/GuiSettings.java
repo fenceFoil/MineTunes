@@ -31,6 +31,10 @@ import java.util.LinkedList;
 import net.minecraft.src.GuiButton;
 import net.minecraft.src.GuiScreen;
 import net.minecraft.src.Timer;
+import aurelienribon.tweenengine.Tween;
+import aurelienribon.tweenengine.TweenManager;
+import aurelienribon.tweenengine.equations.Linear;
+import aurelienribon.tweenengine.equations.Quart;
 
 import com.minetunes.Finder;
 import com.minetunes.gui.GuiButtonRect;

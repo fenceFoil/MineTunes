@@ -23,6 +23,8 @@
  */
 package com.minetunes.blockTune;
 
+import aurelienribon.tweenengine.TweenAccessor;
+
 
 /**
  * @author William

@@ -25,6 +25,7 @@ package com.minetunes;
 
 import net.minecraft.src.Entity;
 import net.minecraft.src.Render;
+import net.minecraft.src.ResourceLocation;
 
 public class RenderHook extends Render {
 
@@ -44,6 +45,12 @@ public class RenderHook extends Render {
 	public void doRenderShadowAndFire(Entity par1Entity, double par2,
 			double par4, double par6, float par8, float par9) {
 		// Do nothing
+	}
+
+	@Override
+	protected ResourceLocation func_110775_a(Entity var1) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

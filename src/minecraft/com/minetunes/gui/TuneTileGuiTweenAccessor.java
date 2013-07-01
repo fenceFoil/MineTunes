@@ -23,6 +23,8 @@
  */
 package com.minetunes.gui;
 
+import aurelienribon.tweenengine.TweenAccessor;
+
 
 /**
  * @author William

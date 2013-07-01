@@ -34,6 +34,7 @@ import javax.imageio.ImageIO;
 import net.minecraft.src.Minecraft;
 import net.minecraft.src.Tessellator;
 
+import org.imgscalr.Scalr;
 import org.lwjgl.opengl.GL11;
 
 /**
