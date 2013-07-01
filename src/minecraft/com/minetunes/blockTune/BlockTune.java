@@ -732,7 +732,8 @@ public class BlockTune implements BlockTuneAccess {
 			if (!world.isBlockIndirectlyGettingPowered(getNodePoint().x,
 					getNodePoint().y, getNodePoint().z)) {
 				return true;
-			} else if (Minecraft.getMinecraft().isGamePaused) {
+				// Below is equivalent to Minecraft.getMinecraft().isPaused
+			} else if (Minecraft.getMinecraft().currentScreen != null) {
 				return true;
 			} else if (Minecraft.getMinecraft().currentScreen instanceof GuiMainMenu) {
 				// In fact, if we're in the main menu...
