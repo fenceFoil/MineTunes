@@ -23,7 +23,6 @@
  */
 package com.minetunes.jfugue.rendererEffect;
 
-import java.io.Serializable;
 import java.util.LinkedList;
 
 import org.jfugue.elements.Note;

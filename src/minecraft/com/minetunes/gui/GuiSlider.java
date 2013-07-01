@@ -26,8 +26,8 @@
  */
 package com.minetunes.gui;
 
-import net.minecraft.client.Minecraft;
 import net.minecraft.src.GuiButton;
+import net.minecraft.src.Minecraft;
 
 import org.lwjgl.opengl.GL11;
 

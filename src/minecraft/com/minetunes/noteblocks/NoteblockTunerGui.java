@@ -27,17 +27,16 @@ import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.io.IOException;
 
-import net.minecraft.client.Minecraft;
 import net.minecraft.src.EnumOptions;
 import net.minecraft.src.GuiButton;
 import net.minecraft.src.GuiScreen;
 import net.minecraft.src.ItemStack;
+import net.minecraft.src.Minecraft;
 import net.minecraft.src.TileEntity;
 
 import org.jfugue.elements.Note;
 import org.lwjgl.input.Keyboard;
 
-import com.minetunes.Finder;
 import com.minetunes.Point3D;
 import com.minetunes.config.MinetunesConfig;
 import com.minetunes.gui.GuiSlider;

@@ -27,11 +27,10 @@ package com.minetunes.noteblocks;
 import java.util.HashMap;
 import java.util.LinkedList;
 
-import net.minecraft.client.Minecraft;
 import net.minecraft.src.Block;
 import net.minecraft.src.BlockNote;
-import net.minecraft.src.BlockSign;
 import net.minecraft.src.Material;
+import net.minecraft.src.Minecraft;
 import net.minecraft.src.TileEntity;
 import net.minecraft.src.TileEntityNote;
 import net.minecraft.src.TileEntitySign;
@@ -43,8 +42,8 @@ import com.minetunes.Point3D;
 import com.minetunes.config.MinetunesConfig;
 import com.minetunes.ditty.event.CueEvent;
 import com.minetunes.particle.ParticleRequest;
-import com.minetunes.signs.SignTuneParser;
 import com.minetunes.signs.SignParser;
+import com.minetunes.signs.SignTuneParser;
 import com.minetunes.signs.TileEntitySignMinetunes;
 import com.minetunes.signs.keywords.NoteblockTriggerKeyword;
 

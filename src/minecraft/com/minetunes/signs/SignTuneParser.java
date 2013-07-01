@@ -23,16 +23,15 @@
  */
 package com.minetunes.signs;
 
-import java.io.File;
 import java.io.IOException;
 import java.util.LinkedList;
 import java.util.Random;
 
-import net.minecraft.client.Minecraft;
 import net.minecraft.src.Block;
 import net.minecraft.src.EntityClientPlayerMP;
 import net.minecraft.src.EntityPlayer;
 import net.minecraft.src.ItemStack;
+import net.minecraft.src.Minecraft;
 import net.minecraft.src.TileEntity;
 import net.minecraft.src.TileEntitySign;
 import net.minecraft.src.World;

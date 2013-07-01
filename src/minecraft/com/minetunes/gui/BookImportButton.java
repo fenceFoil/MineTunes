@@ -31,9 +31,9 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 
-import net.minecraft.client.Minecraft;
 import net.minecraft.src.GuiScreenBook;
 import net.minecraft.src.ItemStack;
+import net.minecraft.src.Minecraft;
 
 import com.minetunes.Finder;
 import com.minetunes.books.BookWrapper;

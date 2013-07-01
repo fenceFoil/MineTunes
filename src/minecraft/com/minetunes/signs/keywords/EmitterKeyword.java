@@ -33,9 +33,9 @@ import com.minetunes.Emitter;
 import com.minetunes.Point3D;
 import com.minetunes.ditty.Ditty;
 import com.minetunes.ditty.event.CreateEmitterEvent;
-import com.minetunes.signs.SignTuneParser;
 import com.minetunes.signs.Comment;
 import com.minetunes.signs.ParsedSign;
+import com.minetunes.signs.SignTuneParser;
 
 /**
  * 

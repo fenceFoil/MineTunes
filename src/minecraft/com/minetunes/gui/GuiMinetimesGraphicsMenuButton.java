@@ -23,12 +23,8 @@
  */
 package com.minetunes.gui;
 
-import net.minecraft.client.Minecraft;
-import net.minecraft.src.GuiButton;
 import net.minecraft.src.GuiScreen;
-import net.minecraft.src.GuiVideoSettings;
-
-import com.minetunes.Finder;
+import net.minecraft.src.Minecraft;
 
 public class GuiMinetimesGraphicsMenuButton extends GuiButtonL {
 

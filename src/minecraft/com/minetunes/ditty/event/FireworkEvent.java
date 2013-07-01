@@ -24,7 +24,6 @@
 package com.minetunes.ditty.event;
 
 import net.minecraft.src.ItemStack;
-import net.minecraft.src.NBTTagCompound;
 
 public class FireworkEvent extends TimedDittyEvent {
 	private ItemStack fireworkItem;

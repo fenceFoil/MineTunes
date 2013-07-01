@@ -28,8 +28,8 @@ import java.awt.event.ActionListener;
 import java.util.HashSet;
 import java.util.Random;
 
-import net.minecraft.client.Minecraft;
 import net.minecraft.src.GuiButton;
+import net.minecraft.src.Minecraft;
 
 import org.lwjgl.opengl.GL11;
 

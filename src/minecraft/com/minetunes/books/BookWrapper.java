@@ -29,10 +29,10 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
-import net.minecraft.client.Minecraft;
 import net.minecraft.src.ChatAllowedCharacters;
 import net.minecraft.src.EnumChatFormatting;
 import net.minecraft.src.ItemStack;
+import net.minecraft.src.Minecraft;
 import net.minecraft.src.NBTTagCompound;
 import net.minecraft.src.NBTTagList;
 import net.minecraft.src.NBTTagString;

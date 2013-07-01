@@ -27,18 +27,10 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.HashSet;
 
-import net.minecraft.client.Minecraft;
 import net.minecraft.src.Gui;
-import net.minecraft.src.GuiButton;
-import net.minecraft.src.Timer;
+import net.minecraft.src.Minecraft;
 
 import org.lwjgl.opengl.GL11;
-
-import aurelienribon.tweenengine.Tween;
-import aurelienribon.tweenengine.TweenManager;
-
-import com.minetunes.Finder;
-import com.minetunes.Minetunes;
 
 /**
  * @author William

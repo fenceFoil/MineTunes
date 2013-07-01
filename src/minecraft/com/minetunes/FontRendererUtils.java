@@ -24,8 +24,6 @@
 package com.minetunes;
 
 import net.minecraft.src.FontRenderer;
-import net.minecraft.src.GameSettings;
-import net.minecraft.src.RenderEngine;
 
 /**
  * Utilities for dealing with FontRenderer

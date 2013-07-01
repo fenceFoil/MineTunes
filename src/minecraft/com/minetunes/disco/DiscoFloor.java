@@ -29,13 +29,12 @@ import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.Random;
 
-import com.minetunes.ditty.event.NoteStartEvent;
-import com.minetunes.resources.ResourceManager;
-import com.minetunes.sfx.SFXManager;
-
 import net.minecraft.src.Block;
 import net.minecraft.src.TileEntitySign;
 import net.minecraft.src.World;
+
+import com.minetunes.ditty.event.NoteStartEvent;
+import com.minetunes.resources.ResourceManager;
 
 /**
  * Represents a disco floor: the blocks that compose it, the attached ditty,

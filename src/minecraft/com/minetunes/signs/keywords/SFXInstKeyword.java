@@ -35,8 +35,8 @@ import com.minetunes.config.MinetunesConfig;
 import com.minetunes.ditty.Ditty;
 import com.minetunes.ditty.event.SFXInstrumentEvent;
 import com.minetunes.sfx.SFXManager;
-import com.minetunes.signs.SignTuneParser;
 import com.minetunes.signs.ParsedSign;
+import com.minetunes.signs.SignTuneParser;
 
 /**
  * 

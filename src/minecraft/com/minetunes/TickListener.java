@@ -23,7 +23,7 @@
  */
 package com.minetunes;
 
-import net.minecraft.client.Minecraft;
+import net.minecraft.src.Minecraft;
 
 /**
  * 

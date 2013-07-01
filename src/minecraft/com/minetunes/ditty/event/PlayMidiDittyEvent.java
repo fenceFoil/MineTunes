@@ -24,7 +24,6 @@
  */
 package com.minetunes.ditty.event;
 
-import java.io.File;
 
 /**
  * Requests a midi to be played from a file.

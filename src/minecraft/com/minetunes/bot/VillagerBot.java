@@ -24,11 +24,10 @@
  */
 package com.minetunes.bot;
 
-import net.minecraft.client.Minecraft;
 import net.minecraft.src.Entity;
 import net.minecraft.src.EntityLiving;
+import net.minecraft.src.Minecraft;
 
-import com.minetunes.Finder;
 import com.minetunes.bot.action.BotAction;
 import com.minetunes.bot.action.DestroyAction;
 import com.minetunes.bot.action.RiseAction;

@@ -27,13 +27,10 @@ import net.minecraft.src.TileEntitySign;
 import net.minecraft.src.World;
 
 import org.jfugue.JFugueDefinitions;
-import org.jfugue.factories.NoteFactory;
-import org.jfugue.factories.NoteFactory.NoteContext;
 
 import com.minetunes.Point3D;
 import com.minetunes.ditty.Ditty;
 import com.minetunes.signs.SignTuneParser;
-import com.minetunes.signs.SignParser;
 
 /**
  * Keyword format:

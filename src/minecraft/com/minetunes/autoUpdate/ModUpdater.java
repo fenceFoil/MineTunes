@@ -39,7 +39,7 @@ import java.util.jar.JarOutputStream;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
 
-import net.minecraft.client.Minecraft;
+import net.minecraft.src.Minecraft;
 
 /**
  * Downloads new versions of your mod, and patches them into minecraft.jar<br>

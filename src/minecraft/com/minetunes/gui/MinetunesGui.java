@@ -25,27 +25,20 @@ package com.minetunes.gui;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.File;
 import java.io.IOException;
 import java.net.URI;
 import java.util.LinkedList;
-import javax.swing.JComboBox;
 
-import net.minecraft.client.Minecraft;
 import net.minecraft.src.EnumOS;
 import net.minecraft.src.FontRenderer;
 import net.minecraft.src.GuiButton;
 import net.minecraft.src.GuiScreen;
+import net.minecraft.src.Minecraft;
 import net.minecraft.src.Timer;
 
 import org.lwjgl.Sys;
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.opengl.GL11;
-
-import aurelienribon.tweenengine.Tween;
-import aurelienribon.tweenengine.TweenManager;
-import aurelienribon.tweenengine.equations.Linear;
-import aurelienribon.tweenengine.equations.Quart;
 
 import com.minetunes.Finder;
 import com.minetunes.FontRendererUtils;

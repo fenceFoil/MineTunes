@@ -25,10 +25,9 @@ package com.minetunes;
 
 import java.util.HashSet;
 
-import net.minecraft.client.Minecraft;
-import net.minecraft.src.BlockSign;
 import net.minecraft.src.Entity;
 import net.minecraft.src.EntityClientPlayerMP;
+import net.minecraft.src.Minecraft;
 import net.minecraft.src.NBTTagCompound;
 import net.minecraft.src.Vec3;
 import net.minecraft.src.World;

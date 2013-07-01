@@ -23,9 +23,6 @@
  */
 package com.minetunes.gui.settings;
 
-import net.minecraft.src.GuiButton;
-import aurelienribon.tweenengine.Tween;
-import aurelienribon.tweenengine.TweenAccessor;
 
 /**
  * @author William

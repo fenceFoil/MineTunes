@@ -55,7 +55,6 @@ import javax.sound.midi.MidiUnavailableException;
 import javax.sound.midi.Sequence;
 import javax.sound.midi.Sequencer;
 
-import net.minecraft.client.Minecraft;
 import net.minecraft.src.AxisAlignedBB;
 import net.minecraft.src.Block;
 import net.minecraft.src.BlockSign;
@@ -74,6 +73,7 @@ import net.minecraft.src.GuiScreen;
 import net.minecraft.src.GuiScreenBook;
 import net.minecraft.src.GuiVideoSettings;
 import net.minecraft.src.ItemStack;
+import net.minecraft.src.Minecraft;
 import net.minecraft.src.NBTTagCompound;
 import net.minecraft.src.Packet;
 import net.minecraft.src.RenderGlobal;
@@ -90,8 +90,6 @@ import net.minecraft.src.WorldClient;
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.input.Mouse;
 import org.xml.sax.SAXException;
-
-import aurelienribon.tweenengine.Tween;
 
 import com.fencefoil.signWatcher.SignChangedEvent;
 import com.fencefoil.signWatcher.SignWatcher;

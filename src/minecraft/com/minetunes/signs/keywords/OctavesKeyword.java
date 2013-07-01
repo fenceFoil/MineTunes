@@ -28,12 +28,9 @@ import java.util.HashSet;
 import net.minecraft.src.TileEntitySign;
 import net.minecraft.src.World;
 
-import org.jfugue.JFugueDefinitions;
-
 import com.minetunes.Point3D;
 import com.minetunes.ditty.Ditty;
 import com.minetunes.signs.SignTuneParser;
-import com.minetunes.signs.SignParser;
 
 /**
  * Keyword format:

@@ -26,8 +26,8 @@ package com.minetunes;
 import java.util.LinkedList;
 import java.util.Random;
 
-import net.minecraft.client.Minecraft;
 import net.minecraft.src.EntityFireworkRocket;
+import net.minecraft.src.Minecraft;
 import net.minecraft.src.WorldClient;
 
 /**

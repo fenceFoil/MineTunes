@@ -23,11 +23,8 @@
  */
 package com.minetunes.books.booktunes;
 
-import java.io.ByteArrayOutputStream;
 import java.io.IOException;
-import java.util.zip.GZIPOutputStream;
 
-import javax.xml.bind.DatatypeConverter;
 import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.XMLStreamWriter;
 

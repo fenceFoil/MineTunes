@@ -23,10 +23,8 @@
  */
 package com.minetunes.particle;
 
-import org.lwjgl.opengl.GL11;
-
-import net.minecraft.client.Minecraft;
 import net.minecraft.src.EntityFX;
+import net.minecraft.src.Minecraft;
 import net.minecraft.src.Tessellator;
 import net.minecraft.src.World;
 

@@ -23,11 +23,7 @@
  */
 package com.minetunes.signs.keywords;
 
-import java.io.File;
-
-import com.minetunes.config.MinetunesConfig;
 import com.minetunes.signs.ParsedSign;
-import com.minetunes.signs.SignParser;
 import com.minetunes.signs.keywords.argparser.ArgParser;
 import com.minetunes.signs.keywords.argparser.SimpleFilenameArg;
 

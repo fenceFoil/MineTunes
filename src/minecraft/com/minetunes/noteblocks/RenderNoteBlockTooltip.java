@@ -24,7 +24,6 @@
 package com.minetunes.noteblocks;
 
 import net.minecraft.src.Entity;
-import net.minecraft.src.EntityNoteFX;
 import net.minecraft.src.FontRenderer;
 import net.minecraft.src.MathHelper;
 import net.minecraft.src.Render;

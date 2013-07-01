@@ -23,8 +23,8 @@
  */
 package com.minetunes;
 
-import net.minecraft.client.Minecraft;
 import net.minecraft.src.EntityItem;
+import net.minecraft.src.Minecraft;
 import net.minecraft.src.WorldServer;
 
 import com.minetunes.blockTune.EntityItemDisplay;

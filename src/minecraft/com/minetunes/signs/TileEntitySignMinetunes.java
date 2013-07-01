@@ -24,14 +24,13 @@
 package com.minetunes.signs;
 
 import java.util.HashMap;
-import java.util.LinkedList;
 
-import org.lwjgl.opengl.GL11;
-
-import net.minecraft.client.Minecraft;
 import net.minecraft.src.Block;
+import net.minecraft.src.Minecraft;
 import net.minecraft.src.NBTTagCompound;
 import net.minecraft.src.TileEntitySign;
+
+import org.lwjgl.opengl.GL11;
 
 import com.minetunes.Minetunes;
 import com.minetunes.Point3D;

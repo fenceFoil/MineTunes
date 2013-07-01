@@ -23,11 +23,8 @@
  */
 package com.minetunes.blockTune;
 
-import net.minecraft.src.Block;
 import net.minecraft.src.EntityItem;
 import net.minecraft.src.ItemStack;
-import net.minecraft.src.Material;
-import net.minecraft.src.MathHelper;
 import net.minecraft.src.NBTTagCompound;
 import net.minecraft.src.Vec3;
 import net.minecraft.src.World;

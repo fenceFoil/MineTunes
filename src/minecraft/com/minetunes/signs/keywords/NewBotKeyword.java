@@ -24,16 +24,14 @@
  */
 package com.minetunes.signs.keywords;
 
-import java.util.LinkedList;
-
 import net.minecraft.src.TileEntitySign;
 import net.minecraft.src.World;
 
 import com.minetunes.Point3D;
 import com.minetunes.ditty.Ditty;
 import com.minetunes.ditty.event.CreateBotEvent;
-import com.minetunes.signs.SignTuneParser;
 import com.minetunes.signs.ParsedSign;
+import com.minetunes.signs.SignTuneParser;
 
 public class NewBotKeyword extends SignTuneKeyword {
 

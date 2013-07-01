@@ -26,10 +26,9 @@ package com.minetunes.blockTune;
 import java.util.LinkedList;
 import java.util.List;
 
-import net.minecraft.client.Minecraft;
+import net.minecraft.src.Minecraft;
 import net.minecraft.src.TileEntityRecordPlayer;
 import net.minecraft.src.WorldClient;
-import aurelienribon.tweenengine.TweenManager;
 
 import com.minetunes.Point3D;
 import com.minetunes.TickListener;

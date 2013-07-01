@@ -34,10 +34,9 @@ import java.io.IOException;
 import java.util.LinkedList;
 import java.util.Properties;
 
-import net.minecraft.client.Minecraft;
 import net.minecraft.src.GuiButton;
 import net.minecraft.src.GuiScreen;
-import net.minecraft.src.Tessellator;
+import net.minecraft.src.Minecraft;
 
 import org.lwjgl.opengl.GL11;
 

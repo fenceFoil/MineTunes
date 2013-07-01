@@ -2,9 +2,9 @@ package com.minetunes.gui;
 
 import java.io.File;
 
-import net.minecraft.client.Minecraft;
 import net.minecraft.src.GuiButton;
 import net.minecraft.src.GuiScreen;
+import net.minecraft.src.Minecraft;
 
 import org.lwjgl.input.Keyboard;
 

@@ -23,7 +23,6 @@
  */
 package com.minetunes.ditty;
 
-import java.io.File;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.LinkedList;
@@ -36,8 +35,8 @@ import com.minetunes.config.MinetunesConfig;
 import com.minetunes.config.NoPlayTokens;
 import com.minetunes.disco.DiscoFloor;
 import com.minetunes.ditty.event.TimedDittyEvent;
-import com.minetunes.signs.SignTuneParser;
 import com.minetunes.signs.SignDitty;
+import com.minetunes.signs.SignTuneParser;
 
 /**
  * Holds all the data necessary to play a ditty. A ditty is composed of a number

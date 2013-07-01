@@ -30,8 +30,8 @@ import com.minetunes.CueScheduler;
 import com.minetunes.Point3D;
 import com.minetunes.config.MinetunesConfig;
 import com.minetunes.ditty.Ditty;
-import com.minetunes.signs.SignTuneParser;
 import com.minetunes.signs.ParsedSign;
+import com.minetunes.signs.SignTuneParser;
 
 /**
  * @author William

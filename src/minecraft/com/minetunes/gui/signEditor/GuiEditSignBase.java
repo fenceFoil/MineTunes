@@ -31,14 +31,12 @@ import java.awt.event.ActionListener;
 import java.io.IOException;
 import java.util.LinkedList;
 
-import javax.swing.JComboBox;
-
-import net.minecraft.client.Minecraft;
 import net.minecraft.src.Block;
 import net.minecraft.src.ChatAllowedCharacters;
 import net.minecraft.src.GuiButton;
 import net.minecraft.src.GuiEditSign;
 import net.minecraft.src.GuiScreen;
+import net.minecraft.src.Minecraft;
 import net.minecraft.src.NetClientHandler;
 import net.minecraft.src.Packet130UpdateSign;
 import net.minecraft.src.TileEntityRenderer;
@@ -52,7 +50,6 @@ import com.minetunes.RightClickCheckThread;
 import com.minetunes.config.MinetunesConfig;
 import com.minetunes.gui.GuiButtonL;
 import com.minetunes.gui.MinetunesGui;
-import com.minetunes.gui.MinetunesVersionGuiElement;
 import com.minetunes.sfx.SFXManager;
 import com.minetunes.signs.SignTuneParser;
 import com.minetunes.signs.TileEntitySignMinetunes;

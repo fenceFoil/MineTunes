@@ -26,8 +26,6 @@ package com.minetunes;
 import java.io.File;
 import java.io.IOException;
 
-import javax.sound.midi.Instrument;
-
 import com.sun.media.sound.SF2Soundbank;
 
 /**
