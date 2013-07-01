@@ -50,11 +50,11 @@ public class MinetunesConfig {
 	/**
 	 * Current MineTunes version.
 	 */
-	public static final String CURRENT_VERSION = "3.3.00";
+	public static final String CURRENT_VERSION = "3.4.00";
 	/**
 	 * Minecraft version that the mod is designed for.
 	 */
-	public static final String MC_CURRENT_VERSION = "1.5.2";
+	public static final String MC_CURRENT_VERSION = "1.6.1";
 	private static final String[] UPDATE_MESSAGE = {};
 	/**
 	 * Disable to stop costly printlns from being called
@@ -65,7 +65,7 @@ public class MinetunesConfig {
 	 * Used when Auto-Updating. A rough list of packages to remove when
 	 * stripping out this version of Minetunes.
 	 * 
-	 * Exclude SignWatcher, since it may be used by other mods.
+	 * Exclude SignWatcher (and other com/fencefoil packages), since it may be used by other mods.
 	 */
 	public static final String[] mineTunesModPackages = { "org/jfugue",
 			"com/minetunes", "aurelienribon/tweenengine", "de/jarnbjo" };
