@@ -90,7 +90,7 @@ public class TutorialGui extends GuiScreen {
 
 		drawDefaultBackground();
 		// GL11.glColor4f(1.0F, 0F, 1.0F, 0.5f);
-		mc.renderEngine
+		mc.func_110434_K()
 				.bindTexture("/com/minetunes/resources/textures/MCDittyLand1.png");
 		GL11.glColor4f(1.0F, 1.0F, 1.0F, 0.5f);
 		drawTexturedModalRect(width - 10 - (width / 2 - 20), 60, 0, 0,

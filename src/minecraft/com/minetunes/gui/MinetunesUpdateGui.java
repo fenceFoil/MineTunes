@@ -149,7 +149,8 @@ public class MinetunesUpdateGui extends GuiScreen implements
 			mc.displayGuiScreen(null);
 
 			boolean isInstalledFromModsFolder = false;
-			File modsFolder2 = new File(Minecraft.getMinecraft().mcDataDir, "mods");
+			File modsFolder2 = new File(Minecraft.getMinecraft().mcDataDir,
+					"mods");
 			File[] modsInFolder = modsFolder2.listFiles();
 			if (modsFolder2 != null && modsInFolder != null) {
 				for (File f : modsInFolder) {
@@ -174,7 +175,8 @@ public class MinetunesUpdateGui extends GuiScreen implements
 								+ autoUpdater
 										.getLatestVersion(MinetunesConfig.MC_CURRENT_VERSION));
 
-				File modsFolder = new File(Minecraft.getMinecraftDir(), "mods");
+				File modsFolder = new File(Minecraft.getMinecraft().mcDataDir,
+						"mods");
 				File destFile = new File(modsFolder, "MineTunes-"
 						+ autoUpdater.getLatestVersion(
 								MinetunesConfig.MC_CURRENT_VERSION).replace(

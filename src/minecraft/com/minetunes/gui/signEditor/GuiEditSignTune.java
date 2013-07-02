@@ -270,7 +270,7 @@ public class GuiEditSignTune extends GuiEditSignBase {
 
 		// Draw shovel icon
 		GL11.glColor4f(1, 1, 1, 1);
-		mc.renderEngine.bindTexture(iconTexture);
+		mc.func_110434_K().bindTexture(iconTexture);
 		int iconIndex = 17;
 		drawTexturedModalRect(shovelButtonDown.xPosition - 16,
 				shovelButtonDown.yPosition + 2, (iconIndex % 16) * 16,

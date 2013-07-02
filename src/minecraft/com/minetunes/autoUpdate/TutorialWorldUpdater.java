@@ -108,7 +108,7 @@ public class TutorialWorldUpdater extends FileUpdater {
 		}
 
 		// TODO: Extract, etc.
-		File saveWorldDir = new File(Minecraft.getMinecraft().getMinecraftDir()
+		File saveWorldDir = new File(Minecraft.getMinecraft().mcDataDir
 				+ File.separator + "saves");
 		ResourceManager.extractZipFiles(newVersionFile.getPath(),
 				saveWorldDir.getPath());

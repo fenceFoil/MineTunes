@@ -105,7 +105,7 @@ public class Slide {
 	public void prepareToShow() {
 		if (!textureLoaded) {
 			texture = GL11.glGenTextures();
-			Minecraft.getMinecraft().renderEngine.setupTexture(getImage(),
+			Minecraft.getMinecraft().func_110434_K().setupTexture(getImage(),
 					texture);
 			textureLoaded = true;
 		}
@@ -116,7 +116,7 @@ public class Slide {
 	 */
 	public void unloadImage() {
 		if (textureLoaded) {
-			Minecraft.getMinecraft().renderEngine.deleteTexture(texture);
+			Minecraft.getMinecraft().func_110434_K().deleteTexture(texture);
 			textureLoaded = false;
 		}
 	}

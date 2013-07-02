@@ -147,7 +147,7 @@ public class GuiButtonL extends GuiButton {
 			// Set up texture
 			// GL11.glBindTexture(GL11.GL_TEXTURE_2D,
 			// mc.renderEngine.getTexture("/gui/gui.png"));
-			mc.renderEngine.bindTexture("/gui/gui.png");
+			mc.func_110434_K().bindTexture("/gui/gui.png");
 			GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
 
 			// Draw texture, grabbing a half from each end of the button texture
@@ -182,7 +182,7 @@ public class GuiButtonL extends GuiButton {
 			// Draw icon
 			if (isIconShown()) {
 				//GL11.glBindTexture(GL11.GL_TEXTURE_2D, iconTex);
-				mc.renderEngine.bindTexture(iconTex);
+				mc.func_110434_K().bindTexture(iconTex);
 				drawTexturedModalRect(xPosition + 2, yPosition + 2,
 						(iconIndex % 16) * 16, (iconIndex / 16) * 16, 16, 16);
 			}

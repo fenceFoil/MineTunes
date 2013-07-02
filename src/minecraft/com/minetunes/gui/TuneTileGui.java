@@ -101,7 +101,7 @@ public class TuneTileGui extends Gui {
 		// .getTexture("/com/minetunes/resources/textures/mineTunesLogo.png");
 		GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0f);
 		// Minecraft.getMinecraft().renderEngine.bindTexture(tex);
-		Minecraft.getMinecraft().renderEngine
+		Minecraft.getMinecraft().func_110434_K()
 				.bindTexture("/com/minetunes/resources/textures/mineTunesLogo.png");
 		drawTexturedModalRect(x, y, getUForType(type), 64, 64, 64);
 		if (on) {

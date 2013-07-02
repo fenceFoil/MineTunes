@@ -147,7 +147,7 @@ public class MinetunesConfig {
 	 * @return
 	 */
 	public static File getMinetunesDir() {
-		return new File(Minecraft.getMinecraftDir().getPath() + File.separator
+		return new File(Minecraft.getMinecraft().mcDataDir.getPath() + File.separator
 				+ "mineTunes" + File.separator);
 	}
 
