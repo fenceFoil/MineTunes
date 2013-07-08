@@ -77,7 +77,7 @@ public class EntityFXMinetunes extends EntityFX {
 				.func_110434_K()
 				.func_110577_a(
 						new ResourceLocation(
-								"textures/com/minetunes/resources/textures/particles.png"));
+								"textures/minetunes/textures/particles.png"));
 
 		// if (particleAge > particleMaxAge * 0.8) {
 		// particleAlpha = (particleMaxAge - particleAge)

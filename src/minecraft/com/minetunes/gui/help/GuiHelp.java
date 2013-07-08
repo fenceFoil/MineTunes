@@ -182,7 +182,7 @@ public class GuiHelp extends GuiScreen {
 				.func_110434_K()
 				.func_110577_a(
 						new ResourceLocation(
-								"textures/com/minetunes/resources/textures/signBG2.png"));
+								"textures/minetunes/textures/signBG2.png"));
 		// drawTexturedModalRect(0, height - BOTTOM_MARGIN, 0, 0, width,
 		// BOTTOM_MARGIN);
 		for (int i = 0; i < height; i += 128) {

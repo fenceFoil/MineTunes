@@ -34,7 +34,7 @@ public class GuiMinetimesGraphicsMenuButton extends GuiButtonL {
 
 	public GuiMinetimesGraphicsMenuButton(GuiScreen backscreen) {
 		super("signGraphics", 5, 5, 20, 20,
-				"/com/minetunes/resources/textures/signEditor1.png", 12);
+				"textures/minetunes/textures/signEditor1.png", 12);
 		id = 1923129982;
 		setBackscreen(backscreen);
 	}

@@ -297,7 +297,7 @@ public class GuiEditSignTune extends GuiEditSignBase {
 	public void initGui() {
 		super.initGui();
 
-		iconTexture = "/com/minetunes/resources/textures/signEditor1.png";
+		iconTexture = "textures/minetunes/textures/signEditor1.png";
 
 		// Changed button label
 		// X is defined in the draw method

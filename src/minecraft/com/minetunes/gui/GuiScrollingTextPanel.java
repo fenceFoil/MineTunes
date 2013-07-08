@@ -91,7 +91,7 @@ public class GuiScrollingTextPanel extends Gui {
 						.func_110434_K()
 						.func_110577_a(
 								new ResourceLocation(
-										"textures/com/minetunes/resources/textures/signBG2.png"));
+										"textures/minetunes/textures/signBG2.png"));
 				int currBGTextureY = y;
 				// Tile background texture vertically
 				while (currBGTextureY - y < height) {

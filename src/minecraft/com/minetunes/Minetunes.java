@@ -434,6 +434,8 @@ public class Minetunes {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		
+		Block.blocksList[25] = newNoteBlock;
 
 		// Set up SignRegistry
 		SignWatcher.init(true);

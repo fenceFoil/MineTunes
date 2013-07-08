@@ -189,7 +189,7 @@ public class GuiButtonL extends GuiButton {
 				// mc.func_110434_K().bindTexture(iconTex);
 				// MC161 Textures
 				mc.func_110434_K().func_110577_a(
-						new ResourceLocation("textures" + iconTex));
+						new ResourceLocation(iconTex));
 				drawTexturedModalRect(xPosition + 2, yPosition + 2,
 						(iconIndex % 16) * 16, (iconIndex / 16) * 16, 16, 16);
 			}

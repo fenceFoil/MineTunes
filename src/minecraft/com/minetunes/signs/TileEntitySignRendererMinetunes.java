@@ -431,7 +431,7 @@ public class TileEntitySignRendererMinetunes extends TileEntitySignRenderer {
 		// MC161 Texture issues?
 		if (signEntity.isFace(false)) {
 			this.func_110628_a(new ResourceLocation(
-					"/com/minetunes/resources/textures/skinSign1.png"));
+					"textures/minetunes/textures/skinSign1.png"));
 		} else {
 			this.func_110628_a(new ResourceLocation("textures/entity/sign.png"));
 		}

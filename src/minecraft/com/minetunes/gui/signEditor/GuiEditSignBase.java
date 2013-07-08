@@ -301,7 +301,7 @@ public class GuiEditSignBase extends GuiEditSign {
 
 		buttonList.clear();
 
-		String iconTexture = "/com/minetunes/resources/textures/signEditor1.png";
+		String iconTexture = "textures/minetunes/textures/signEditor1.png";
 		// editorModeButton = new GuiButton(1000, width - 100, 10, 80, 20, "");
 		editorModeButton = new GuiButtonL("editorMode", width - 30, 10, 20, 20,
 				iconTexture, 13);
