@@ -25,6 +25,7 @@ package com.minetunes.particle;
 
 import net.minecraft.src.EntityFX;
 import net.minecraft.src.Minecraft;
+import net.minecraft.src.ResourceLocation;
 import net.minecraft.src.Tessellator;
 import net.minecraft.src.World;
 
@@ -64,13 +65,20 @@ public class EntityFXMinetunes extends EntityFX {
 	@Override
 	public void renderParticle(Tessellator par1Tessellator, float par2,
 			float par3, float par4, float par5, float par6, float par7) {
-//		int particleTex = Minecraft.getMinecraft().renderEngine
-//				.getTexture("/com/minetunes/resources/textures/particles.png");
-//		Minecraft.getMinecraft().renderEngine.bindTexture(particleTex);
+		// int particleTex = Minecraft.getMinecraft().renderEngine
+		// .getTexture("/com/minetunes/resources/textures/particles.png");
+		// Minecraft.getMinecraft().renderEngine.bindTexture(particleTex);
 
-		Minecraft.getMinecraft().func_110434_K()
-				.bindTexture("/com/minetunes/resources/textures/particles.png");
-		
+		// MC161 textures
+		// Minecraft.getMinecraft().func_110434_K()
+		// .bindTexture("/com/minetunes/resources/textures/particles.png");
+		Minecraft
+				.getMinecraft()
+				.func_110434_K()
+				.func_110577_a(
+						new ResourceLocation(
+								"textures/com/minetunes/resources/textures/particles.png"));
+
 		// if (particleAge > particleMaxAge * 0.8) {
 		// particleAlpha = (particleMaxAge - particleAge)
 		// / (particleMaxAge * 0.2f);
@@ -79,5 +87,4 @@ public class EntityFXMinetunes extends EntityFX {
 		super.renderParticle(par1Tessellator, par2, par3, par4, par5, par6,
 				par7);
 	}
-
 }

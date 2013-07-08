@@ -29,6 +29,7 @@ import java.util.HashSet;
 
 import net.minecraft.src.Gui;
 import net.minecraft.src.Minecraft;
+import net.minecraft.src.ResourceLocation;
 
 import org.lwjgl.opengl.GL11;
 
@@ -101,8 +102,15 @@ public class TuneTileGui extends Gui {
 		// .getTexture("/com/minetunes/resources/textures/mineTunesLogo.png");
 		GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0f);
 		// Minecraft.getMinecraft().renderEngine.bindTexture(tex);
-		Minecraft.getMinecraft().func_110434_K()
-				.bindTexture("/com/minetunes/resources/textures/mineTunesLogo.png");
+		// MC161 textures
+		// Minecraft.getMinecraft().func_110434_K()
+		// .bindTexture("/com/minetunes/resources/textures/mineTunesLogo.png");
+		Minecraft
+				.getMinecraft()
+				.func_110434_K()
+				.func_110577_a(
+						new ResourceLocation(
+								"textures/com/minetunes/resources/textures/mineTunesLogo.png"));
 		drawTexturedModalRect(x, y, getUForType(type), 64, 64, 64);
 		if (on) {
 			GL11.glColor4f(0, 1.0F, 0, 1.0f);

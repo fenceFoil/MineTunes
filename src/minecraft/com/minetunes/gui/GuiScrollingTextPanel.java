@@ -29,6 +29,7 @@ import java.util.LinkedList;
 import net.minecraft.src.FontRenderer;
 import net.minecraft.src.Gui;
 import net.minecraft.src.Minecraft;
+import net.minecraft.src.ResourceLocation;
 
 import org.lwjgl.input.Mouse;
 import org.lwjgl.opengl.GL11;
@@ -81,9 +82,16 @@ public class GuiScrollingTextPanel extends Gui {
 			// Draw background
 
 			if (textureBackground) {
-//				int bgTextureNumber = Minecraft.getMinecraft().renderEngine
-//						.getTexture("/com/minetunes/resources/textures/signBG2.png");
-				Minecraft.getMinecraft().func_110434_K().bindTexture("/com/minetunes/resources/textures/signBG2.png");
+				// int bgTextureNumber = Minecraft.getMinecraft().renderEngine
+				// .getTexture("/com/minetunes/resources/textures/signBG2.png");
+				// MC161 textures
+				// Minecraft.getMinecraft().func_110434_K().bindTexture("/com/minetunes/resources/textures/signBG2.png");
+				Minecraft
+						.getMinecraft()
+						.func_110434_K()
+						.func_110577_a(
+								new ResourceLocation(
+										"textures/com/minetunes/resources/textures/signBG2.png"));
 				int currBGTextureY = y;
 				// Tile background texture vertically
 				while (currBGTextureY - y < height) {

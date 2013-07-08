@@ -27,6 +27,7 @@ import java.io.File;
 
 import net.minecraft.src.GuiButton;
 import net.minecraft.src.GuiScreen;
+import net.minecraft.src.ResourceLocation;
 
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.opengl.GL11;
@@ -85,13 +86,18 @@ public class TutorialGui extends GuiScreen {
 	 */
 	@Override
 	public void drawScreen(int par1, int par2, float par3) {
-//		int mcDittyLandPictureNumber = mc.renderEngine
-//				.getTexture("/com/minetunes/resources/textures/MCDittyLand1.png");
+		// int mcDittyLandPictureNumber = mc.renderEngine
+		// .getTexture("/com/minetunes/resources/textures/MCDittyLand1.png");
 
 		drawDefaultBackground();
 		// GL11.glColor4f(1.0F, 0F, 1.0F, 0.5f);
+		// MC161 textures
+		// mc.func_110434_K()
+		// .bindTexture("/com/minetunes/resources/textures/MCDittyLand1.png");
 		mc.func_110434_K()
-				.bindTexture("/com/minetunes/resources/textures/MCDittyLand1.png");
+				.func_110577_a(
+						new ResourceLocation(
+								"textures/com/minetunes/resources/textures/MCDittyLand1.png"));
 		GL11.glColor4f(1.0F, 1.0F, 1.0F, 0.5f);
 		drawTexturedModalRect(width - 10 - (width / 2 - 20), 60, 0, 0,
 				Math.min(width / 2 - 20, 256), Math.min(height - 130, 133));

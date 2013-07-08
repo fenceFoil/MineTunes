@@ -36,6 +36,7 @@ import java.util.Set;
 import net.minecraft.src.Block;
 import net.minecraft.src.GuiButton;
 import net.minecraft.src.GuiScreen;
+import net.minecraft.src.ResourceLocation;
 import net.minecraft.src.TileEntity;
 import net.minecraft.src.TileEntitySign;
 
@@ -270,7 +271,10 @@ public class GuiEditSignTune extends GuiEditSignBase {
 
 		// Draw shovel icon
 		GL11.glColor4f(1, 1, 1, 1);
-		mc.func_110434_K().bindTexture(iconTexture);
+		// MC161 textures
+		// mc.func_110434_K().bindTexture(iconTexture);
+		this.mc.func_110434_K().func_110577_a(
+				new ResourceLocation("textures" + iconTexture));
 		int iconIndex = 17;
 		drawTexturedModalRect(shovelButtonDown.xPosition - 16,
 				shovelButtonDown.yPosition + 2, (iconIndex % 16) * 16,

@@ -29,6 +29,8 @@ import java.util.LinkedList;
 
 import net.minecraft.src.Block;
 import net.minecraft.src.BlockNote;
+import net.minecraft.src.IBlockAccess;
+import net.minecraft.src.Icon;
 import net.minecraft.src.Material;
 import net.minecraft.src.Minecraft;
 import net.minecraft.src.TileEntity;
@@ -53,6 +55,13 @@ import com.minetunes.signs.keywords.NoteblockTriggerKeyword;
  * 
  */
 public class BlockNoteMinetunes extends BlockNote {
+	@Override
+	public Icon getBlockTexture(IBlockAccess par1iBlockAccess, int par2,
+			int par3, int par4, int par5) {
+		// TODO Auto-generated method stub
+		return super.getBlockTexture(par1iBlockAccess, par2, par3, par4, par5);
+	}
+
 	public static HashMap<String, String> screenNames = new HashMap<String, String>();
 
 	static {
