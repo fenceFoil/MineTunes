@@ -1630,3 +1630,12 @@
 /Util.java
 /WorldTemplate.java
 /WorldTemplateList.java
+/EntityAIMoveTowardsRestriction.java
+/EntityZombieGroupData.java
+/EntityZombieINNER1.java
+/MinecraftINNER13.java
+/Packet133TileEditorOpen.java
+/Packet44UpdateAttributesSnapshot.java
+/Team.java
+/WorldClientINNER3.java
+/WorldClientINNER4.java
