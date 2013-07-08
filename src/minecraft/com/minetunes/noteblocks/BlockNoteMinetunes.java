@@ -31,6 +31,7 @@ import net.minecraft.src.Block;
 import net.minecraft.src.BlockNote;
 import net.minecraft.src.IBlockAccess;
 import net.minecraft.src.Icon;
+import net.minecraft.src.IconRegister;
 import net.minecraft.src.Material;
 import net.minecraft.src.Minecraft;
 import net.minecraft.src.TileEntity;
@@ -62,6 +63,12 @@ public class BlockNoteMinetunes extends BlockNote {
 		return super.getBlockTexture(par1iBlockAccess, par2, par3, par4, par5);
 	}
 
+	@Override
+	public void registerIcons(IconRegister par1IconRegister) {
+		this.blockIcon = par1IconRegister
+				.registerIcon("noteblock");
+	}
+
 	public static HashMap<String, String> screenNames = new HashMap<String, String>();
 
 	static {
@@ -89,7 +96,7 @@ public class BlockNoteMinetunes extends BlockNote {
 		setHardness(0.8F);
 		setUnlocalizedName("musicBlock");
 		// Oh god please please fix this
-		//getIndirectPowerOutput("musicBlock");
+		// getIndirectPowerOutput("musicBlock");
 	}
 
 	// /**
