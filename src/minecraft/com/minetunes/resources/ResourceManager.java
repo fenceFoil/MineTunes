@@ -42,6 +42,9 @@ import java.util.zip.ZipInputStream;
 public class ResourceManager {
 
 	private static HashMap<String, String> txtFileCache = new HashMap<String, String>();
+	
+	public static final String TEX_DIR = "textures/misc/";
+	public static final String MCDITTY_LAND_PIC = TEX_DIR + "MCDittyLand1.png";
 
 	/**
 	 * Attempts to load and return the indicated resource file as text. Caches

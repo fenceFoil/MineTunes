@@ -47,7 +47,7 @@ import com.minetunes.books.BookWrapper;
 public class BookImportButton extends GuiButtonL {
 
 	private GuiScreenBook bookGui;
-	public static final String tex = "textures/minetunes/textures/signEditor1.png";
+	public static final String tex = "textures/misc/signEditor1.png";
 
 	public BookImportButton() {
 		// Arbitrary id number, not likely to conflict with vanilla gui

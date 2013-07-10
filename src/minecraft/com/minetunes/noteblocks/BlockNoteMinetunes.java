@@ -41,6 +41,7 @@ import net.minecraft.src.World;
 
 import com.minetunes.Finder;
 import com.minetunes.Minetunes;
+import com.minetunes.Packet62LevelSoundMinetunes;
 import com.minetunes.Point3D;
 import com.minetunes.config.MinetunesConfig;
 import com.minetunes.ditty.event.CueEvent;
@@ -230,7 +231,9 @@ public class BlockNoteMinetunes extends BlockNote {
 			// Handle noteblock octave adjustment
 			int adjust = BlockNoteMinetunes.getOctaveAdjust(x, y, z);
 			if (adjust != 0) {
-				noteType = noteType + "_" + adjust + "o";
+				// MC161: noteblock octaves don't work :(
+				//noteType = noteType + "_" + adjust + "o";
+				Packet62LevelSoundMinetunes.apologize();
 			}
 
 			world.playSoundEffect((double) x + 0.5D, (double) y + 0.5D,
@@ -364,7 +367,9 @@ public class BlockNoteMinetunes extends BlockNote {
 
 		String soundName = "note." + noteType;
 		if (octaveAdjust != 0) {
-			soundName += "_" + octaveAdjust + "o";
+			//MC161: noteblock sounds don't work :( 
+			//soundName += "_" + octaveAdjust + "o";
+			Packet62LevelSoundMinetunes.apologize();
 		}
 		// System.out.println (soundName);
 

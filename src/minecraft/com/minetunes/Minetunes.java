@@ -144,6 +144,7 @@ import com.minetunes.particle.HeartParticleRequest;
 import com.minetunes.particle.MinetunesParticleRequest;
 import com.minetunes.particle.NoteParticleRequest;
 import com.minetunes.particle.ParticleRequest;
+import com.minetunes.resources.ResourceManager;
 import com.minetunes.resources.UpdateResourcesThread;
 import com.minetunes.sfx.SFXManager;
 import com.minetunes.signs.Comment;
@@ -434,7 +435,7 @@ public class Minetunes {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
+
 		Block.blocksList[25] = newNoteBlock;
 
 		// Set up SignRegistry
@@ -571,6 +572,8 @@ public class Minetunes {
 			public void run() {
 				while (true) {
 					addButtonsToGuis();
+					swapSignGui();
+
 					try {
 						Thread.sleep(100);
 					} catch (InterruptedException e) {
@@ -781,7 +784,7 @@ public class Minetunes {
 	 * its "modified sign" packet, and you can't save the sign text you change
 	 * in the Minetunes editor anymore (sign update packets are one-shot deals).
 	 */
-	private static void swapSignGui() {
+	protected static void swapSignGui() {
 		try {
 			if (Minecraft.getMinecraft().currentScreen instanceof GuiEditSign
 					&& !(Minecraft.getMinecraft().currentScreen instanceof GuiEditSignBase)) {
@@ -2380,7 +2383,8 @@ public class Minetunes {
 	}
 
 	public static void registerSoundResources() {
-		registerSoundResources(MinetunesConfig.getResourcesDir(), "");
+		registerSoundResources(new File(MinetunesConfig.getResourcesDir()
+				+ File.separator + "note" + File.separator), "note/");
 	}
 
 	private static void registerSoundResources(File resourcesDir, String prefix) {
@@ -2392,10 +2396,14 @@ public class Minetunes {
 				if (f.getName().endsWith(".ogg")) {
 					// Register as a sound
 					String soundName = prefix + f.getName();
-					// System.out.println
-					// ("Registering sound effect: "+soundName);
+					// System.out
+					// .println("Registering sound effect: " + soundName);
 					// MC161 Sound problems?
-					Minecraft.getMinecraft().sndManager.addSound(soundName);
+					if (Minecraft.getMinecraft() != null
+							&& Minecraft.getMinecraft().sndManager != null) {
+						System.out.println("Trying to register: " + soundName);
+						Minecraft.getMinecraft().sndManager.addSound(soundName);
+					}
 				} else if (f.isDirectory()) {
 					registerSoundResources(f, f.getName() + "/");
 				}
@@ -2733,5 +2741,41 @@ public class Minetunes {
 	public static void signChanged(SignChangedEvent event) {
 		onSignLoaded(event.getSign().getX(), event.getSign().getY(), event
 				.getSign().getZ(), event.getSign().getText());
+	}
+
+	public static void tryToCopyOverSoundResources() {
+		// Check to see whether sounds are already there
+		File soundsPresentFlag = new File(
+				MinetunesConfig.soundAssetDir.getPath() + File.separator
+						+ "note" + File.separator + "MineTunes_Present.txt");
+		if (soundsPresentFlag.exists()) {
+			return;
+		}
+
+		// Sounds need to be copied over.
+		// Have they been downloaded yet?
+		File soundResourcesDir = new File(MinetunesConfig.getResourcesDir(),
+				"note");
+		if (!soundResourcesDir.exists()) {
+			// Sounds aren't there to copy over yet.
+			return;
+		}
+
+		System.out.println("Copying over MineTunes sounds.");
+
+		// Ready to copy: need is there, and files are present to copy over.
+		File[] files = soundResourcesDir.listFiles();
+		for (File f : files) {
+			File dest = new File(MinetunesConfig.soundAssetDir.getPath()
+					+ File.separator + "note" + File.separator + f.getName());
+			try {
+				ResourceManager.copyFile(f, dest);
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
+
+		// Register newly-copied resources
+		registerSoundResources();
 	}
 }

@@ -274,7 +274,7 @@ public class GuiEditSignTune extends GuiEditSignBase {
 		// MC161 textures
 		// mc.func_110434_K().bindTexture(iconTexture);
 		this.mc.func_110434_K().func_110577_a(
-				new ResourceLocation("textures" + iconTexture));
+				new ResourceLocation(iconTexture));
 		int iconIndex = 17;
 		drawTexturedModalRect(shovelButtonDown.xPosition - 16,
 				shovelButtonDown.yPosition + 2, (iconIndex % 16) * 16,
@@ -297,7 +297,7 @@ public class GuiEditSignTune extends GuiEditSignBase {
 	public void initGui() {
 		super.initGui();
 
-		iconTexture = "textures/minetunes/textures/signEditor1.png";
+		iconTexture = "textures/misc/signEditor1.png";
 
 		// Changed button label
 		// X is defined in the draw method
@@ -610,12 +610,12 @@ public class GuiEditSignTune extends GuiEditSignBase {
 			}
 		}
 
-		// Handle autocorrect for SFXInst
-		if (keyCode == Keyboard.KEY_T
-				&& sign.signText[editLine].equalsIgnoreCase("sfxinst")) {
-			sign.signText[editLine] = "SFXInst2";
-			editChar = sign.signText[editLine].length();
-		}
+//		// Handle autocorrect for SFXInst
+//		if (keyCode == Keyboard.KEY_T
+//				&& sign.signText[editLine].equalsIgnoreCase("sfxinst")) {
+//			sign.signText[editLine] = "SFXInst2";
+//			editChar = sign.signText[editLine].length();
+//		}
 
 		updateMineTunesElements();
 	}

@@ -1,8 +1,7 @@
 SFXInst [Inst]
 [SFX] [Tuning]
 
-§bAlpha to 1.3 SFX
-§bUse SFXInst2 for 1.4 SFX
+§bAs of Minecraft 1.6, replaces SFXInst2
 
 SFXInst replaces the normal sound of a given instrument with a Minecraft sound effect (SFX). The SFX will be made higher or lower and stretched to play different notes. Can be removed with SFXInstOff [Inst].
 
