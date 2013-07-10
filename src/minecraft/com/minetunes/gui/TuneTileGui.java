@@ -27,18 +27,13 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.HashSet;
 
-import net.minecraft.client.Minecraft;
 import net.minecraft.src.Gui;
-import net.minecraft.src.GuiButton;
-import net.minecraft.src.Timer;
+import net.minecraft.src.Minecraft;
+import net.minecraft.src.ResourceLocation;
 
 import org.lwjgl.opengl.GL11;
 
 import aurelienribon.tweenengine.Tween;
-import aurelienribon.tweenengine.TweenManager;
-
-import com.minetunes.Finder;
-import com.minetunes.Minetunes;
 
 /**
  * @author William
@@ -73,7 +68,7 @@ public class TuneTileGui extends Gui {
 		this.type = type;
 		this.on = on;
 
-		String tex = "/com/minetunes/resources/textures/mineTunesLogo.png";
+		String tex = "textures/misc/mineTunesLogo.png";
 
 		// helpButton = new GuiButton(1, x + 32 - 10, 0, 20, 20, "§b?");
 		helpButton = new GuiButtonL("help", x + 32 - 10, 0, 20, 20, tex,
@@ -107,8 +102,15 @@ public class TuneTileGui extends Gui {
 		// .getTexture("/com/minetunes/resources/textures/mineTunesLogo.png");
 		GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0f);
 		// Minecraft.getMinecraft().renderEngine.bindTexture(tex);
-		Minecraft.getMinecraft().renderEngine
-				.bindTexture("/com/minetunes/resources/textures/mineTunesLogo.png");
+		// MC161 textures
+		// Minecraft.getMinecraft().func_110434_K()
+		// .bindTexture("/com/minetunes/resources/textures/mineTunesLogo.png");
+		Minecraft
+				.getMinecraft()
+				.func_110434_K()
+				.func_110577_a(
+						new ResourceLocation(
+								"textures/misc/mineTunesLogo.png"));
 		drawTexturedModalRect(x, y, getUForType(type), 64, 64, 64);
 		if (on) {
 			GL11.glColor4f(0, 1.0F, 0, 1.0f);

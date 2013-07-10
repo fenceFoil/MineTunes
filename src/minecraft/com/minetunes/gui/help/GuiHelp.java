@@ -34,10 +34,10 @@ import java.io.IOException;
 import java.util.LinkedList;
 import java.util.Properties;
 
-import net.minecraft.client.Minecraft;
 import net.minecraft.src.GuiButton;
 import net.minecraft.src.GuiScreen;
-import net.minecraft.src.Tessellator;
+import net.minecraft.src.Minecraft;
+import net.minecraft.src.ResourceLocation;
 
 import org.lwjgl.opengl.GL11;
 
@@ -174,8 +174,15 @@ public class GuiHelp extends GuiScreen {
 		GL11.glColor4f(0.8f, 0.8f, 0.8f, 1.0f);
 		// mc.renderEngine.bindTexture(Minecraft.getMinecraft().renderEngine
 		// .getTexture("/com/minetunes/resources/textures/signBG2.png"));
-		Minecraft.getMinecraft().renderEngine
-				.bindTexture("/com/minetunes/resources/textures/signBG2.png");
+		// MC161 textures
+		// Minecraft.getMinecraft().func_110434_K()
+		// .bindTexture("/com/minetunes/resources/textures/signBG2.png");
+		Minecraft
+				.getMinecraft()
+				.func_110434_K()
+				.func_110577_a(
+						new ResourceLocation(
+								"textures/misc/signBG2.png"));
 		// drawTexturedModalRect(0, height - BOTTOM_MARGIN, 0, 0, width,
 		// BOTTOM_MARGIN);
 		for (int i = 0; i < height; i += 128) {

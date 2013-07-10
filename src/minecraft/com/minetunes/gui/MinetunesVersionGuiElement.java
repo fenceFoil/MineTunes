@@ -23,9 +23,9 @@
  */
 package com.minetunes.gui;
 
-import net.minecraft.client.Minecraft;
 import net.minecraft.src.FontRenderer;
 import net.minecraft.src.GuiButton;
+import net.minecraft.src.Minecraft;
 
 import com.minetunes.Minetunes;
 import com.minetunes.config.MinetunesConfig;

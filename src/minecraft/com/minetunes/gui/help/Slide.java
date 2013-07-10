@@ -23,23 +23,21 @@
  */
 package com.minetunes.gui.help;
 
-import java.awt.Desktop;
 import java.awt.Graphics2D;
 import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.nio.IntBuffer;
 
 import javax.imageio.ImageIO;
-import javax.swing.ImageIcon;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
 
-import net.minecraft.client.Minecraft;
+import net.minecraft.src.GLAllocation;
 import net.minecraft.src.Tessellator;
 
 import org.imgscalr.Scalr;
 import org.lwjgl.opengl.GL11;
+import org.lwjgl.opengl.GL12;
 
 /**
  * Represents a slide, as in a slideshow. To use, construct with the filename of
@@ -49,6 +47,9 @@ import org.lwjgl.opengl.GL11;
  * 
  */
 public class Slide {
+    /** Stores the image data for the texture. */
+    private static IntBuffer textureBuffer = GLAllocation.createDirectIntBuffer(4194304);
+	
 	private File file;
 	private BufferedImage image;
 	private String title;
@@ -109,10 +110,35 @@ public class Slide {
 	public void prepareToShow() {
 		if (!textureLoaded) {
 			texture = GL11.glGenTextures();
-			Minecraft.getMinecraft().renderEngine.setupTexture(getImage(),
-					texture);
+			// Minecraft.getMinecraft().func_110434_K()
+			// .setupTexture(getImage(), texture);
+			setupTexture(getImage(), texture);
 			textureLoaded = true;
 		}
+	}
+
+	private void setupTexture(BufferedImage image, int textureID) {
+		GL11.glBindTexture(GL11.GL_TEXTURE_2D, textureID);
+		
+		GL11.glTexParameteri(GL11.GL_TEXTURE_2D, GL11.GL_TEXTURE_MIN_FILTER,
+				GL11.GL_NEAREST);
+		GL11.glTexParameteri(GL11.GL_TEXTURE_2D, GL11.GL_TEXTURE_MAG_FILTER,
+				GL11.GL_NEAREST);
+		GL11.glTexParameteri(GL11.GL_TEXTURE_2D, GL11.GL_TEXTURE_WRAP_S,
+				GL11.GL_REPEAT);
+		GL11.glTexParameteri(GL11.GL_TEXTURE_2D, GL11.GL_TEXTURE_WRAP_T,
+				GL11.GL_REPEAT);
+
+		int imageWidth = image.getWidth();
+		int imageHeight = image.getHeight();
+		int[] imageData = new int[imageWidth * imageHeight];
+		image.getRGB(0, 0, imageWidth, imageHeight, imageData, 0, imageWidth);
+
+		textureBuffer.clear();
+		textureBuffer.put(imageData);
+		textureBuffer.position(0).limit(imageData.length);
+		GL11.glTexImage2D(GL11.GL_TEXTURE_2D, 0, GL11.GL_RGBA, imageWidth, imageHeight, 0,
+				GL12.GL_BGRA, GL12.GL_UNSIGNED_INT_8_8_8_8_REV, textureBuffer);
 	}
 
 	/**
@@ -120,7 +146,8 @@ public class Slide {
 	 */
 	public void unloadImage() {
 		if (textureLoaded) {
-			Minecraft.getMinecraft().renderEngine.deleteTexture(texture);
+			GL11.glDeleteTextures(texture);
+			// Minecraft.getMinecraft().func_110434_K().deleteTexture(texture);
 			textureLoaded = false;
 		}
 	}

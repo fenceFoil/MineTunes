@@ -29,10 +29,10 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
-import net.minecraft.client.Minecraft;
 import net.minecraft.src.ChatAllowedCharacters;
 import net.minecraft.src.EnumChatFormatting;
 import net.minecraft.src.ItemStack;
+import net.minecraft.src.Minecraft;
 import net.minecraft.src.NBTTagCompound;
 import net.minecraft.src.NBTTagList;
 import net.minecraft.src.NBTTagString;
@@ -87,7 +87,8 @@ public class BookWrapper implements BookSource {
 		if (MinetunesConfig.MC_CURRENT_VERSION.equalsIgnoreCase("1.4.6")) {
 			// All is right
 			usePageLengthValidatorVersion = 1;
-		} else if (MinetunesConfig.MC_CURRENT_VERSION.startsWith("1.5")) {
+		} else if (MinetunesConfig.MC_CURRENT_VERSION.startsWith("1.5")
+				|| MinetunesConfig.MC_CURRENT_VERSION.startsWith("1.6")) {
 			usePageLengthValidatorVersion = 2;
 		} else {
 			// Have not yet updated the page length validator

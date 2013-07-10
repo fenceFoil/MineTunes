@@ -36,6 +36,7 @@ import java.util.Set;
 import net.minecraft.src.Block;
 import net.minecraft.src.GuiButton;
 import net.minecraft.src.GuiScreen;
+import net.minecraft.src.ResourceLocation;
 import net.minecraft.src.TileEntity;
 import net.minecraft.src.TileEntitySign;
 
@@ -270,7 +271,10 @@ public class GuiEditSignTune extends GuiEditSignBase {
 
 		// Draw shovel icon
 		GL11.glColor4f(1, 1, 1, 1);
-		mc.renderEngine.bindTexture(iconTexture);
+		// MC161 textures
+		// mc.func_110434_K().bindTexture(iconTexture);
+		this.mc.func_110434_K().func_110577_a(
+				new ResourceLocation(iconTexture));
 		int iconIndex = 17;
 		drawTexturedModalRect(shovelButtonDown.xPosition - 16,
 				shovelButtonDown.yPosition + 2, (iconIndex % 16) * 16,
@@ -293,7 +297,7 @@ public class GuiEditSignTune extends GuiEditSignBase {
 	public void initGui() {
 		super.initGui();
 
-		iconTexture = "/com/minetunes/resources/textures/signEditor1.png";
+		iconTexture = "textures/misc/signEditor1.png";
 
 		// Changed button label
 		// X is defined in the draw method
@@ -606,12 +610,12 @@ public class GuiEditSignTune extends GuiEditSignBase {
 			}
 		}
 
-		// Handle autocorrect for SFXInst
-		if (keyCode == Keyboard.KEY_T
-				&& sign.signText[editLine].equalsIgnoreCase("sfxinst")) {
-			sign.signText[editLine] = "SFXInst2";
-			editChar = sign.signText[editLine].length();
-		}
+//		// Handle autocorrect for SFXInst
+//		if (keyCode == Keyboard.KEY_T
+//				&& sign.signText[editLine].equalsIgnoreCase("sfxinst")) {
+//			sign.signText[editLine] = "SFXInst2";
+//			editChar = sign.signText[editLine].length();
+//		}
 
 		updateMineTunesElements();
 	}

@@ -23,10 +23,6 @@
  */
 package com.minetunes.gui.signEditor;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-
 import net.minecraft.src.GuiButton;
 import net.minecraft.src.GuiScreen;
 

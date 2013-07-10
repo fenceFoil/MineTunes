@@ -24,20 +24,18 @@
 package com.minetunes.gui;
 
 import java.io.File;
-import java.io.FileFilter;
 import java.util.Collections;
 import java.util.LinkedList;
 import java.util.Set;
 
-import net.minecraft.client.Minecraft;
 import net.minecraft.src.GuiButton;
 import net.minecraft.src.GuiScreen;
 import net.minecraft.src.GuiTextField;
 
 import org.lwjgl.input.Keyboard;
 
-import com.minetunes.Minetunes;
 import com.minetunes.MidiFileFilter;
+import com.minetunes.Minetunes;
 import com.minetunes.config.MinetunesConfig;
 import com.minetunes.ditty.DittyPlayerThread;
 import com.minetunes.ditty.event.PlayMidiDittyEvent;

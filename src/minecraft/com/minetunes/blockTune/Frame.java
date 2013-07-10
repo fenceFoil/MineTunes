@@ -26,8 +26,6 @@ package com.minetunes.blockTune;
 import java.util.HashMap;
 import java.util.LinkedList;
 
-import javax.sound.midi.Patch;
-
 /**
  * Represents a single moment where notes are struck in a BlockTune. In a normal
  * BlockTune, represents a column of blocks.

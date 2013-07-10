@@ -23,21 +23,19 @@
  */
 package com.minetunes.blockTune;
 
-import java.awt.geom.Rectangle2D;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.Properties;
 import java.util.Random;
 
-import net.minecraft.client.Minecraft;
 import net.minecraft.src.AxisAlignedBB;
 import net.minecraft.src.BiomeGenBase;
 import net.minecraft.src.Block;
 import net.minecraft.src.GuiMainMenu;
 import net.minecraft.src.ItemStack;
+import net.minecraft.src.Minecraft;
 import net.minecraft.src.TileEntity;
 import net.minecraft.src.TileEntityNote;
 import net.minecraft.src.TileEntityRecordPlayer;
@@ -49,8 +47,6 @@ import net.minecraft.src.WorldClient;
 import org.jfugue.elements.Note;
 
 import aurelienribon.tweenengine.Tween;
-import aurelienribon.tweenengine.TweenManager;
-import aurelienribon.tweenengine.TweenUtils;
 import aurelienribon.tweenengine.equations.Sine;
 
 import com.minetunes.Minetunes;
@@ -736,7 +732,8 @@ public class BlockTune implements BlockTuneAccess {
 			if (!world.isBlockIndirectlyGettingPowered(getNodePoint().x,
 					getNodePoint().y, getNodePoint().z)) {
 				return true;
-			} else if (Minecraft.getMinecraft().isGamePaused) {
+				// Below is equivalent to Minecraft.getMinecraft().isPaused
+			} else if (Minecraft.getMinecraft().currentScreen != null) {
 				return true;
 			} else if (Minecraft.getMinecraft().currentScreen instanceof GuiMainMenu) {
 				// In fact, if we're in the main menu...

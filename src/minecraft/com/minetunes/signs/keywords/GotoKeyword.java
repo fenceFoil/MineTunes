@@ -23,17 +23,15 @@
  */
 package com.minetunes.signs.keywords;
 
-import java.util.ArrayList;
 import java.util.LinkedList;
+
+import net.minecraft.src.TileEntitySign;
+import net.minecraft.src.World;
 
 import com.minetunes.Minetunes;
 import com.minetunes.Point3D;
 import com.minetunes.ditty.Ditty;
 import com.minetunes.signs.Comment;
-
-import net.minecraft.client.Minecraft;
-import net.minecraft.src.TileEntitySign;
-import net.minecraft.src.World;
 
 /**
  * @author William

@@ -24,20 +24,22 @@
  */
 package com.minetunes;
 
-import java.io.DataInputStream;
-import java.io.File;
+import java.io.DataInput;
 import java.io.IOException;
+
+import net.minecraft.src.Packet62LevelSound;
 
 import com.minetunes.config.MinetunesConfig;
 import com.minetunes.noteblocks.BlockNoteMinetunes;
 
-import net.minecraft.src.Packet62LevelSound;
-
 public class Packet62LevelSoundMinetunes extends Packet62LevelSound {
+	private static boolean apologized = false;
+
 	/**
 	 * Abstract. Reads the raw packet data from the data stream.
 	 */
-	public void readPacketData(DataInputStream par1DataInputStream)
+	@Override
+	public void readPacketData(DataInput par1DataInputStream)
 			throws IOException {
 		super.readPacketData(par1DataInputStream);
 
@@ -52,9 +54,19 @@ public class Packet62LevelSoundMinetunes extends Packet62LevelSound {
 					(int) (getEffectX() - 0.5), (int) (getEffectY() - 0.5),
 					(int) (getEffectZ() - 0.5));
 			if (adjust != 0) {
-				String newSoundName = getSoundName() + "_" + adjust + "o";
-				setNoteNameWithReflection(newSoundName);
+				// String newSoundName = getSoundName() + "_" + adjust + "o";
+				// setNoteNameWithReflection(newSoundName);
+				// MC161 doesn't work :(
+				apologize();
 			}
+		}
+	}
+
+	public static void apologize() {
+		if (!apologized) {
+			apologized = true;
+			Minetunes
+					.showTextAsLyricNow("MineTunes: Minecraft 1.6 won't let me play high and low noteblocks yet.");
 		}
 	}
 
@@ -70,5 +82,5 @@ public class Packet62LevelSoundMinetunes extends Packet62LevelSound {
 			e.printStackTrace();
 		}
 	}
-	
+
 }

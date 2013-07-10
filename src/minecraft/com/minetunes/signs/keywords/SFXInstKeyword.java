@@ -35,8 +35,8 @@ import com.minetunes.config.MinetunesConfig;
 import com.minetunes.ditty.Ditty;
 import com.minetunes.ditty.event.SFXInstrumentEvent;
 import com.minetunes.sfx.SFXManager;
-import com.minetunes.signs.SignTuneParser;
 import com.minetunes.signs.ParsedSign;
+import com.minetunes.signs.SignTuneParser;
 
 /**
  * 
@@ -107,13 +107,16 @@ public class SFXInstKeyword extends SignTuneKeyword {
 		if (args.length >= 1) {
 			// Decide what SFX source to use based on the SfxInst keyword
 			String rootKeyword = args[0];
-			if (rootKeyword.equalsIgnoreCase("sfxinst")) {
-				// Use Alpha-1.3 source
-				sfxSource = 0;
-			} else if (rootKeyword.equalsIgnoreCase("sfxinst2")) {
-				// use 1.4 source
-				sfxSource = 1;
-			}
+			// if (rootKeyword.equalsIgnoreCase("sfxinst")) {
+			// // Use Alpha-1.3 source
+			// sfxSource = 0;
+			// } else if (rootKeyword.equalsIgnoreCase("sfxinst2")) {
+			// // use 1.4 source
+			// sfxSource = 1;
+			// }
+			// There is now no difference between sfx inst 1 and 2; both are
+			// allowed for backwards compatibility
+			sfxSource = 1;
 		}
 
 		// Calculate other arguments

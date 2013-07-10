@@ -31,9 +31,9 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 
-import net.minecraft.client.Minecraft;
 import net.minecraft.src.GuiScreenBook;
 import net.minecraft.src.ItemStack;
+import net.minecraft.src.Minecraft;
 
 import com.minetunes.Finder;
 import com.minetunes.books.BookWrapper;
@@ -47,7 +47,7 @@ import com.minetunes.books.BookWrapper;
 public class BookImportButton extends GuiButtonL {
 
 	private GuiScreenBook bookGui;
-	public static final String tex = "/com/minetunes/resources/textures/signEditor1.png";
+	public static final String tex = "textures/misc/signEditor1.png";
 
 	public BookImportButton() {
 		// Arbitrary id number, not likely to conflict with vanilla gui

@@ -30,7 +30,6 @@ import com.minetunes.Point3D;
 import com.minetunes.ditty.Ditty;
 import com.minetunes.ditty.event.PlayMidiDittyEvent;
 import com.minetunes.signs.SignTuneParser;
-import com.minetunes.signs.ParsedSign;
 
 /**
  *

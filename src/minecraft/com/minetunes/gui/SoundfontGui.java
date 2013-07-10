@@ -29,7 +29,6 @@ import java.io.IOException;
 
 import net.minecraft.src.GuiButton;
 import net.minecraft.src.GuiScreen;
-import net.minecraft.src.TileEntitySignRenderer;
 
 import org.lwjgl.input.Keyboard;
 

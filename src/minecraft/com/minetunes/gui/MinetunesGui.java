@@ -25,18 +25,18 @@ package com.minetunes.gui;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.File;
 import java.io.IOException;
 import java.net.URI;
 import java.util.LinkedList;
-import javax.swing.JComboBox;
 
-import net.minecraft.client.Minecraft;
 import net.minecraft.src.EnumOS;
 import net.minecraft.src.FontRenderer;
 import net.minecraft.src.GuiButton;
 import net.minecraft.src.GuiScreen;
+import net.minecraft.src.Minecraft;
+import net.minecraft.src.ResourceLocation;
 import net.minecraft.src.Timer;
+import net.minecraft.src.Util;
 
 import org.lwjgl.Sys;
 import org.lwjgl.input.Keyboard;
@@ -86,8 +86,15 @@ public class MinetunesGui extends GuiScreen {
 
 		// Draw logo
 		GL11.glColor4f(1.0F, 1.0F, 1.0F, 0.5f);
-		Minecraft.getMinecraft().renderEngine
-				.bindTexture("/com/minetunes/resources/textures/mineTunesLogo.png");
+		// MC161 textures
+		// Minecraft.getMinecraft().func_110434_K()
+		// .bindTexture("/com/minetunes/resources/textures/mineTunesLogo.png");
+		Minecraft
+				.getMinecraft()
+				.func_110434_K()
+				.func_110577_a(
+						new ResourceLocation(
+								"textures/misc/mineTunesLogo.png"));
 		// drawTexturedModalRect(width / 2 - 64, 10, 100, 0, 128, 64);
 		drawRect(width / 2 - 55, 5, width / 2 + 55, 55, 0xddffffff);
 		drawTexturedModalRect(width / 2 - 50, 10, 0, 0, 100, 36);
@@ -184,11 +191,11 @@ public class MinetunesGui extends GuiScreen {
 			mc.displayGuiScreen(new OldSettingsGui());
 		} else if (typedKeys.toLowerCase().endsWith("blockarina")) {
 			mc.displayGuiScreen(new GuiBlockarinaTest(this));
-		} else if (typedKeys.toLowerCase().endsWith("cga")) {
-			mc.fontRenderer = new FontRenderer(mc.gameSettings,
-					"/com/minetunes/resources/textures/CGAFont.png",
-					mc.renderEngine, false);
-			FontRendererUtils.changeCharWidth(8, mc.fontRenderer);
+			// } else if (typedKeys.toLowerCase().endsWith("cga")) {
+			// mc.fontRenderer = new FontRenderer(mc.gameSettings,
+			// "/com/minetunes/resources/textures/CGAFont.png",
+			// mc.renderEngine, false);
+			// FontRendererUtils.changeCharWidth(8, mc.fontRenderer);
 		} else if (typedKeys.toLowerCase().endsWith("soundtest")) {
 			mc.displayGuiScreen(new SoundTestGui(this));
 		}
@@ -251,7 +258,7 @@ public class MinetunesGui extends GuiScreen {
 		MinetunesConfig.getMidiDir().mkdirs();
 
 		// (Code from GuiTexturePacks)
-		if (Minecraft.getOs() == EnumOS.MACOS) {
+		if (Util.func_110647_a() == EnumOS.MACOS) {
 			try {
 				System.out.println(fileLocation);
 				Runtime.getRuntime().exec(
@@ -260,7 +267,7 @@ public class MinetunesGui extends GuiScreen {
 			} catch (IOException var7) {
 				var7.printStackTrace();
 			}
-		} else if (Minecraft.getOs() == EnumOS.WINDOWS) {
+		} else if (Util.func_110647_a() == EnumOS.WINDOWS) {
 			String var2 = String.format(
 					"cmd.exe /C start \"Open file\" \"%s\"",
 					new Object[] { fileLocation });
@@ -300,7 +307,7 @@ public class MinetunesGui extends GuiScreen {
 		// buttonList.add(new GuiButton(400, 2, 10, 80, 20, "§bBack"));
 		// }
 
-		String tex = "/com/minetunes/resources/textures/mineTunesLogo.png";
+		String tex = "textures/misc/mineTunesLogo.png";
 		final GuiScreen thisGui = this;
 
 		GuiButtonL backButton = new GuiButtonL("back", 10, 10, 60, 20, tex,
@@ -585,7 +592,7 @@ public class MinetunesGui extends GuiScreen {
 			cancelTutorialButton = new GuiButtonL("cancelTutorial",
 					tutorialButton.xPosition + 100 + 2,
 					tutorialButton.yPosition, 20, 20,
-					"/com/minetunes/resources/textures/mineTunesLogo.png", 15);
+					"textures/misc/mineTunesLogo.png", 15);
 			buttonList.add(cancelTutorialButton);
 			cancelTutorialButton.addListener(new ActionListener() {
 

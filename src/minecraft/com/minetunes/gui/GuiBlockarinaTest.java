@@ -23,10 +23,10 @@
  */
 package com.minetunes.gui;
 
-import org.lwjgl.input.Keyboard;
-
 import net.minecraft.src.GuiButton;
 import net.minecraft.src.GuiScreen;
+
+import org.lwjgl.input.Keyboard;
 
 /**
  * @author William

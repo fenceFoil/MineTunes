@@ -28,8 +28,9 @@ import java.awt.event.ActionListener;
 import java.util.HashSet;
 import java.util.Random;
 
-import net.minecraft.client.Minecraft;
 import net.minecraft.src.GuiButton;
+import net.minecraft.src.Minecraft;
+import net.minecraft.src.ResourceLocation;
 
 import org.lwjgl.opengl.GL11;
 
@@ -147,7 +148,10 @@ public class GuiButtonL extends GuiButton {
 			// Set up texture
 			// GL11.glBindTexture(GL11.GL_TEXTURE_2D,
 			// mc.renderEngine.getTexture("/gui/gui.png"));
-			mc.renderEngine.bindTexture("/gui/gui.png");
+			// mc.func_110434_K().bindTexture("/gui/gui.png");
+			// MC161 textures
+			mc.func_110434_K().func_110577_a(
+					new ResourceLocation("textures/gui/widgets.png"));
 			GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
 
 			// Draw texture, grabbing a half from each end of the button texture
@@ -181,8 +185,11 @@ public class GuiButtonL extends GuiButton {
 
 			// Draw icon
 			if (isIconShown()) {
-				//GL11.glBindTexture(GL11.GL_TEXTURE_2D, iconTex);
-				mc.renderEngine.bindTexture(iconTex);
+				// GL11.glBindTexture(GL11.GL_TEXTURE_2D, iconTex);
+				// mc.func_110434_K().bindTexture(iconTex);
+				// MC161 Textures
+				mc.func_110434_K().func_110577_a(
+						new ResourceLocation(iconTex));
 				drawTexturedModalRect(xPosition + 2, yPosition + 2,
 						(iconIndex % 16) * 16, (iconIndex / 16) * 16, 16, 16);
 			}

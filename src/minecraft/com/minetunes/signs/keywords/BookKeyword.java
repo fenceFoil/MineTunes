@@ -25,7 +25,6 @@ package com.minetunes.signs.keywords;
 
 import java.util.LinkedList;
 
-import net.minecraft.client.Minecraft;
 import net.minecraft.src.Item;
 import net.minecraft.src.ItemStack;
 import net.minecraft.src.TileEntitySign;

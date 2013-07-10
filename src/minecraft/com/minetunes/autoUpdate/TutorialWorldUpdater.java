@@ -28,8 +28,8 @@ import java.io.File;
 import java.io.IOException;
 import java.util.LinkedList;
 
-import net.minecraft.client.Minecraft;
 import net.minecraft.src.GuiMainMenu;
+import net.minecraft.src.Minecraft;
 import net.minecraft.src.StatList;
 import net.minecraft.src.WorldClient;
 
@@ -37,8 +37,8 @@ import com.minetunes.Minetunes;
 import com.minetunes.Point3D;
 import com.minetunes.config.MinetunesConfig;
 import com.minetunes.resources.ResourceManager;
-import com.minetunes.signs.SignTuneParser;
 import com.minetunes.signs.Comment;
+import com.minetunes.signs.SignTuneParser;
 
 /**
  * Manages checking the version of and downloading MineTunesLand from the
@@ -108,7 +108,7 @@ public class TutorialWorldUpdater extends FileUpdater {
 		}
 
 		// TODO: Extract, etc.
-		File saveWorldDir = new File(Minecraft.getMinecraft().getMinecraftDir()
+		File saveWorldDir = new File(Minecraft.getMinecraft().mcDataDir
 				+ File.separator + "saves");
 		ResourceManager.extractZipFiles(newVersionFile.getPath(),
 				saveWorldDir.getPath());

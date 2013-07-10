@@ -32,7 +32,7 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.nio.channels.FileChannel;
 
-import net.minecraft.client.Minecraft;
+import net.minecraft.src.Minecraft;
 
 import com.minetunes.Color4f;
 import com.minetunes.Minetunes;
@@ -47,7 +47,7 @@ import com.minetunes.config.MinetunesConfig;
 public class MCDittyConfigConverter {
 
 	private static File getMCDittyDir() {
-		return new File(Minecraft.getMinecraftDir().getPath() + File.separator
+		return new File(Minecraft.getMinecraft().mcDataDir.getPath() + File.separator
 				+ "MCDitty" + File.separator);
 	}
 
@@ -64,7 +64,7 @@ public class MCDittyConfigConverter {
 	 * @return
 	 */
 	public static boolean conversionNeeded() {
-		File mcdittyDir = new File(Minecraft.getMinecraftDir().getPath()
+		File mcdittyDir = new File(Minecraft.getMinecraft().mcDataDir.getPath()
 				+ File.separator + "MCDitty");
 		if (mcdittyDir.exists() && !MinetunesConfig.getMinetunesDir().exists()) {
 			return true;
@@ -79,7 +79,7 @@ public class MCDittyConfigConverter {
 	public static void convert() {
 		System.out.println("Converting MCDitty files to MineTunes files.");
 
-		File mcdittyDir = new File(Minecraft.getMinecraftDir().getPath()
+		File mcdittyDir = new File(Minecraft.getMinecraft().mcDataDir.getPath()
 				+ File.separator + "MCDitty");
 		File minetunesDir = MinetunesConfig.getMinetunesDir();
 

@@ -23,12 +23,8 @@
  */
 package com.minetunes.gui;
 
-import net.minecraft.client.Minecraft;
-import net.minecraft.src.GuiButton;
 import net.minecraft.src.GuiScreen;
-import net.minecraft.src.GuiVideoSettings;
-
-import com.minetunes.Finder;
+import net.minecraft.src.Minecraft;
 
 public class GuiMinetimesGraphicsMenuButton extends GuiButtonL {
 
@@ -38,7 +34,7 @@ public class GuiMinetimesGraphicsMenuButton extends GuiButtonL {
 
 	public GuiMinetimesGraphicsMenuButton(GuiScreen backscreen) {
 		super("signGraphics", 5, 5, 20, 20,
-				"/com/minetunes/resources/textures/signEditor1.png", 12);
+				"textures/misc/signEditor1.png", 12);
 		id = 1923129982;
 		setBackscreen(backscreen);
 	}

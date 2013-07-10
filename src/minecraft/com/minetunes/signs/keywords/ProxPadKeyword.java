@@ -23,7 +23,6 @@
  */
 package com.minetunes.signs.keywords;
 
-import javax.swing.text.AbstractDocument.LeafElement;
 
 /**
  * @author William

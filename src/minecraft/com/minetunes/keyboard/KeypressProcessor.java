@@ -26,19 +26,18 @@ package com.minetunes.keyboard;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.LinkedList;
 
-import net.minecraft.client.Minecraft;
 import net.minecraft.src.Block;
 import net.minecraft.src.EnumOS;
+import net.minecraft.src.Minecraft;
+import net.minecraft.src.Util;
 
 import org.lwjgl.input.Keyboard;
 
-import com.minetunes.Finder;
 import com.minetunes.Minetunes;
 import com.minetunes.Point3D;
 import com.minetunes.books.BookPlayer;
@@ -116,7 +115,7 @@ public class KeypressProcessor {
 							break;
 						} else {
 							// Not pressed
-							if (Minecraft.getOs() == EnumOS.MACOS) {
+							if (Util.func_110647_a() == EnumOS.MACOS) {
 								// If checking for a ctrl key, automatically
 								// check
 								// for the mac meta key as well

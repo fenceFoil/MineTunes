@@ -27,11 +27,13 @@ package com.minetunes.noteblocks;
 import java.util.HashMap;
 import java.util.LinkedList;
 
-import net.minecraft.client.Minecraft;
 import net.minecraft.src.Block;
 import net.minecraft.src.BlockNote;
-import net.minecraft.src.BlockSign;
+import net.minecraft.src.IBlockAccess;
+import net.minecraft.src.Icon;
+import net.minecraft.src.IconRegister;
 import net.minecraft.src.Material;
+import net.minecraft.src.Minecraft;
 import net.minecraft.src.TileEntity;
 import net.minecraft.src.TileEntityNote;
 import net.minecraft.src.TileEntitySign;
@@ -39,12 +41,13 @@ import net.minecraft.src.World;
 
 import com.minetunes.Finder;
 import com.minetunes.Minetunes;
+import com.minetunes.Packet62LevelSoundMinetunes;
 import com.minetunes.Point3D;
 import com.minetunes.config.MinetunesConfig;
 import com.minetunes.ditty.event.CueEvent;
 import com.minetunes.particle.ParticleRequest;
-import com.minetunes.signs.SignTuneParser;
 import com.minetunes.signs.SignParser;
+import com.minetunes.signs.SignTuneParser;
 import com.minetunes.signs.TileEntitySignMinetunes;
 import com.minetunes.signs.keywords.NoteblockTriggerKeyword;
 
@@ -54,6 +57,19 @@ import com.minetunes.signs.keywords.NoteblockTriggerKeyword;
  * 
  */
 public class BlockNoteMinetunes extends BlockNote {
+	@Override
+	public Icon getBlockTexture(IBlockAccess par1iBlockAccess, int par2,
+			int par3, int par4, int par5) {
+		// TODO Auto-generated method stub
+		return super.getBlockTexture(par1iBlockAccess, par2, par3, par4, par5);
+	}
+
+	@Override
+	public void registerIcons(IconRegister par1IconRegister) {
+		this.blockIcon = par1IconRegister
+				.registerIcon("noteblock");
+	}
+
 	public static HashMap<String, String> screenNames = new HashMap<String, String>();
 
 	static {
@@ -81,7 +97,7 @@ public class BlockNoteMinetunes extends BlockNote {
 		setHardness(0.8F);
 		setUnlocalizedName("musicBlock");
 		// Oh god please please fix this
-		//getIndirectPowerOutput("musicBlock");
+		// getIndirectPowerOutput("musicBlock");
 	}
 
 	// /**
@@ -215,7 +231,9 @@ public class BlockNoteMinetunes extends BlockNote {
 			// Handle noteblock octave adjustment
 			int adjust = BlockNoteMinetunes.getOctaveAdjust(x, y, z);
 			if (adjust != 0) {
-				noteType = noteType + "_" + adjust + "o";
+				// MC161: noteblock octaves don't work :(
+				//noteType = noteType + "_" + adjust + "o";
+				Packet62LevelSoundMinetunes.apologize();
 			}
 
 			world.playSoundEffect((double) x + 0.5D, (double) y + 0.5D,
@@ -349,7 +367,9 @@ public class BlockNoteMinetunes extends BlockNote {
 
 		String soundName = "note." + noteType;
 		if (octaveAdjust != 0) {
-			soundName += "_" + octaveAdjust + "o";
+			//MC161: noteblock sounds don't work :( 
+			//soundName += "_" + octaveAdjust + "o";
+			Packet62LevelSoundMinetunes.apologize();
 		}
 		// System.out.println (soundName);
 

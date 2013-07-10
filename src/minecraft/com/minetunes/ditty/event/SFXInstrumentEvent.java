@@ -23,11 +23,6 @@
  */
 package com.minetunes.ditty.event;
 
-import java.util.HashMap;
-import java.util.LinkedList;
-import java.util.Set;
-
-import com.minetunes.sfx.SFXManager;
 import com.minetunes.signs.keywords.SFXInstKeyword;
 
 /**

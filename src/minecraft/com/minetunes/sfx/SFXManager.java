@@ -38,7 +38,7 @@ import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 
-import net.minecraft.client.Minecraft;
+import net.minecraft.src.Minecraft;
 
 import org.jfugue.elements.Note;
 import org.w3c.dom.Document;
@@ -47,7 +47,6 @@ import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
 import com.minetunes.DOMUtil;
-import com.minetunes.Finder;
 import com.minetunes.resources.ResourceManager;
 
 /**
@@ -175,8 +174,8 @@ public class SFXManager {
 
 		// Base filename, complete up to the newsound dir.
 		StringBuilder filename = new StringBuilder()
-				.append(Minecraft.getMinecraft().getMinecraftDir())
-				.append(File.separator).append("resources")
+				.append(Minecraft.getMinecraft().mcDataDir)
+				.append(File.separator).append("assets")
 				.append(File.separator)
 				.append(sources.get(source).resourceFolder)
 				.append(File.separator);

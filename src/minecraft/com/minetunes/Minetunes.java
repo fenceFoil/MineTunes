@@ -29,7 +29,6 @@ import java.io.BufferedWriter;
 import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -56,7 +55,6 @@ import javax.sound.midi.MidiUnavailableException;
 import javax.sound.midi.Sequence;
 import javax.sound.midi.Sequencer;
 
-import net.minecraft.client.Minecraft;
 import net.minecraft.src.AxisAlignedBB;
 import net.minecraft.src.Block;
 import net.minecraft.src.BlockSign;
@@ -75,6 +73,7 @@ import net.minecraft.src.GuiScreen;
 import net.minecraft.src.GuiScreenBook;
 import net.minecraft.src.GuiVideoSettings;
 import net.minecraft.src.ItemStack;
+import net.minecraft.src.Minecraft;
 import net.minecraft.src.NBTTagCompound;
 import net.minecraft.src.Packet;
 import net.minecraft.src.RenderGlobal;
@@ -94,6 +93,9 @@ import org.xml.sax.SAXException;
 
 import aurelienribon.tweenengine.Tween;
 
+import com.fencefoil.signWatcher.SignChangedEvent;
+import com.fencefoil.signWatcher.SignWatcher;
+import com.fencefoil.signWatcher.interfaces.SignChangedListener;
 import com.minetunes.autoUpdate.CompareVersion;
 import com.minetunes.autoUpdate.ModUpdater;
 import com.minetunes.autoUpdate.TutorialWorldUpdater;
@@ -142,10 +144,10 @@ import com.minetunes.particle.HeartParticleRequest;
 import com.minetunes.particle.MinetunesParticleRequest;
 import com.minetunes.particle.NoteParticleRequest;
 import com.minetunes.particle.ParticleRequest;
+import com.minetunes.resources.ResourceManager;
 import com.minetunes.resources.UpdateResourcesThread;
 import com.minetunes.sfx.SFXManager;
 import com.minetunes.signs.Comment;
-import com.minetunes.signs.Packet130UpdateSignMinetunes;
 import com.minetunes.signs.SignLine;
 import com.minetunes.signs.SignParser;
 import com.minetunes.signs.SignTuneParser;
@@ -419,16 +421,12 @@ public class Minetunes {
 				Map packetClassToIdMap = (Map) packetClassToIdMapObj;
 				packetClassToIdMap.put(Packet62LevelSoundMinetunes.class,
 						Integer.valueOf(62));
-				packetClassToIdMap.put(Packet130UpdateSignMinetunes.class,
-						Integer.valueOf(130));
 
 				// Also put into the other map of packets
 				// Only do this if the first map was found and added to
 				// successfully
 				Packet.packetIdToClassMap.addKey(62,
 						Packet62LevelSoundMinetunes.class);
-				Packet.packetIdToClassMap.addKey(130,
-						Packet130UpdateSignMinetunes.class);
 			}
 		} catch (IllegalArgumentException e) {
 			// TODO Auto-generated catch block
@@ -437,6 +435,18 @@ public class Minetunes {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+
+		Block.blocksList[25] = newNoteBlock;
+
+		// Set up SignRegistry
+		SignWatcher.init(true);
+		SignWatcher.addSignChangedListener(new SignChangedListener() {
+
+			@Override
+			public void signChanged(SignChangedEvent event) {
+				Minetunes.signChanged(event);
+			}
+		});
 
 		// Add a TileEntity mapping for TileEntityNoteMineTunes,
 		// TileEntitySignMinetunes
@@ -562,6 +572,8 @@ public class Minetunes {
 			public void run() {
 				while (true) {
 					addButtonsToGuis();
+					swapSignGui();
+
 					try {
 						Thread.sleep(100);
 					} catch (InterruptedException e) {
@@ -695,6 +707,13 @@ public class Minetunes {
 	 * @return
 	 */
 	public static boolean onTick(float partialTick, Minecraft minecraft) {
+		// Update SignWatcher
+		// Note: due to all the old, pre-signwatcher code still in place, it is
+		// unnecessary for MineTunes to run the manual sign scan. Could change
+		// some happy day, though! For now, we only need SignWatcher's hooked
+		// packet.
+		// SignWatcher.scanWorldForSignsManually();
+
 		// Do in any tick, not just in game (see below section)
 		addButtonsToGuis();
 		swapSignGui();
@@ -765,7 +784,7 @@ public class Minetunes {
 	 * its "modified sign" packet, and you can't save the sign text you change
 	 * in the Minetunes editor anymore (sign update packets are one-shot deals).
 	 */
-	private static void swapSignGui() {
+	protected static void swapSignGui() {
 		try {
 			if (Minecraft.getMinecraft().currentScreen instanceof GuiEditSign
 					&& !(Minecraft.getMinecraft().currentScreen instanceof GuiEditSignBase)) {
@@ -1928,7 +1947,7 @@ public class Minetunes {
 				// now)
 				final SoftSynthesizer ss = synthPool.getOpenedSynth();
 				for (MidiChannel mc : ss.getChannels()) {
-					 //mc.controlChange(0, 0xffff);
+					// mc.controlChange(0, 0xffff);
 				}
 				if (MinetunesConfig.customSF2.isSF2Loaded()) {
 					ss.loadAllInstruments(MinetunesConfig.customSF2
@@ -2364,7 +2383,8 @@ public class Minetunes {
 	}
 
 	public static void registerSoundResources() {
-		registerSoundResources(MinetunesConfig.getResourcesDir(), "");
+		registerSoundResources(new File(MinetunesConfig.getResourcesDir()
+				+ File.separator + "note" + File.separator), "note/");
 	}
 
 	private static void registerSoundResources(File resourcesDir, String prefix) {
@@ -2376,9 +2396,14 @@ public class Minetunes {
 				if (f.getName().endsWith(".ogg")) {
 					// Register as a sound
 					String soundName = prefix + f.getName();
-					// System.out.println
-					// ("Registering sound effect: "+soundName);
-					Minecraft.getMinecraft().sndManager.addSound(soundName, f);
+					// System.out
+					// .println("Registering sound effect: " + soundName);
+					// MC161 Sound problems?
+					if (Minecraft.getMinecraft() != null
+							&& Minecraft.getMinecraft().sndManager != null) {
+						System.out.println("Trying to register: " + soundName);
+						Minecraft.getMinecraft().sndManager.addSound(soundName);
+					}
 				} else if (f.isDirectory()) {
 					registerSoundResources(f, f.getName() + "/");
 				}
@@ -2711,5 +2736,46 @@ public class Minetunes {
 		} else {
 			return new File(MinetunesConfig.getMidiDir(), name + ".mid");
 		}
+	}
+
+	public static void signChanged(SignChangedEvent event) {
+		onSignLoaded(event.getSign().getX(), event.getSign().getY(), event
+				.getSign().getZ(), event.getSign().getText());
+	}
+
+	public static void tryToCopyOverSoundResources() {
+		// Check to see whether sounds are already there
+		File soundsPresentFlag = new File(
+				MinetunesConfig.soundAssetDir.getPath() + File.separator
+						+ "note" + File.separator + "MineTunes_Present.txt");
+		if (soundsPresentFlag.exists()) {
+			return;
+		}
+
+		// Sounds need to be copied over.
+		// Have they been downloaded yet?
+		File soundResourcesDir = new File(MinetunesConfig.getResourcesDir(),
+				"note");
+		if (!soundResourcesDir.exists()) {
+			// Sounds aren't there to copy over yet.
+			return;
+		}
+
+		System.out.println("Copying over MineTunes sounds.");
+
+		// Ready to copy: need is there, and files are present to copy over.
+		File[] files = soundResourcesDir.listFiles();
+		for (File f : files) {
+			File dest = new File(MinetunesConfig.soundAssetDir.getPath()
+					+ File.separator + "note" + File.separator + f.getName());
+			try {
+				ResourceManager.copyFile(f, dest);
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
+
+		// Register newly-copied resources
+		registerSoundResources();
 	}
 }

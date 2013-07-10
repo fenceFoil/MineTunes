@@ -1,10 +1,11 @@
 package com.minetunes.signs;
 
-import net.minecraft.client.Minecraft;
 import net.minecraft.src.Block;
 import net.minecraft.src.FontRenderer;
 import net.minecraft.src.MathHelper;
+import net.minecraft.src.Minecraft;
 import net.minecraft.src.ModelSign;
+import net.minecraft.src.ResourceLocation;
 import net.minecraft.src.TileEntity;
 import net.minecraft.src.TileEntitySign;
 import net.minecraft.src.TileEntitySignRenderer;
@@ -39,6 +40,9 @@ import com.minetunes.gui.signEditor.GuiEditSignBase;
  */
 
 public class TileEntitySignRendererMinetunes extends TileEntitySignRenderer {
+
+	private static final ResourceLocation field_110638_a_copy = new ResourceLocation(
+			"textures/entity/sign.png");
 
 	public static int blinkTimeMS = 6000;
 	public static boolean blinkSignsRed = true;
@@ -424,10 +428,12 @@ public class TileEntitySignRendererMinetunes extends TileEntitySignRenderer {
 			// Not blinking. Act normal!
 		}
 
+		// MC161 Texture issues?
 		if (signEntity.isFace(false)) {
-			bindTextureByName("/com/minetunes/resources/textures/skinSign1.png");
+			this.func_110628_a(new ResourceLocation(
+					"textures/misc/skinSign1.png"));
 		} else {
-			bindTextureByName("/item/sign.png");
+			this.func_110628_a(new ResourceLocation("textures/entity/sign.png"));
 		}
 		GL11.glPushMatrix();
 		GL11.glScalef(f, -f, -f);

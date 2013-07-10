@@ -39,12 +39,13 @@ import java.util.jar.JarOutputStream;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
 
-import net.minecraft.client.Minecraft;
+import net.minecraft.src.Minecraft;
 
 /**
  * Downloads new versions of your mod, and patches them into minecraft.jar<br>
  * <br>
- * This class should not be used for updating Forge mods installed in a \mods\ folder.
+ * This class should not be used for updating Forge mods installed in a \mods\
+ * folder.
  * 
  */
 public class ModUpdater extends FileUpdater {
@@ -69,7 +70,7 @@ public class ModUpdater extends FileUpdater {
 		super(versionInfo, "mod");
 		this.modPackages = modPackages;
 	}
-
+// MC161 Test JAR SWAPPEr!
 	/**
 	 * Restart the current Java application. Adapted From
 	 * http://java.dzone.com/articles/programmatically-restart-java
@@ -99,7 +100,7 @@ public class ModUpdater extends FileUpdater {
 			}
 
 			// Add argument containing the location of this minecraft.jar
-			cmd.append(" " + Minecraft.getMinecraftDir() + File.separator
+			cmd.append(" " + Minecraft.getMinecraft().mcDataDir + File.separator
 					+ "bin" + File.separator);
 
 			// execute the command in a shutdown hook, to be sure that all the
@@ -287,11 +288,9 @@ public class ModUpdater extends FileUpdater {
 				"Repacking new minecraft.jar...");
 
 		try {
-			File newMinecraftFile = new File(Minecraft.getMinecraft()
-					.getMinecraftDir()
-					+ File.separator
-					+ "bin"
-					+ File.separator + "minecraft.updatedMCDitty.jar");
+			File newMinecraftFile = new File(Minecraft.getMinecraft().mcDataDir
+					+ File.separator + "bin" + File.separator
+					+ "minecraft.updatedMCDitty.jar");
 			if (newMinecraftFile.exists()) {
 				newMinecraftFile.delete();
 			}
@@ -402,8 +401,9 @@ public class ModUpdater extends FileUpdater {
 	}
 
 	private File getMinecraftJarFile() {
-		return new File(Minecraft.getMinecraft().getMinecraftDir()
-				+ File.separator + "bin" + File.separator + "minecraft.jar");
+		// MC161 MCDatadir good replacement for getMinecraftDir() ?
+		return new File(Minecraft.getMinecraft().mcDataDir + File.separator
+				+ "bin" + File.separator + "minecraft.jar");
 	}
 
 	/**

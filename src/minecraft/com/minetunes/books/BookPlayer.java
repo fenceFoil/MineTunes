@@ -25,9 +25,9 @@ package com.minetunes.books;
 
 import java.util.LinkedList;
 
-import net.minecraft.client.Minecraft;
 import net.minecraft.src.EntityClientPlayerMP;
 import net.minecraft.src.ItemStack;
+import net.minecraft.src.Minecraft;
 
 import org.w3c.dom.Element;
 import org.xml.sax.SAXException;

@@ -23,21 +23,13 @@
  */
 package com.minetunes.signs.keywords;
 
-import java.io.File;
-
 import net.minecraft.src.TileEntitySign;
 import net.minecraft.src.World;
 
-import org.jfugue.elements.Note;
-
 import com.minetunes.Point3D;
-import com.minetunes.config.MinetunesConfig;
 import com.minetunes.ditty.Ditty;
 import com.minetunes.ditty.event.SFXInstrumentOffEvent;
-import com.minetunes.sfx.SFXManager;
 import com.minetunes.signs.SignTuneParser;
-import com.minetunes.signs.ParsedSign;
-import com.minetunes.signs.SignParser;
 
 /**
  * 

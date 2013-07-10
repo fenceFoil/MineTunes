@@ -24,9 +24,10 @@
 package com.minetunes.resources;
 
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.Properties;
+
+import net.minecraft.src.Minecraft;
 
 import com.minetunes.Minetunes;
 import com.minetunes.autoUpdate.CompareVersion;
@@ -48,6 +49,8 @@ public class UpdateResourcesThread extends Thread {
 	@Override
 	public synchronized void run() {
 		System.out.println("Updating MineTunes Resources");
+		
+		Minetunes.tryToCopyOverSoundResources();
 
 		// Download the properties for resources
 		Properties prop = FileUpdater
@@ -89,8 +92,9 @@ public class UpdateResourcesThread extends Thread {
 
 		if (resourcesVersion < 0) {
 			// Illegal version num
-			System.err.println("MineTunes cannot download resources zip version "
-					+ resourcesVersion);
+			System.err
+					.println("MineTunes cannot download resources zip version "
+							+ resourcesVersion);
 			fail();
 			return;
 		}
@@ -105,21 +109,21 @@ public class UpdateResourcesThread extends Thread {
 
 		// Check to make sure this is not a duplicate download
 		if (MinetunesConfig.getInt("resources.lastZipDownloaded") == resourcesVersion) {
-			//System.out.println ("MineTunes: Resources already up-to-date.");
+			// System.out.println ("MineTunes: Resources already up-to-date.");
 			return;
 		}
 
 		// Download resources
 		String downloadURL = prop.getProperty(resourcesVersion + ".url");
 		if (downloadURL == null) {
-			System.err.println("MineTunes could not find key " + resourcesVersion
-					+ ".url in the resource index.");
+			System.err.println("MineTunes could not find key "
+					+ resourcesVersion + ".url in the resource index.");
 			fail();
 			return;
 		}
-		
+
 		File resourcesDir = MinetunesConfig.getResourcesDir();
-		
+
 		// Clear existing resources
 		try {
 			deleteRecursively(resourcesDir);
@@ -136,8 +140,9 @@ public class UpdateResourcesThread extends Thread {
 						+ resourcesVersion + ".zip");
 		if (zipFile == null) {
 			// Did not download
-			System.err.println("MineTunes: Unable to download resources version "
-					+ resourcesVersion);
+			System.err
+					.println("MineTunes: Unable to download resources version "
+							+ resourcesVersion);
 			fail();
 			return;
 		}
@@ -148,6 +153,8 @@ public class UpdateResourcesThread extends Thread {
 
 		// Delete zip file
 		zipFile.delete();
+		
+		Minetunes.tryToCopyOverSoundResources();
 
 		// Re-index any sound resources
 		Minetunes.registerSoundResources();

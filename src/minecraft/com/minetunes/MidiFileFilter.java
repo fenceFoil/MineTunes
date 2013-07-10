@@ -25,7 +25,6 @@ package com.minetunes;
 
 import java.io.File;
 import java.io.FileFilter;
-import java.io.FilenameFilter;
 
 public class MidiFileFilter implements FileFilter {
 

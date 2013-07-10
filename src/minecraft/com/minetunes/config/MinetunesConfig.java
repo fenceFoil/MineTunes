@@ -31,7 +31,7 @@ import java.io.IOException;
 import java.util.InvalidPropertiesFormatException;
 import java.util.Properties;
 
-import net.minecraft.client.Minecraft;
+import net.minecraft.src.Minecraft;
 
 import com.minetunes.CachedCustomSoundfont;
 import com.minetunes.Color4f;
@@ -50,12 +50,12 @@ public class MinetunesConfig {
 	/**
 	 * Current MineTunes version.
 	 */
-	public static final String CURRENT_VERSION = "3.3.00";
+	public static final String CURRENT_VERSION = "3.4.01";
 	/**
 	 * Minecraft version that the mod is designed for.
 	 */
-	public static final String MC_CURRENT_VERSION = "1.5.2";
-	private static final String[] UPDATE_MESSAGE = { };
+	public static final String MC_CURRENT_VERSION = "1.6.2";
+	private static final String[] UPDATE_MESSAGE = {};
 	/**
 	 * Disable to stop costly printlns from being called
 	 */
@@ -64,6 +64,9 @@ public class MinetunesConfig {
 	/**
 	 * Used when Auto-Updating. A rough list of packages to remove when
 	 * stripping out this version of Minetunes.
+	 * 
+	 * Exclude SignWatcher (and other com/fencefoil packages), since it may be
+	 * used by other mods.
 	 */
 	public static final String[] mineTunesModPackages = { "org/jfugue",
 			"com/minetunes", "aurelienribon/tweenengine", "de/jarnbjo" };
@@ -140,13 +143,16 @@ public class MinetunesConfig {
 			+ File.separator + "MCDittySettings.xml");
 	private static File resourcesDir = new File(getMinetunesDir().getPath()
 			+ File.separator + "resources");
+	public static File soundAssetDir = new File(
+			Minecraft.getMinecraft().mcDataDir.getPath() + File.separator
+					+ "assets" + File.separator + "sound" + File.separator);
 
 	/**
 	 * @return
 	 */
 	public static File getMinetunesDir() {
-		return new File(Minecraft.getMinecraftDir().getPath() + File.separator
-				+ "mineTunes" + File.separator);
+		return new File(Minecraft.getMinecraft().mcDataDir.getPath()
+				+ File.separator + "mineTunes" + File.separator);
 	}
 
 	public static File getMidiDir() {
@@ -180,6 +186,9 @@ public class MinetunesConfig {
 
 			// Load config settings
 			load();
+			
+			// Copy over sound resources as necessary, regardless of versions
+			Minetunes.tryToCopyOverSoundResources();
 
 			int versionCompare = CompareVersion.compareVersions(
 					CURRENT_VERSION, getString("mod.lastVersionRun"));
