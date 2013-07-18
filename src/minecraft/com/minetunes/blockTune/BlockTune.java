@@ -492,8 +492,13 @@ public class BlockTune implements BlockTuneAccess {
 	 * @return
 	 */
 	private ItemStack getItemstackForWorldBlock(World world, int x, int y, int z) {
-		return new ItemStack(world.getBlockId(x, y, z), 0,
-				world.getBlockMetadata(x, y, z));
+		int id = world.getBlockId(x, y, z);
+		if (id == 0) {
+			id = Block.music.blockID;
+		}
+		ItemStack returnStack = new ItemStack(id, 0, world.getBlockMetadata(x,
+				y, z));
+		return returnStack;
 	}
 
 	private void spawnNoteParticleAbove(Point3D location, float color,
