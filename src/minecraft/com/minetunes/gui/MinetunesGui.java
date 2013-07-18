@@ -96,7 +96,7 @@ public class MinetunesGui extends GuiScreen {
 						new ResourceLocation(
 								"textures/misc/mineTunesLogo.png"));
 		// drawTexturedModalRect(width / 2 - 64, 10, 100, 0, 128, 64);
-		drawRect(width / 2 - 55, 5, width / 2 + 55, 55, 0xddffffff);
+		drawRect(width / 2 - 55, 5, width / 2 + 55, 55, 0xddbb4422);
 		drawTexturedModalRect(width / 2 - 50, 10, 0, 0, 100, 36);
 
 		// Update buttons
