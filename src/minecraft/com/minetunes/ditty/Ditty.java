@@ -31,6 +31,7 @@ import java.util.List;
 import org.jfugue.JFugueException;
 
 import com.minetunes.CueScheduler;
+import com.minetunes.books.booktunes.BookSection;
 import com.minetunes.config.MinetunesConfig;
 import com.minetunes.config.NoPlayTokens;
 import com.minetunes.disco.DiscoFloor;
@@ -47,6 +48,8 @@ public class Ditty {
 	private boolean loud = false;
 	private boolean midiAlreadySaved = false;
 	private String midiSaveFile = null;
+	
+	private LinkedList<BookSection> bookSections = new LinkedList<BookSection>();
 	
 	private boolean playLast = false;
 
@@ -362,6 +365,14 @@ public class Ditty {
 
 	public LinkedList<TimedDittyEvent> getDittyEvents() {
 		return dittyEvents;
+	}
+
+	public LinkedList<BookSection> getBookSections() {
+		return bookSections;
+	}
+
+	public void setBookSections(LinkedList<BookSection> bookSections) {
+		this.bookSections = bookSections;
 	}
 
 }
