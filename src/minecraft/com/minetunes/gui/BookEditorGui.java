@@ -264,7 +264,8 @@ public class BookEditorGui extends GuiScreen {
 		// Book tune too long for this book?
 		try {
 			compressedBytes = bookTune.saveToXML().length();
-			booksRqd = (double) (compressedBytes) / (50d * 255d);
+			// TODO Use 49 pages instead of 50 to account for overhead. This is guesswork.
+			booksRqd = (double) (compressedBytes) / (49d * 255d);
 		} catch (XMLStreamException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

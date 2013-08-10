@@ -23,6 +23,10 @@
  */
 package com.minetunes.books;
 
+import java.io.IOException;
+import java.nio.ByteBuffer;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.LinkedList;
 
 import net.minecraft.src.EntityClientPlayerMP;
@@ -30,12 +34,11 @@ import net.minecraft.src.ItemStack;
 import net.minecraft.src.Minecraft;
 
 import org.w3c.dom.Element;
+import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
 import com.minetunes.Minetunes;
 import com.minetunes.Point3D;
-import com.minetunes.books.booktunes.BookSection;
-import com.minetunes.books.booktunes.BookTune;
 import com.minetunes.books.booktunes.MidiFileSection;
 import com.minetunes.config.MinetunesConfig;
 import com.minetunes.ditty.Ditty;
@@ -110,35 +113,6 @@ public class BookPlayer {
 			Minetunes.writeChatMessage(Minecraft.getMinecraft().theWorld,
 					"Book does not contain a Ditty.");
 			return;
-		}
-
-		// XXX: hijack the parse here to play midi books with auto-play in them.
-		BookTune tune = new BookTune();
-		if (tune.loadFromBooks(book)) {
-			if (tune.getSections().size() > 0) {
-				// Look for a midi file section with auto-play enabled
-				for (BookSection s : tune.getSections()) {
-					if (s instanceof MidiFileSection) {
-						if (((MidiFileSection) s).isAutoPlay()) {
-							// Found.
-
-							MidiFileSection midiSection = (MidiFileSection) s;
-							if (midiSection.getName() != null) {
-								Minecraft.getMinecraft().ingameGUI
-										.setRecordPlayingMessage(midiSection
-												.getName());
-							}
-
-							if (midiSection.getData() != null) {
-								byte[] midiData = midiSection.getData();
-								Minetunes.playMidiFile(midiData);
-							}
-
-							return;
-						}
-					}
-				}
-			}
 		}
 
 		// TODO: Check version, check whether book is in a set, etc.
@@ -434,6 +408,91 @@ public class BookPlayer {
 				// Don't play after all :(
 				return;
 			}
+
+			// Look for and play midi file included in books
+			// XXX: This is a multibook midi file hack :( It doesn't follow my
+			// style up to
+			// now for dealing with booktunes. It also assumes that only one
+			// midi is in a booktune, and anything else will cause weird errors
+			// This also ignores the autoplay attribute, assuming one midi file
+			// per book that plays automatically
+			LinkedList<MidiFileSection> midiSections = new LinkedList<MidiFileSection>();
+			int dataLength = 0;
+			for (Element bookElement : allElementsInDitty) {
+				NodeList childNodes = bookElement.getChildNodes();
+				for (int i = 0; i < childNodes.getLength(); i++) {
+					Element e = (Element) childNodes.item(i);
+					if (e.getTagName().equalsIgnoreCase("midiFile")) {
+						MidiFileSection s = new MidiFileSection();
+						try {
+							s.load(e);
+							dataLength += s.getData().length;
+						} catch (IOException e1) {
+							// TODO Auto-generated catch block
+							e1.printStackTrace();
+						}
+						midiSections.add(s);
+					}
+				}
+			}
+			System.out.println(midiSections.size());
+			if (midiSections.size() > 0) {
+
+				// Put sections in order, blindly assuming that all sections are
+				// present
+				Collections.sort(midiSections,
+						new Comparator<MidiFileSection>() {
+
+							@Override
+							public int compare(MidiFileSection o1,
+									MidiFileSection o2) {
+								if (o1.getPart() > o2.getPart()) {
+									return 1;
+								} else {
+									return -1;
+								}
+								// didn't handle equals; that would be silly!
+								// (not really,
+								// this is just the hackiest hack in town)
+							}
+						});
+
+				ByteBuffer midiData = ByteBuffer.allocate(dataLength);
+				for (MidiFileSection section : midiSections) {
+					midiData.put(section.getData());
+				}
+				Minetunes.playMidiFile(midiData.array());
+			}
+
+			// // XXX: hijack the parse here to play all collected MIDI
+			// elements.
+			// BookTune tune = new BookTune();
+			// if (tune.loadFromBooks(book)) {
+			// if (tune.getSections().size() > 0) {
+			// // Look for a midi file section with auto-play enabled
+			// for (BookSection s : tune.getSections()) {
+			// if (s instanceof MidiFileSection) {
+			// if (((MidiFileSection) s).isAutoPlay()) {
+			// // Found.
+			//
+			// MidiFileSection midiSection = (MidiFileSection) s;
+			// if (midiSection.getName() != null) {
+			// Minecraft.getMinecraft().ingameGUI
+			// .setRecordPlayingMessage(midiSection
+			// .getName());
+			// }
+			//
+			// if (midiSection.getData() != null) {
+			// byte[] midiData = midiSection.getData();
+			// Minetunes.playMidiFile(midiData);
+			// }
+			//
+			// return;
+			// }
+			// }
+			// }
+			// }
+			// }
 
 			// Let 'er rip!
 			DittyPlayerThread t = new DittyPlayerThread(ditty);

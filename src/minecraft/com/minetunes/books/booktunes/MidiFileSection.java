@@ -44,6 +44,11 @@ public class MidiFileSection extends BookSection {
 	 */
 	private byte[] data = null;
 	private boolean autoPlay = false;
+	
+	/**
+	 * XXX: Part of the multibook midi hack of '13. Parts start at 0
+	 */
+	private int part = 0;
 
 	@Override
 	public boolean load(Element element) throws IOException {
@@ -51,6 +56,9 @@ public class MidiFileSection extends BookSection {
 		// Autoplay defaults to false
 		autoPlay = DOMUtil.parseBooleanStringWithDefault(
 				DOMUtil.getAttributeValue(element, "autoPlay"), false);
+		
+		//XXX Part of the multibook midi hack of '13.
+		part = DOMUtil.parseIntStringWithDefault(DOMUtil.getAttributeValue(element, "part"), 0);
 
 		// Read data, if present
 		Element dataElement = DOMUtil.findFirstElement("data",
@@ -78,6 +86,7 @@ public class MidiFileSection extends BookSection {
 		if (autoPlay == true) {
 			xmlOut.writeAttribute("autoPlay", "true");
 		}
+		xmlOut.writeAttribute("part", Integer.toString(part));
 
 		if (data != null) {
 			// Begin writing data element
@@ -116,6 +125,14 @@ public class MidiFileSection extends BookSection {
 
 	public void setAutoPlay(boolean autoPlay) {
 		this.autoPlay = autoPlay;
+	}
+
+	public int getPart() {
+		return part;
+	}
+
+	public void setPart(int part) {
+		this.part = part;
 	}
 
 }
