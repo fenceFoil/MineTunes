@@ -24,6 +24,9 @@
 package com.minetunes.signs;
 
 import java.io.IOException;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.Random;
 
@@ -43,6 +46,8 @@ import com.minetunes.Minetunes;
 import com.minetunes.PlayDittyFromSignWorkThread;
 import com.minetunes.Point3D;
 import com.minetunes.RightClickCheckThread;
+import com.minetunes.books.booktunes.MidiFileSection;
+import com.minetunes.books.booktunes.PartSection;
 import com.minetunes.config.MinetunesConfig;
 import com.minetunes.ditty.Ditty;
 import com.minetunes.ditty.DittyPlayerThread;
@@ -453,9 +458,10 @@ public class SignTuneParser {
 		if ((totalTokensFound > 0 && ((double) validTokensFound)
 				/ (double) totalTokensFound > 0.8d)
 				|| dittyProperties.isForceGoodDittyDetect()) {
-			
+
 			// XXX: Part of multibook MIDI hack of '13
-			// Post-process ditty to assemble and verify that Multibook midi files are complete and playable
+			// Post-process ditty to assemble and verify that Multibook midi
+			// files are complete and playable
 			postProcessDittyMultibookMidiBits(dittyProperties);
 
 			// If there are no errors...
@@ -571,10 +577,98 @@ public class SignTuneParser {
 		return dittyProperties;
 	}
 
-	private static void postProcessDittyMultibookMidiBits(SignDitty dittyProperties) {
-		if (dittyProperties.getMidiParts().size() > 0) {
-			
+	// XXX: Part of multibook midi hack of '13
+	private static void postProcessDittyMultibookMidiBits(
+			SignDitty dittyProperties) {
+		HashMap<PartSection, MidiFileSection> readParts = dittyProperties
+				.getMidiParts();
+
+		if (readParts.isEmpty()) {
+			return;
 		}
+
+		// Organize read midi parts into their sets of books
+		HashMap<String, LinkedList<MidiFileSection>> bookSets = new HashMap<String, LinkedList<MidiFileSection>>();
+		HashMap<MidiFileSection, Integer> bookSetSizes = new HashMap<MidiFileSection, Integer>();
+		for (PartSection part : readParts.keySet()) {
+			if (!bookSets.containsKey(part.getSet())) {
+				// Set up list
+				bookSets.put(part.getSet(), new LinkedList<MidiFileSection>());
+			}
+
+			bookSets.get(part.getSet()).add(readParts.get(part));
+			bookSetSizes.put(readParts.get(part), part.getOf());
+		}
+
+		// Check for missing parts of a set, writing message of missing parts
+		for (LinkedList<MidiFileSection> midiSectionSet : bookSets.values()) {
+			// Assume that "of" and "set" values are consistent across all.
+			// Faulty assumption?
+
+			// XXX: so many checks not going on on this line...
+			int of = bookSetSizes.get(midiSectionSet.get(0));
+			String setName = midiSectionSet.get(0).getName();
+
+			// Sort parts of set
+			Collections.sort(midiSectionSet, new Comparator<MidiFileSection>() {
+
+				@Override
+				public int compare(MidiFileSection o1, MidiFileSection o2) {
+					if (o1.getPart() > o2.getPart()) {
+						return 1;
+					} else if (o1.getPart() < o2.getPart()) {
+						return -1;
+					}
+					return 0;
+				}
+			});
+
+			// Check for missing parts
+			LinkedList<Integer> missingParts = new LinkedList<Integer>();
+			for (int i = 0; i < of; i++) {
+				if (getPartNum(i, midiSectionSet) == null) {
+					missingParts.add(i + 1);
+				}
+			}
+
+			// Show an error according to the number missing
+			if (missingParts.size() == 1) {
+				dittyProperties.addErrorMessage(setName + " written across "
+						+ of + " books is missing part " + missingParts.get(0)
+						+ ".");
+				return;
+			} else if (missingParts.size() == 2) {
+				dittyProperties.addErrorMessage(setName
+						+ " is missing two books: Parts " + missingParts.get(0)
+						+ " and " + missingParts.get(1) + ".");
+				return;
+			} else if (missingParts.size() > 2) {
+				StringBuffer message = new StringBuffer();
+				message.append(setName + " is missing ")
+						.append(Integer.toString(missingParts.size()))
+						.append(" books in your SignTune: Parts ");
+				for (int i = 0; i < missingParts.size() - 1; i++) {
+					message.append(Integer.toString(missingParts.get(i)))
+							.append(", ");
+				}
+				message.append("and ")
+						.append(missingParts.get(missingParts.size() - 1)
+								.toString()).append(".");
+				dittyProperties.addErrorMessage(message.toString());
+				return;
+			}
+		}
+	}
+
+	// XXX: Part of great multibook midi hack of '13
+	private static MidiFileSection getPartNum(int partNum,
+			LinkedList<MidiFileSection> sections) {
+		for (MidiFileSection s : sections) {
+			if (s.getPart() == partNum) {
+				return s;
+			}
+		}
+		return null;
 	}
 
 	/**

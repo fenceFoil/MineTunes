@@ -121,17 +121,47 @@ public class BookKeyword extends SignTuneKeyword {
 								+ partSection.getSet() + " in this SignTune.");
 						failure = true;
 					} else {
-						MidiFileSection midiSection = null;
-						
-						for (BookSection bookSection: tune.getSections()) {
-							if (bookSection instanceof MidiFileSection) {
-								midiSection = (MidiFileSection) bookSection;
+
+						// Check for presence of conflicting versions of same
+						// set in booktune, and conflicting "of" values against
+						// all parts read up to now
+						for (PartSection p : ditty.getMidiParts().keySet()) {
+							if (p.getSet().equals(partSection.getSet())) {
+								if ((p.getVer() != partSection.getVer())) {
+									ditty.addErrorMessage("There are multiple versions of BookTune set "
+											+ p.getSet()
+											+ " mixed together in this SignTune.");
+									failure = true;
+									break;
+								} else if (p.getOf() != partSection.getOf()) {
+									ditty.addErrorMessage("Part " + p.getPart()
+											+ " of BookTune set " + p.getSet()
+											+ " claims the set is " + p.getOf()
+											+ " long, but part "
+											+ partSection.getPart()
+											+ " claims the set is "
+											+ partSection.getOf() + " long.");
+									failure = true;
+									break;
+								}
 							}
 						}
 
-						if (midiSection != null) {
-							// Add midi section to ditty to parse at run
-							ditty.getMidiParts().put(partSection, midiSection);
+						// If that last version check didn't throw an error...
+						if (!failure) {
+							MidiFileSection midiSection = null;
+
+							for (BookSection bookSection : tune.getSections()) {
+								if (bookSection instanceof MidiFileSection) {
+									midiSection = (MidiFileSection) bookSection;
+								}
+							}
+
+							if (midiSection != null) {
+								// Add midi section to ditty to parse at run
+								ditty.getMidiParts().put(partSection,
+										midiSection);
+							}
 						}
 					}
 				}

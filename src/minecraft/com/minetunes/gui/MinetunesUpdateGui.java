@@ -1,15 +1,21 @@
 package com.minetunes.gui;
 
 import java.io.File;
+import java.io.IOException;
+import java.net.URI;
 
+import net.minecraft.src.EnumOS;
 import net.minecraft.src.GuiButton;
 import net.minecraft.src.GuiScreen;
 import net.minecraft.src.Minecraft;
+import net.minecraft.src.Util;
 
+import org.lwjgl.Sys;
 import org.lwjgl.input.Keyboard;
 
 import com.minetunes.Minetunes;
 import com.minetunes.autoUpdate.CompareVersion;
+import com.minetunes.autoUpdate.FileUpdater;
 import com.minetunes.autoUpdate.FileUpdaterListener;
 import com.minetunes.autoUpdate.ModUpdater;
 import com.minetunes.autoUpdate.UpdateEventLevel;
@@ -212,49 +218,101 @@ public class MinetunesUpdateGui extends GuiScreen implements
 						}
 					}
 					Minetunes
-							.showTextAsLyricNow("§aUpdate successful! Next time you start Minecraft, MineTunes will be updated to version "
+							.showTextAsLyricNow("§aUpdate successful! Delete the old Minetunes from your /mods/ folder, and next time you start Minecraft, MineTunes will be updated to version "
 									+ Minetunes.autoUpdater
 											.getLatestVersion(MinetunesConfig.MC_CURRENT_VERSION));
+					openFolder(modsFolder);
 				} else {
 					// Oh well.
 					Minetunes
 							.showTextAsLyricNow("§cCould not update MineTunes. Sorry!");
 				}
 			} else {
-				final MinetunesUpdateGui thisGui = this;
-				Thread t = new Thread(new Runnable() {
+				// Old AutoUpdate is retired, due to not being able to find the
+				// jar file anymore programatically (as of 1.6.2)
+				ModUpdater autoUpdater = Minetunes.autoUpdater;
 
-					@Override
-					public void run() {
-						Minetunes.autoUpdater.addFileUpdaterListener(thisGui);
+				onUpdaterEvent(
+						UpdateEventLevel.INFO,
+						"Downloading",
+						"Now downloading version "
+								+ autoUpdater
+										.getLatestVersion(MinetunesConfig.MC_CURRENT_VERSION));
 
-						boolean result = Minetunes.autoUpdater.autoUpdate(
-								MinetunesConfig.MC_CURRENT_VERSION,
-								new File(MinetunesConfig.getMinetunesDir(),
-										"versions"),
-								MinetunesConfig.getMinetunesDir(),
-								ResourceManager
-										.getResource("autoUpdate/swapperJar/AutoUpdateJarSwapper.jar"));
+				// Create folder to download into
+				File downloadDir = new File(MinetunesConfig.getMinetunesDir(),
+						"versions");
+				if (!downloadDir.exists()) {
+					downloadDir.mkdirs();
+				}
 
-						if (result) {
-							Minetunes
-									.showTextAsLyricNow("* * * * * * * * * * * * * * * * * * * * * *");
-							Minetunes
-									.showTextAsLyricNow("§bA backup of the old minecraft.jar was saved.");
-							Minetunes
-									.showTextAsLyricNow("§dNew version of MineTunes was downloaded to /.minecraft/MineTunes/Versions/");
-							Minetunes.showTextAsLyricNow("§aUpdate successful! Next time you start Minecraft, MineTunes will be updated to version "
-									+ Minetunes.autoUpdater
-											.getLatestVersion(MinetunesConfig.MC_CURRENT_VERSION));
-						} else {
-							Minetunes
-									.showTextAsLyricNow("<MineTunes> §cDid not auto-update.");
-						}
-					}
+				// Get the download url for this version of Minecraft
+				String foundVersionURL = autoUpdater
+						.getLatestURL(MinetunesConfig.MC_CURRENT_VERSION);
+				if (foundVersionURL == null) {
+					// No version of MineTunes given in file for this version of
+					// MC
+					onUpdaterEvent(UpdateEventLevel.ERROR, "Downloading",
+							"No versions available for Minecraft "
+									+ MinetunesConfig.MC_CURRENT_VERSION);
+					return;
+				}
 
-				});
-				t.setName("MineTunes Update Gui AutoUpdater");
-				t.start();
+				// Create new file to download into. Name after the file in the
+				// last
+				// part of the URL.
+				File modZipFile = new File(downloadDir,
+						foundVersionURL.substring(foundVersionURL
+								.lastIndexOf("/") + 1));
+				onUpdaterEvent(UpdateEventLevel.DEBUG, "Downloading",
+						"Saving as " + modZipFile.getPath());
+
+				// Do the download
+				FileUpdater.downloadFile(foundVersionURL, modZipFile.getPath());
+				onUpdaterEvent(UpdateEventLevel.INFO, "Downloading",
+						"Downloaded to " + modZipFile.getPath());
+
+				onUpdaterEvent(
+						UpdateEventLevel.INFO,
+						"Finish",
+						"Update downloaded. As of Minecraft 1.6.2, it must be installed manually. It is now recommended to install Forge and place the new version of MineTunes in your /mods/ folder instead of installing directly into minecraft.jar");
+
+				openFolder(modZipFile.getParentFile());
+				// } else {
+				// final MinetunesUpdateGui thisGui = this;
+				// Thread t = new Thread(new Runnable() {
+				//
+				// @Override
+				// public void run() {
+				// Minetunes.autoUpdater.addFileUpdaterListener(thisGui);
+				//
+				// boolean result = Minetunes.autoUpdater.autoUpdate(
+				// MinetunesConfig.MC_CURRENT_VERSION,
+				// new File(MinetunesConfig.getMinetunesDir(),
+				// "versions"),
+				// MinetunesConfig.getMinetunesDir(),
+				// ResourceManager
+				// .getResource("autoUpdate/swapperJar/AutoUpdateJarSwapper.jar"));
+				//
+				// if (result) {
+				// Minetunes
+				// .showTextAsLyricNow("* * * * * * * * * * * * * * * * * * * * * *");
+				// Minetunes
+				// .showTextAsLyricNow("§bA backup of the old minecraft.jar was saved.");
+				// Minetunes
+				// .showTextAsLyricNow("§dNew version of MineTunes was downloaded to /.minecraft/MineTunes/Versions/");
+				// Minetunes.showTextAsLyricNow("§aUpdate successful! Next time you start Minecraft, MineTunes will be updated to version "
+				// + Minetunes.autoUpdater
+				// .getLatestVersion(MinetunesConfig.MC_CURRENT_VERSION));
+				// } else {
+				// Minetunes
+				// .showTextAsLyricNow("<MineTunes> §cDid not auto-update.");
+				// }
+				// }
+				//
+				// });
+				// t.setName("MineTunes Update Gui AutoUpdater");
+				// t.start();
 			}
 		}
 	}
@@ -379,6 +437,53 @@ public class MinetunesUpdateGui extends GuiScreen implements
 		if (level == UpdateEventLevel.ERROR || level == UpdateEventLevel.WARN
 				|| level == UpdateEventLevel.INFO) {
 			Minetunes.showTextAsLyricNow("<MineTunes> §7" + event);
+		}
+	}
+
+	private void openFolder(File folder) {
+		String fileLocation = folder.getAbsolutePath();
+		folder.mkdirs();
+
+		// (Code from GuiTexturePacks)
+		if (Util.func_110647_a() == EnumOS.MACOS) {
+			try {
+				System.out.println(fileLocation);
+				Runtime.getRuntime().exec(
+						new String[] { "/usr/bin/open", fileLocation });
+				return;
+			} catch (IOException var7) {
+				var7.printStackTrace();
+			}
+		} else if (Util.func_110647_a() == EnumOS.WINDOWS) {
+			String var2 = String.format(
+					"cmd.exe /C start \"Open file\" \"%s\"",
+					new Object[] { fileLocation });
+
+			try {
+				Runtime.getRuntime().exec(var2);
+				return;
+			} catch (IOException var6) {
+				var6.printStackTrace();
+			}
+		}
+
+		boolean useSys = false;
+
+		try {
+			Class var3 = Class.forName("java.awt.Desktop");
+			Object var4 = var3.getMethod("getDesktop", new Class[0]).invoke(
+					(Object) null, new Object[0]);
+			var3.getMethod("browse", new Class[] { URI.class }).invoke(var4,
+					MinetunesConfig.getMidiDir().toURI());
+		} catch (Throwable var5) {
+			var5.printStackTrace();
+			useSys = true;
+		}
+
+		if (useSys) {
+			System.out.println("Opening via system class!");
+			Sys.openURL((new StringBuilder()).append("file://")
+					.append(fileLocation).toString());
 		}
 	}
 }
