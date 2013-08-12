@@ -24,6 +24,7 @@
 package com.minetunes.ditty;
 
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
@@ -31,6 +32,9 @@ import java.util.List;
 import org.jfugue.JFugueException;
 
 import com.minetunes.CueScheduler;
+import com.minetunes.books.booktunes.BookSection;
+import com.minetunes.books.booktunes.MidiFileSection;
+import com.minetunes.books.booktunes.PartSection;
 import com.minetunes.config.MinetunesConfig;
 import com.minetunes.config.NoPlayTokens;
 import com.minetunes.disco.DiscoFloor;
@@ -47,6 +51,8 @@ public class Ditty {
 	private boolean loud = false;
 	private boolean midiAlreadySaved = false;
 	private String midiSaveFile = null;
+	
+	private LinkedList<BookSection> bookSections = new LinkedList<BookSection>();
 	
 	private boolean playLast = false;
 
@@ -74,6 +80,9 @@ public class Ditty {
 	private int totalTokens = 0;
 
 	private String musicString = "";
+	
+	// XXX: Multibook midi hack of '13
+	private HashMap<PartSection, MidiFileSection> midiParts = new HashMap<PartSection, MidiFileSection>();
 
 	public Ditty() {
 	}
@@ -362,6 +371,22 @@ public class Ditty {
 
 	public LinkedList<TimedDittyEvent> getDittyEvents() {
 		return dittyEvents;
+	}
+
+	public LinkedList<BookSection> getBookSections() {
+		return bookSections;
+	}
+
+	public void setBookSections(LinkedList<BookSection> bookSections) {
+		this.bookSections = bookSections;
+	}
+
+	public HashMap<PartSection, MidiFileSection> getMidiParts() {
+		return midiParts;
+	}
+
+	public void setMidiParts(HashMap<PartSection, MidiFileSection> midiParts) {
+		this.midiParts = midiParts;
 	}
 
 }

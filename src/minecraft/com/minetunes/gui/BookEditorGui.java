@@ -25,51 +25,81 @@ package com.minetunes.gui;
 
 import java.awt.FileDialog;
 import java.awt.Frame;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.util.LinkedList;
 
 import javax.xml.stream.FactoryConfigurationError;
 import javax.xml.stream.XMLStreamException;
 
-import net.minecraft.src.GuiScreen;
 import net.minecraft.src.GuiScreenBook;
 import net.minecraft.src.ItemStack;
 
-import org.lwjgl.input.Keyboard;
-
 import com.minetunes.Finder;
+import com.minetunes.base64.Base64;
 import com.minetunes.books.BookWrapper;
 import com.minetunes.books.booktunes.BookSection;
 import com.minetunes.books.booktunes.BookTune;
 import com.minetunes.books.booktunes.MidiFileSection;
+import com.minetunes.books.booktunes.PartSection;
+import com.minetunes.resources.SFXSynth;
+import com.minetunes.sfx.SFXManager;
+import com.minetunes.tempoGui.TGButton;
+import com.minetunes.tempoGui.TGFrame;
+import com.minetunes.tempoGui.TGList;
+import com.minetunes.tempoGui.TGListener;
+import com.minetunes.tempoGui.TGPanel;
+import com.minetunes.tempoGui.TGTextLabel;
+import com.minetunes.tempoGui.event.TGEvent;
+import com.minetunes.tempoGui.event.TGListEvent;
 
 /**
+ * Base64.encodeBytes(data, Base64.GZIP)
+ * 
  * Currently only used for MIDI books
  * 
  */
-public class BookEditorGui extends GuiScreen {
+public class BookEditorGui extends TGFrame {
 
-	private GuiScreen backScreen;
+	private static final double BOOK_CAPACITY_MINUS_ONE_PAGE = 49d * 255d;
 	private BookWrapper book;
 	private BookTune bookTune;
 
-	private MidiFileSection midiFileSection = new MidiFileSection();
+	private MidiFileSection currMidiFileSection = new MidiFileSection();
 
-	private double booksRqd = 0;
-	private double compressedBytes = 0;
+	private static File loadedMidiFile;
+	private static byte[] loadedMidiData;
+	private static String loadedMidiDataBase64;
+
+	private TGTextLabel midiNameLabel;
+	private TGTextLabel midiSizeLabel;
+	private TGTextLabel midiBooksRqdLabel;
+
+	private TGTextLabel currNameLabel;
+
+	private TGList bookButtonList;
+
+	private TGPanel currBookPanel, loadedMidiPanel, bookButtonPanel;
+
+	// private double booksRqd = 0;
+	// private double compressedBytes = 0;
 
 	public String tex = "/com/minetunes/resources/textures/signEditor1.png";
+	private static TGTextLabel bookButtonListTitleLabel;
+	private static LinkedList<String> partButtonData = new LinkedList<String>();
 
 	/**
 	 * @param bookGui
 	 */
 	public BookEditorGui(GuiScreenBook backScreen) {
-		// setBackScreen(backScreen);
+		super(backScreen, "Write MIDI BookTune");
 
+		reloadCurrBook(backScreen);
+	}
+
+	private void reloadCurrBook(GuiScreenBook backScreen) {
 		// Get the book to edit from the book gui
 		ItemStack bookItem = null;
 		try {
@@ -95,107 +125,100 @@ public class BookEditorGui extends GuiScreen {
 		// Get its midi file section if it has one
 		for (BookSection s : bookTune.getSections()) {
 			if (s instanceof MidiFileSection) {
-				midiFileSection = (MidiFileSection) s;
+				currMidiFileSection = (MidiFileSection) s;
 				break;
 			}
 		}
 	}
 
-	public GuiScreen getBackScreen() {
-		return backScreen;
-	}
-
-	public void setBackScreen(GuiScreen backScreen) {
-		this.backScreen = backScreen;
-	}
-
 	@Override
 	public void drawScreen(int par1, int par2, float par3) {
-		drawDefaultBackground();
-
-		drawCenteredString(fontRenderer, "Choose a MIDI File", width / 2, 30,
-				0xffffff);
-
-		if (midiFileSection != null) {
-			if (midiFileSection.getName() != null) {
-				drawCenteredString(fontRenderer, midiFileSection.getName(),
-						width / 2, 85, 0xffffff);
-				if (midiFileSection.getData() != null && compressedBytes != 0) {
-					drawCenteredString(
-							fontRenderer,
-							String.format(
-									"%,.2f",
-									((double) midiFileSection.getData().length / 1024d))
-									+ " KB ---> "
-									+ String.format("%,.2f",
-											(compressedBytes / 1024d)) + " KB",
-							width / 2, 135, 0xffffff);
-				}
-			}
-		}
-
-		if (booksRqd != 0) {
-			int color = 0x00ff00;
-			if (booksRqd > 1.0) {
-				color = 0xff5500;
-			}
-			drawCenteredString(fontRenderer, "Books Required: " + String.format("%,.2f", booksRqd), width / 2, height - 90, color);
-		}
-
 		super.drawScreen(par1, par2, par3);
 	}
 
 	@Override
-	protected void keyTyped(char par1, int par2) {
-		if (par2 == Keyboard.KEY_ESCAPE) {
-			closeAndSave();
+	public void updateScreen() {
+		super.updateScreen();
+
+		// Update current book info
+		if (currMidiFileSection != null) {
+			currNameLabel.setLabelText(currMidiFileSection.getName() + " Part "
+					+ (currMidiFileSection.getPart() + 1));
+		} else {
+			currNameLabel.setLabelText("No MIDI");
+		}
+
+		if (loadedMidiFile != null) {
+			bookButtonListTitleLabel.setLabelText(loadedMidiFile.getName());
 		}
 	}
 
 	private void closeAndSave() {
-		// Write new book
-		try {
-			String bookTuneString = bookTune.saveToXML();
-			book.fillWithText(bookTuneString, false, true, true);
-			book.flushPages();
-			book.sendBookToServer(false);
-		} catch (XMLStreamException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (FactoryConfigurationError e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		// // Write new book
+		// try {
+		// String bookTuneString = bookTune.saveToXML();
+		// book.fillWithText(bookTuneString, false, true, true);
+		// book.flushPages();
+		// book.sendBookToServer(false);
+		// } catch (XMLStreamException e) {
+		// // TODO Auto-generated catch block
+		// e.printStackTrace();
+		// } catch (FactoryConfigurationError e) {
+		// // TODO Auto-generated catch block
+		// e.printStackTrace();
+		// } catch (IOException e) {
+		// // TODO Auto-generated catch block
+		// e.printStackTrace();
+		// }
 
 		mc.displayGuiScreen(backScreen);
-	}
-
-	@Override
-	protected void mouseClicked(int par1, int par2, int par3) {
-		// TODO Auto-generated method stub
-		super.mouseClicked(par1, par2, par3);
-	}
-
-	@Override
-	protected void mouseMovedOrUp(int par1, int par2, int par3) {
-		// TODO Auto-generated method stub
-		super.mouseMovedOrUp(par1, par2, par3);
 	}
 
 	@Override
 	public void initGui() {
 		super.initGui();
 
-		GuiButtonL browseButton = new GuiButtonL("browseMidi", width / 2 - 40,
-				100, 80, 20, "Select MIDI");
+		setFrameSize(400, 200);
+
+		setupCompoenents();
+		
+		if (loadedMidiFile != null) {
+			loadMidiFile(loadedMidiFile);
+		}
+	}
+
+	private void setupCompoenents() {
+		removeAll();
+		currBookPanel = new TGPanel(0, 0, getFrameWidth() / 2,
+				(getFrameHeight() - 20) / 2, false);
+		loadedMidiPanel = new TGPanel(0, (getFrameHeight() - 20) / 2,
+				getFrameWidth() / 2, (getFrameHeight() - 20) / 2, false);
+		bookButtonPanel = new TGPanel(getFrameWidth() / 2, 0,
+				getFrameWidth() / 2, getFrameHeight() - 20, false);
+		add(currBookPanel);
+		add(loadedMidiPanel);
+		add(bookButtonPanel);
+
 		final BookEditorGui thisGui = this;
-		browseButton.addListener(new ActionListener() {
+
+		currBookPanel.add(currNameLabel = new TGTextLabel(currBookPanel
+				.getWidth() / 2, 20, ""));
+		currBookPanel.add(new TGTextLabel(currBookPanel.getWidth() / 2, 5,
+				"This Book Contains:"));
+
+		loadedMidiPanel.add(midiNameLabel = new TGTextLabel(loadedMidiPanel
+				.getWidth() / 2, 5, ""));
+		loadedMidiPanel.add(midiSizeLabel = new TGTextLabel(loadedMidiPanel
+				.getWidth() / 2, 20, ""));
+		loadedMidiPanel.add(midiBooksRqdLabel = new TGTextLabel(loadedMidiPanel
+				.getWidth() / 2, 35, ""));
+
+		TGButton browseButton = (TGButton) new TGButton(
+				loadedMidiPanel.getWidth() / 2 - 40, 50, 80, 20,
+				"Select File...").addListener(new TGListener() {
 
 			@Override
-			public void actionPerformed(ActionEvent e) {
+			public void onTGEvent(TGEvent e) {
 				// Show a file selector
 				Thread t = new Thread(new Runnable() {
 
@@ -219,24 +242,83 @@ public class BookEditorGui extends GuiScreen {
 				// Import txt file
 			}
 		});
-		buttonList.add(browseButton);
+		loadedMidiPanel.add(browseButton);
 
-		GuiButtonL saveButton = new GuiButtonL("save", width / 2 - 100,
-				height - 60, 200, 20, "Save & Close");
-		buttonList.add(saveButton);
-		saveButton.addListener(new ActionListener() {
+		bookButtonList = new TGList(0, 20, bookButtonPanel.getWidth(),
+				bookButtonPanel.getHeight() - 40, false, 0,
+				new LinkedList<String>());
+		bookButtonList.setButtonHeight(20);
+		bookButtonPanel.add(bookButtonList);
+		bookButtonList.addListener(new TGListener() {
 
 			@Override
-			public void actionPerformed(ActionEvent arg0) {
+			public void onTGEvent(TGEvent event) {
+				if (event instanceof TGListEvent) {
+					TGListEvent e = (TGListEvent) event;
+
+					// Save midi file
+
+					bookTune.getSections().clear();
+
+					if (partButtonData.size() > 1) {
+						PartSection partSec = new PartSection();
+						partSec.setOf(partButtonData.size());
+						partSec.setPart(e.getIndex() + 1);
+						partSec.setSet(loadedMidiFile.getName());
+						bookTune.getSections().add(partSec);
+					}
+
+					MidiFileSection sec = new MidiFileSection();
+					sec.setBase64Data(partButtonData.get(e.getIndex()));
+					sec.setAutoPlay(true);
+					sec.setName(loadedMidiFile.getName());
+					if (partButtonData.size() > 1) {
+						sec.setPart(e.getIndex());
+					}
+					bookTune.getSections().add(sec);
+
+					String bookTuneString = "";
+					try {
+						bookTuneString = bookTune.saveToXML();
+					} catch (XMLStreamException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					} catch (FactoryConfigurationError e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					} catch (IOException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
+					book.fillWithText(bookTuneString, false, true, true);
+					book.flushPages();
+					book.sendBookToServer(false);
+
+					reloadCurrBook((GuiScreenBook) backScreen);
+				}
+			}
+		});
+		bookButtonPanel.add(bookButtonListTitleLabel = new TGTextLabel(
+				bookButtonPanel.getWidth() / 2, 5, ""));
+
+		TGButton closeButton = (TGButton) new TGButton(
+				getFrameWidth() / 2 - 100, getFrameHeight() - 20, 200, 20,
+				"Close").addListener(new TGListener() {
+
+			@Override
+			public void onTGEvent(TGEvent arg0) {
 				closeAndSave();
 			}
 		});
+		add(closeButton);
 	}
 
 	protected void loadMidiFile(File file) {
 		if (!file.exists()) {
 			return;
 		}
+
+		loadedMidiFile = file;
 
 		byte[] fileData;
 		try {
@@ -247,34 +329,71 @@ public class BookEditorGui extends GuiScreen {
 			return;
 		}
 
-		midiFileSection = new MidiFileSection();
-		midiFileSection.setName(file.getName());
-		midiFileSection.setData(fileData);
-		midiFileSection.setAutoPlay(true);
-
-		// Remove existing midi sections
-		for (int i = 0; i < bookTune.getSections().size(); i++) {
-			if (bookTune.getSections().get(i) instanceof MidiFileSection) {
-				bookTune.getSections().remove(i);
-				i--;
-			}
-		}
-		bookTune.getSections().add(midiFileSection);
-
-		// Book tune too long for this book?
+		loadedMidiData = fileData;
 		try {
-			compressedBytes = bookTune.saveToXML().length();
-			booksRqd = (double) (compressedBytes) / (50d * 255d);
-		} catch (XMLStreamException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (FactoryConfigurationError e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			loadedMidiDataBase64 = Base64.encodeBytes(loadedMidiData,
+					Base64.GZIP);
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+
+		midiSizeLabel.setLabelText(String.format("%,.2f",
+				((double) loadedMidiData.length / 1024d))
+				+ " KB ---> "
+				+ String.format("%,.2f",
+						(loadedMidiDataBase64.length() / 1024d)) + " KB");
+		double booksRqd = (double) (loadedMidiDataBase64.length())
+				/ BOOK_CAPACITY_MINUS_ONE_PAGE;
+		midiBooksRqdLabel.setLabelText("Books Required: "
+				+ String.format("%,.2f", booksRqd));
+
+		// Update write book buttons
+		LinkedList<String> partButtonLabels = new LinkedList<String>();
+		partButtonData.clear();
+		for (int i = 0; i < Math.ceil(booksRqd); i++) {
+			partButtonLabels.add("Write Part " + (i + 1));
+
+			// Note corresponding base64 data to write into book
+			partButtonData.add(loadedMidiDataBase64.substring(
+					(int) BOOK_CAPACITY_MINUS_ONE_PAGE * i, Math.min(
+							(int) BOOK_CAPACITY_MINUS_ONE_PAGE * (i + 1),
+							loadedMidiDataBase64.length())));
+		}
+		bookButtonList.setItems(partButtonLabels);
+		bookButtonList.updateItems();
+
+		// currMidiFileSection = new MidiFileSection();
+		// currMidiFileSection.setName(file.getName());
+		// currMidiFileSection.setData(fileData);
+		// currMidiFileSection.setAutoPlay(true);
+
+		// // Remove existing midi sections
+		// for (int i = 0; i < bookTune.getSections().size(); i++) {
+		// if (bookTune.getSections().get(i) instanceof MidiFileSection) {
+		// bookTune.getSections().remove(i);
+		// i--;
+		// }
+		// }
+		// bookTune.getSections().add(currMidiFileSection);
+
+		// // Book tune too long for this book?
+		// try {
+		// compressedBytes = bookTune.saveToXML().length();
+		// // TODO Use 49 pages instead of 50 to account for overhead. This is
+		// // guesswork.
+		// booksRqd = (double) (compressedBytes)
+		// / BOOK_CAPACITY_MINUS_ONE_PAGE;
+		// } catch (XMLStreamException e) {
+		// // TODO Auto-generated catch block
+		// e.printStackTrace();
+		// } catch (FactoryConfigurationError e) {
+		// // TODO Auto-generated catch block
+		// e.printStackTrace();
+		// } catch (IOException e) {
+		// // TODO Auto-generated catch block
+		// e.printStackTrace();
+		// }
 	}
 
 	private byte[] readFile(File f) throws IOException {
@@ -291,17 +410,6 @@ public class BookEditorGui extends GuiScreen {
 		fileIn.close();
 		byteOut.flush();
 		return byteOut.toByteArray();
-	}
-
-	@Override
-	public void updateScreen() {
-		// TODO Auto-generated method stub
-		super.updateScreen();
-	}
-
-	@Override
-	public void onGuiClosed() {
-		super.onGuiClosed();
 	}
 
 }

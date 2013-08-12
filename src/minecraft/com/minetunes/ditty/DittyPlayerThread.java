@@ -31,6 +31,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.MalformedURLException;
 import java.nio.ByteBuffer;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedList;
@@ -60,6 +62,9 @@ import paulscode.sound.codecs.CodecJOrbis;
 
 import com.minetunes.Minetunes;
 import com.minetunes.Point3D;
+import com.minetunes.base64.Base64;
+import com.minetunes.books.booktunes.MidiFileSection;
+import com.minetunes.books.booktunes.PartSection;
 import com.minetunes.config.MinetunesConfig;
 import com.minetunes.ditty.event.CreateEmitterEvent;
 import com.minetunes.ditty.event.DittyEndedEvent;
@@ -195,6 +200,10 @@ public class DittyPlayerThread extends Thread implements
 		// Give self max priority
 		this.setPriority(MAX_PRIORITY);
 
+		// XXX: Part of great multibook midi hack of '13
+		// Play multibook midis now
+		playMultibookMidis(ditty.getMidiParts());
+
 		// Play musicstring
 		SignTuneParser.simpleLog("Starting ditty!");
 		if (!muting) {
@@ -255,6 +264,63 @@ public class DittyPlayerThread extends Thread implements
 
 		// Turn off muting flag
 		muting = false;
+	}
+
+	private void playMultibookMidis(
+			HashMap<PartSection, MidiFileSection> readParts) {
+
+		if (readParts.isEmpty()) {
+			return;
+		}
+
+		// Organize read midi parts into their sets of books
+		HashMap<String, LinkedList<MidiFileSection>> bookSets = new HashMap<String, LinkedList<MidiFileSection>>();
+		for (PartSection part : readParts.keySet()) {
+			if (!bookSets.containsKey(part.getSet())) {
+				// Set up list
+				bookSets.put(part.getSet(), new LinkedList<MidiFileSection>());
+			}
+
+			bookSets.get(part.getSet()).add(readParts.get(part));
+		}
+
+		for (LinkedList<MidiFileSection> midiSections : bookSets.values()) {
+
+			if (midiSections.size() > 0) {
+
+				// Put sections in order, blindly assuming that all sections are
+				// present
+				Collections.sort(midiSections,
+						new Comparator<MidiFileSection>() {
+
+							@Override
+							public int compare(MidiFileSection o1,
+									MidiFileSection o2) {
+								if (o1.getPart() > o2.getPart()) {
+									return 1;
+								} else {
+									return -1;
+								}
+								// didn't handle equals; that would be silly!
+								// (not really,
+								// this is just the hackiest hack in town)
+							}
+						});
+
+				StringBuilder completeBase64 = new StringBuilder();
+				for (MidiFileSection s : midiSections) {
+					completeBase64.append(s.getBase64Data());
+				}
+				byte[] midiData = new byte[0];
+				try {
+					midiData = Base64.decode(completeBase64.toString());
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				Minetunes.playMidiFile(midiData);
+			}
+		}
 	}
 
 	/**
