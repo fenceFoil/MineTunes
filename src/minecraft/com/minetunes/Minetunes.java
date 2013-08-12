@@ -156,6 +156,7 @@ import com.minetunes.signs.TileEntitySignMinetunes;
 import com.minetunes.signs.TileEntitySignRendererMinetunes;
 import com.minetunes.signs.keywords.ProxPadKeyword;
 import com.minetunes.signs.keywords.SignTuneKeyword;
+import com.minetunes.speech.Speech;
 import com.sun.media.sound.SoftSynthesizer;
 
 /**
