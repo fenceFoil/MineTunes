@@ -155,4 +155,13 @@ public class BookTune {
 		xmlBuffer.close();
 		return xmlBuffer.toString();
 	}
+	
+	public PartSection getPartSection() {
+		for (BookSection s:sections) {
+			if (s instanceof PartSection) {
+				return (PartSection) s;
+			} 
+		}
+		return null;
+	}
 }

@@ -40,6 +40,7 @@ import com.minetunes.books.BookWrapper;
 import com.minetunes.books.booktunes.BookSection;
 import com.minetunes.books.booktunes.BookTune;
 import com.minetunes.books.booktunes.MidiFileSection;
+import com.minetunes.books.booktunes.PartSection;
 import com.minetunes.ditty.Ditty;
 import com.minetunes.ditty.event.ParticleEvent;
 import com.minetunes.dittyXML.DittyXMLParser;
@@ -77,11 +78,13 @@ public class BookKeyword extends SignTuneKeyword {
 		for (ItemStack item : nearbyBooks) {
 			boolean failure = false;
 			BookWrapper book = BookWrapper.wrapBook(item);
-			
-			// XXX: hijack the parse here to play midi books with auto-play in them.
+
+			// XXX: hijack the parse here to play midi books with auto-play in
+			// them.
 			BookTune tune = new BookTune();
-			if (tune.loadFromBooks(book)) {
-				if (tune.getSections().size() > 0) {
+			if (tune.loadFromBooks(book) && tune.getSections().size() > 0) {
+				if ((tune.getPartSection() == null || tune.getPartSection()
+						.getOf() == 1)) {
 					// Look for a midi file section with auto-play enabled
 					for (BookSection s : tune.getSections()) {
 						if (s instanceof MidiFileSection) {
@@ -89,11 +92,11 @@ public class BookKeyword extends SignTuneKeyword {
 								// Found.
 
 								MidiFileSection midiSection = (MidiFileSection) s;
-//								if (midiSection.getName() != null) {
-//									Minecraft.getMinecraft().ingameGUI
-//											.setRecordPlayingMessage(midiSection
-//													.getName());
-//								}
+								// if (midiSection.getName() != null) {
+								// Minecraft.getMinecraft().ingameGUI
+								// .setRecordPlayingMessage(midiSection
+								// .getName());
+								// }
 
 								if (midiSection.getData() != null) {
 									byte[] midiData = midiSection.getData();
@@ -102,9 +105,38 @@ public class BookKeyword extends SignTuneKeyword {
 							}
 						}
 					}
+				} else if (tune.getPartSection() != null) {
+					// Multibook midi file
+					PartSection partSection = tune.getPartSection();
+					if (partSection.getPart() > partSection.getOf()) {
+						ditty.addErrorMessage("A book in set \""
+								+ partSection.getSet()
+								+ "\" claims it is number "
+								+ partSection.getPart() + " of "
+								+ partSection.getOf() + ".");
+						failure = true;
+					} else if (ditty.getMidiParts().containsKey(partSection)) {
+						ditty.addErrorMessage("There is a duplicate of book "
+								+ partSection.getPart() + " of set "
+								+ partSection.getSet() + " in this SignTune.");
+						failure = true;
+					} else {
+						MidiFileSection midiSection = null;
+						
+						for (BookSection bookSection: tune.getSections()) {
+							if (bookSection instanceof MidiFileSection) {
+								midiSection = (MidiFileSection) bookSection;
+							}
+						}
+
+						if (midiSection != null) {
+							// Add midi section to ditty to parse at run
+							ditty.getMidiParts().put(partSection, midiSection);
+						}
+					}
 				}
 			}
-			
+
 			try {
 				LinkedList<Element> mcdittyelements = BookTuneParser
 						.getDittyXMLContainers(book);
@@ -146,5 +178,4 @@ public class BookKeyword extends SignTuneKeyword {
 		// No change in sign flow
 		return null;
 	}
-
 }

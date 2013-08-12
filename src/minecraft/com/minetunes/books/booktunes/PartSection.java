@@ -80,7 +80,6 @@ public class PartSection extends BookSection {
 		xmlOut.writeEndElement();
 	}
 
-	
 	public String getSet() {
 		return set;
 	}
@@ -111,6 +110,49 @@ public class PartSection extends BookSection {
 
 	public void setVer(Integer ver) {
 		this.ver = ver;
+	}
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((of == null) ? 0 : of.hashCode());
+		result = prime * result + ((part == null) ? 0 : part.hashCode());
+		result = prime * result + ((set == null) ? 0 : set.hashCode());
+		result = prime * result + ((ver == null) ? 0 : ver.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		PartSection other = (PartSection) obj;
+		if (of == null) {
+			if (other.of != null)
+				return false;
+		} else if (!of.equals(other.of))
+			return false;
+		if (part == null) {
+			if (other.part != null)
+				return false;
+		} else if (!part.equals(other.part))
+			return false;
+		if (set == null) {
+			if (other.set != null)
+				return false;
+		} else if (!set.equals(other.set))
+			return false;
+		if (ver == null) {
+			if (other.ver != null)
+				return false;
+		} else if (!ver.equals(other.ver))
+			return false;
+		return true;
 	}
 
 }

@@ -436,7 +436,7 @@ public class SignTuneParser {
 
 		// Play the ditty
 
-		// Add a reset to the start of the ditty to formally init volume ect.
+		// Add a reset to the start of the ditty to explicitly init volume ect.
 		musicStringToPlay.insert(0, getResetToken() + " ");
 		// Convert buffer to string
 		String ditty = musicStringToPlay.toString();
@@ -453,6 +453,10 @@ public class SignTuneParser {
 		if ((totalTokensFound > 0 && ((double) validTokensFound)
 				/ (double) totalTokensFound > 0.8d)
 				|| dittyProperties.isForceGoodDittyDetect()) {
+			
+			// XXX: Part of multibook MIDI hack of '13
+			// Post-process ditty to assemble and verify that Multibook midi files are complete and playable
+			postProcessDittyMultibookMidiBits(dittyProperties);
 
 			// If there are no errors...
 			if (dittyProperties.getErrorMessages().size() <= 0) {
@@ -565,6 +569,12 @@ public class SignTuneParser {
 		// + Double.toString(totalTimeSeconds));
 
 		return dittyProperties;
+	}
+
+	private static void postProcessDittyMultibookMidiBits(SignDitty dittyProperties) {
+		if (dittyProperties.getMidiParts().size() > 0) {
+			
+		}
 	}
 
 	/**
