@@ -43,12 +43,14 @@ public class MidiFileSection extends BookSection {
 	 * Uncompressed here
 	 */
 	private byte[] data = null;
+	// XXX: Part of the multibook midi hack of '13.
+	private String base64Data = null;
 	private boolean autoPlay = false;
-	
+
 	/**
 	 * XXX: Part of the multibook midi hack of '13. Parts start at 0
 	 */
-	private int part = 0;
+	private Integer part = null;
 
 	@Override
 	public boolean load(Element element) throws IOException {
@@ -56,19 +58,22 @@ public class MidiFileSection extends BookSection {
 		// Autoplay defaults to false
 		autoPlay = DOMUtil.parseBooleanStringWithDefault(
 				DOMUtil.getAttributeValue(element, "autoPlay"), false);
-		
-		//XXX Part of the multibook midi hack of '13.
-		part = DOMUtil.parseIntStringWithDefault(DOMUtil.getAttributeValue(element, "part"), 0);
+
+		// XXX Part of the multibook midi hack of '13.
+		part = DOMUtil.parseIntString(DOMUtil
+				.getAttributeValue(element, "part"));
 
 		// Read data, if present
 		Element dataElement = DOMUtil.findFirstElement("data",
 				element.getChildNodes());
-		if (dataElement != null) {
+		if (dataElement != null && part == null) {
 			String dataText = dataElement.getTextContent();
 			if (dataText != null) {
 				// GZipping automatically detected
 				data = Base64.decode(dataText);
 			}
+		} else if (part != null) {
+			setBase64Data(dataElement.getTextContent());
 		}
 
 		// Success
@@ -86,14 +91,21 @@ public class MidiFileSection extends BookSection {
 		if (autoPlay == true) {
 			xmlOut.writeAttribute("autoPlay", "true");
 		}
-		xmlOut.writeAttribute("part", Integer.toString(part));
+		if (part != null) {
+			xmlOut.writeAttribute("part", Integer.toString(part));
+		}
 
-		if (data != null) {
+		if (data != null || base64Data != null) {
 			// Begin writing data element
 			xmlOut.writeStartElement("data");
 
 			// Write data to xml in base 64
-			xmlOut.writeCharacters(Base64.encodeBytes(data, Base64.GZIP));
+			if (base64Data != null) {
+				// XXX: part of multibook midi hack of '13
+				xmlOut.writeCharacters(base64Data);
+			} else {
+				xmlOut.writeCharacters(Base64.encodeBytes(data, Base64.GZIP));
+			}
 
 			// End data
 			xmlOut.writeEndElement();
@@ -133,6 +145,14 @@ public class MidiFileSection extends BookSection {
 
 	public void setPart(int part) {
 		this.part = part;
+	}
+
+	public String getBase64Data() {
+		return base64Data;
+	}
+
+	public void setBase64Data(String base64Data) {
+		this.base64Data = base64Data;
 	}
 
 }

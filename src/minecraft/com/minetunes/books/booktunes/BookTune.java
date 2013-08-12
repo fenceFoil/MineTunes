@@ -51,6 +51,7 @@ public class BookTune {
 	private static HashMap<String, Class<? extends BookSection>> sectionTagNames = new HashMap<String, Class<? extends BookSection>>();
 	static {
 		sectionTagNames.put("midiFile", MidiFileSection.class);
+		sectionTagNames.put("part", PartSection.class);
 		// sectionTagNames.put("music", MusicSection.class);
 		// sectionTagNames.put("lyrics", LyricsSection.class);
 	}

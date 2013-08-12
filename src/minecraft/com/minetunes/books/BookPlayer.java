@@ -39,6 +39,7 @@ import org.xml.sax.SAXException;
 
 import com.minetunes.Minetunes;
 import com.minetunes.Point3D;
+import com.minetunes.base64.Base64;
 import com.minetunes.books.booktunes.MidiFileSection;
 import com.minetunes.config.MinetunesConfig;
 import com.minetunes.ditty.Ditty;
@@ -417,7 +418,6 @@ public class BookPlayer {
 			// This also ignores the autoplay attribute, assuming one midi file
 			// per book that plays automatically
 			LinkedList<MidiFileSection> midiSections = new LinkedList<MidiFileSection>();
-			int dataLength = 0;
 			for (Element bookElement : allElementsInDitty) {
 				NodeList childNodes = bookElement.getChildNodes();
 				for (int i = 0; i < childNodes.getLength(); i++) {
@@ -426,7 +426,6 @@ public class BookPlayer {
 						MidiFileSection s = new MidiFileSection();
 						try {
 							s.load(e);
-							dataLength += s.getData().length;
 						} catch (IOException e1) {
 							// TODO Auto-generated catch block
 							e1.printStackTrace();
@@ -435,7 +434,6 @@ public class BookPlayer {
 					}
 				}
 			}
-			System.out.println(midiSections.size());
 			if (midiSections.size() > 0) {
 
 				// Put sections in order, blindly assuming that all sections are
@@ -457,42 +455,19 @@ public class BookPlayer {
 							}
 						});
 
-				ByteBuffer midiData = ByteBuffer.allocate(dataLength);
-				for (MidiFileSection section : midiSections) {
-					midiData.put(section.getData());
+				StringBuilder completeBase64 = new StringBuilder();
+				for (MidiFileSection s : midiSections) {
+					completeBase64.append(s.getBase64Data());
 				}
-				Minetunes.playMidiFile(midiData.array());
+				byte[] midiData = new byte[0];
+				try {
+					midiData = Base64.decode(completeBase64.toString());
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				Minetunes.playMidiFile(midiData);
 			}
-
-			// // XXX: hijack the parse here to play all collected MIDI
-			// elements.
-			// BookTune tune = new BookTune();
-			// if (tune.loadFromBooks(book)) {
-			// if (tune.getSections().size() > 0) {
-			// // Look for a midi file section with auto-play enabled
-			// for (BookSection s : tune.getSections()) {
-			// if (s instanceof MidiFileSection) {
-			// if (((MidiFileSection) s).isAutoPlay()) {
-			// // Found.
-			//
-			// MidiFileSection midiSection = (MidiFileSection) s;
-			// if (midiSection.getName() != null) {
-			// Minecraft.getMinecraft().ingameGUI
-			// .setRecordPlayingMessage(midiSection
-			// .getName());
-			// }
-			//
-			// if (midiSection.getData() != null) {
-			// byte[] midiData = midiSection.getData();
-			// Minetunes.playMidiFile(midiData);
-			// }
-			//
-			// return;
-			// }
-			// }
-			// }
-			// }
-			// }
 
 			// Let 'er rip!
 			DittyPlayerThread t = new DittyPlayerThread(ditty);
