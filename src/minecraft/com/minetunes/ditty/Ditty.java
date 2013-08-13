@@ -83,6 +83,7 @@ public class Ditty {
 	
 	// XXX: Multibook midi hack of '13
 	private HashMap<PartSection, MidiFileSection> midiParts = new HashMap<PartSection, MidiFileSection>();
+	private boolean usesSpeech;
 
 	public Ditty() {
 	}
@@ -387,6 +388,14 @@ public class Ditty {
 
 	public void setMidiParts(HashMap<PartSection, MidiFileSection> midiParts) {
 		this.midiParts = midiParts;
+	}
+
+	public void setUsesSpeech(boolean b) {
+		usesSpeech = b;
+	}
+
+	public boolean isUsesSpeech() {
+		return usesSpeech;
 	}
 
 }
