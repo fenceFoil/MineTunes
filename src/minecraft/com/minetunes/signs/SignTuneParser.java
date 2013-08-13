@@ -1093,6 +1093,11 @@ public class SignTuneParser {
 		return readMusicString;
 	}
 
+	public static String readLyricFromSign(int startLine, String[] signText,
+			String colorCode) {
+		return readLyricFromSign(startLine, signText, colorCode, false);
+	}
+
 	/**
 	 * Combines text below startLine into a single-line lyric. Handles hyphens
 	 * and whitespace.
@@ -1103,7 +1108,7 @@ public class SignTuneParser {
 	 * @return
 	 */
 	public static String readLyricFromSign(int startLine, String[] signText,
-			String colorCode) {
+			String colorCode, boolean keepLastHyphen) {
 		String lyricText = "";
 
 		for (int lyricTextLine = startLine; lyricTextLine < LINES_ON_A_SIGN; lyricTextLine++) {
@@ -1131,6 +1136,25 @@ public class SignTuneParser {
 		// Replace inline color codes
 		for (String s : colorCodeChars) {
 			lyricText = lyricText.replace("&" + s, "§" + s);
+		}
+
+		// Check for and preserve the final hyphen of the lyrics if needed
+		if (keepLastHyphen) {
+			// Look for last line with text in it, and if it has a hyphen at the
+			// end reinstate it onto our read lyrics
+			for (int i = 3; i >= startLine; i--) {
+				String currLine = signText[i];
+				if (currLine.trim().length() > 0) {
+					// TODO check for hyphen, add to end of read lyrics
+					if (currLine.trim().substring(currLine.trim().length() - 1)
+							.equals("-")) {
+						System.out.println ("Trailing hyphen found");
+						lyricText += "-";
+						break;
+					}
+				}
+				System.out.println (startLine+":"+i);
+			}
 		}
 
 		return lyricText;

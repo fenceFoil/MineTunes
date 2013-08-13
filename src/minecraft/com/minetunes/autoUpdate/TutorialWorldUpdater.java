@@ -39,6 +39,7 @@ import com.minetunes.config.MinetunesConfig;
 import com.minetunes.resources.ResourceManager;
 import com.minetunes.signs.Comment;
 import com.minetunes.signs.SignTuneParser;
+import com.minetunes.speech.Speech;
 
 /**
  * Manages checking the version of and downloading MineTunesLand from the
@@ -73,10 +74,14 @@ public class TutorialWorldUpdater extends FileUpdater {
 
 		if (!quiet) {
 			if (CompareVersion.isVersionNumber(newVersion)) {
+//				Speech.kevin.queue("Downloading tutorial world version "
+//						+ newVersion);
 				Minetunes.showTextAsLyricNow("§aDownloading version "
 						+ newVersion + " for Minecraft "
 						+ MinetunesConfig.MC_CURRENT_VERSION);
 			} else {
+				Speech.kevin
+						.queue("This is odd. I cannot find the tutorial world for this version of Mine Craft.");
 				Minetunes
 						.showTextAsLyricNow("§cError getting new version info: "
 								+ newVersion);
@@ -86,17 +91,18 @@ public class TutorialWorldUpdater extends FileUpdater {
 		}
 
 		// Create new folder to download into
-		File downloadDir = new File(MinetunesConfig.getMinetunesDir(), "exampleWorld");
+		File downloadDir = new File(MinetunesConfig.getMinetunesDir(),
+				"exampleWorld");
 		if (!downloadDir.exists()) {
 			downloadDir.mkdirs();
 		}
-		
+
 		// Create new file to download into
 		String foundVersionURL = getLatestURL(mcVersion);
 		File newVersionFile = new File(downloadDir,
 				foundVersionURL.substring(foundVersionURL.lastIndexOf("/") + 1));
-		SignTuneParser
-				.simpleLog("Saving new version as " + newVersionFile.getPath());
+		SignTuneParser.simpleLog("Saving new version as "
+				+ newVersionFile.getPath());
 
 		// Do the downloaad
 		downloadToFile(newVersionFile, mcVersion);
@@ -115,13 +121,15 @@ public class TutorialWorldUpdater extends FileUpdater {
 
 		if (!quiet) {
 			Minetunes.showTextAsLyricNow("§aMineTunesLand saved.");
+			Speech.kevin.queue("Tutorial world successfully downloaded.");
 		}
 
 		// Finish up
 		downloadingExampleWorld = false;
 
 		// Note the version downloaded
-		MinetunesConfig.setString("tutorial.lastDownload", getLatestVersion(mcVersion));
+		MinetunesConfig.setString("tutorial.lastDownload",
+				getLatestVersion(mcVersion));
 
 		try {
 			MinetunesConfig.flush();
@@ -147,7 +155,8 @@ public class TutorialWorldUpdater extends FileUpdater {
 
 		if (CompareVersion.isVersionNumber(newVersion)) {
 			if (CompareVersion.compareVersions(
-					MinetunesConfig.getString("tutorial.lastDownload"), newVersion) == CompareVersion.LESSER) {
+					MinetunesConfig.getString("tutorial.lastDownload"),
+					newVersion) == CompareVersion.LESSER) {
 				// Tutorial is outdated
 				return true;
 			} else {
@@ -160,8 +169,7 @@ public class TutorialWorldUpdater extends FileUpdater {
 		}
 	}
 
-	public static void downloadExampleWorldButton(
-			final TutorialWorldUpdater twd) {
+	public static void downloadExampleWorldButton(final TutorialWorldUpdater twd) {
 		final Minecraft mc = Minecraft.getMinecraft();
 		mc.displayGuiScreen(null);
 

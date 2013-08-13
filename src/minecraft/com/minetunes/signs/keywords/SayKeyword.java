@@ -33,6 +33,7 @@ import com.minetunes.config.MinetunesConfig;
 import com.minetunes.ditty.Ditty;
 import com.minetunes.signs.ParsedSign;
 import com.minetunes.signs.SignTuneParser;
+import com.minetunes.signs.keywords.argparser.ArgParser;
 
 /**
  * @author William
@@ -42,11 +43,11 @@ public class SayKeyword extends SignTuneKeyword {
 
 	private String label = generateLabel();
 	private String lyricText = "";
-	
+
 	private static int sayLyricCount = 0;
-	
-	private String generateLabel () {
-		return "say"+(sayLyricCount++);
+
+	private String generateLabel() {
+		return "say" + (sayLyricCount++);
 	}
 
 	/**
@@ -54,122 +55,13 @@ public class SayKeyword extends SignTuneKeyword {
 	 */
 	public SayKeyword(String wholeKeyword) {
 		super(wholeKeyword);
-		// TODO Auto-generated constructor stub
+
+		argParser = new ArgParser();
 	}
 
 	@Override
 	public void parse() {
-		// Read arguments
-		int numArgs = getWholeKeyword().split(" ").length;
-
-		// Get arguments
-		// Get label (required)
-		if (numArgs >= 2) {
-			label = getWholeKeyword().split(" ")[1];
-			if (!isValidCueLabel(label)) {
-				// Illegal label
-				setGoodKeyword(false);
-				setErrorMessageType(WARNING);
-				setErrorMessage("Lyric names should only contain letters, numbers, and underscores.");
-			}
-		} else {
-			// No label; this results in an error
-			setGoodKeyword(false);
-			setErrorMessageType(ERROR);
-			setErrorMessage("Follow the Lyric keyword with a lyric name: e.g., 'Lyric chorus'.");
-		}
-
-		// Check for third argument (color code or repetition)
-
-		// Default values for the ensuing (optional) arguments
-		int repetition = getRepetition();
-		String colorCode = getColorCode();
-
-		if (numArgs >= 3) {
-			String argument = getWholeKeyword().split(" ")[2];
-			if (argument.matches("\\d+")) {
-				// Repetition!
-				repetition = Integer.parseInt(argument);
-			} else if (argument.trim()
-					.matches("&[\\dabcdefABCDEFlmnokrLMNOKR]")) {
-				// Color code!
-				colorCode = argument.trim();
-			} else {
-				// This means that the third word on the line is
-				// not a number -- probably someone putting a
-				// space in a label.
-				// Throw error
-				setGoodKeyword(false);
-				setErrorMessageType(ERROR);
-				setErrorMessage("A lyric's name can't contain spaces.");
-			}
-		}
-
-		// Check for fourth argument (color code or repetition)
-		if (numArgs >= 4) {
-			String argument = getWholeKeyword().split(" ")[3];
-			if (argument.matches("\\d+")) {
-				// Repetition!
-				repetition = Integer.parseInt(argument);
-			} else if (argument.trim()
-					.matches("&[\\dabcdefABCDEFlmnokrLMNOKR]")) {
-				// Color code!
-				colorCode = argument.trim();
-			} else {
-				// This means that the third word on the line is
-				// not a number -- probably someone putting a
-				// space in a label.
-				// Throw error
-				setGoodKeyword(false);
-				setErrorMessageType(ERROR);
-				setErrorMessage("A lyric's name can't contain spaces.");
-			}
-		}
-		
-		setRepetition(repetition);
-		setColorCode(colorCode);
-
-		// Too many arguments
-		if (numArgs > 4) {
-			setErrorMessageType(INFO);
-			setErrorMessage("At most, lyric only needs a lyric name, a repetition, and a color code.");
-		}
-
-		return;
-	}
-
-	public static boolean isValidCueLabel(String label) {
-		return label.matches("[a-zA-Z0-9_]*");
-	}
-
-	/**
-	 * @return the colorCode
-	 */
-	public String getColorCode() {
-		return colorCode;
-	}
-
-	/**
-	 * @param colorCode
-	 *            the colorCode to set
-	 */
-	public void setColorCode(String colorCode) {
-		this.colorCode = colorCode;
-	}
-
-	/**
-	 * @return the repetition
-	 */
-	public int getRepetition() {
-		return repetition;
-	}
-
-	/**
-	 * @param repetition
-	 *            the repetition to set
-	 */
-	public void setRepetition(int repetition) {
-		this.repetition = repetition;
+		super.parse();
 	}
 
 	/**
@@ -195,7 +87,7 @@ public class SayKeyword extends SignTuneKeyword {
 		// Read lyric text (but not if there's no line after the keyword)
 		if (keywordLine < 3) {
 			setLyricText(SignTuneParser.readLyricFromSign(keywordLine + 1,
-					parsedSign.getSignText(), getColorCode()));
+					parsedSign.getSignText(), ""));
 		}
 	}
 
@@ -208,13 +100,37 @@ public class SayKeyword extends SignTuneKeyword {
 	public Point3D execute(Ditty ditty, Point3D location,
 			TileEntitySign signTilEntity, Point3D nextSign, World world,
 			StringBuilder b) {
-		// Check that this isn't on the last line (no lyric text
-		// possible), after parsing arguments.
+
+		boolean trailing = false;
+		// Check for trailing lyric
+		// Get last token; if it's a say token, just tack onto it
+		try {
+			String[] bTokens = b.toString().trim().split(" ");
+			String lastToken = bTokens[bTokens.length - 1];
+			int indexFromEnd = 1;
+			while (lastToken.startsWith("~A") || lastToken.startsWith("~B")) {
+				indexFromEnd++;
+				lastToken = bTokens[bTokens.length - indexFromEnd];
+			}
+			//System.out.println(lastToken);
+			if (lastToken.startsWith("Ysay")) {
+				trailing = true;
+				label = lastToken.substring(1);
+				lyricText = " " + lyricText;
+			}
+		} catch (Exception e) {
+		}
 
 		// Adding to existing lyric?
 		if (MinetunesConfig.getBoolean("lyrics.enabled")) {
 			CueScheduler lyrics = ditty.getLyricsStorage();
-			lyrics.addLyricText(getLabel(), lyricText, getRepetition());
+
+			lyrics.addLyricText(getLabel(), lyricText, 1);
+		}
+
+		// Insert lyric token
+		if (!trailing) {
+			ditty.addMusicStringTokens(b, "Y" + getLabel(), false);
 		}
 
 		return null;

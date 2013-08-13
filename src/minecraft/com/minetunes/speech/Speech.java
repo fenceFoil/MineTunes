@@ -36,8 +36,8 @@ public class Speech {
 
 	public void say(String thingToSay) {
 		try {
-			systemVoice
-					.setVolume(Minecraft.getMinecraft().gameSettings.soundVolume);
+//			systemVoice
+//					.setVolume(Minecraft.getMinecraft().gameSettings.soundVolume);
 		} catch (Exception e) {
 		}
 		systemVoice.speak(thingToSay);

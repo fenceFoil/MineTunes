@@ -22,6 +22,7 @@ import com.minetunes.autoUpdate.UpdateEventLevel;
 import com.minetunes.config.MinetunesConfig;
 import com.minetunes.resources.ResourceManager;
 import com.minetunes.signs.SignTuneParser;
+import com.minetunes.speech.Speech;
 
 /**
  * Copyright (c) 2012 William Karnavas 
@@ -154,18 +155,7 @@ public class MinetunesUpdateGui extends GuiScreen implements
 			// Auto-update
 			mc.displayGuiScreen(null);
 
-			boolean isInstalledFromModsFolder = false;
-			File modsFolder2 = new File(Minecraft.getMinecraft().mcDataDir,
-					"mods");
-			File[] modsInFolder = modsFolder2.listFiles();
-			if (modsFolder2 != null && modsInFolder != null) {
-				for (File f : modsInFolder) {
-					if (f.getName().toLowerCase().contains("minetunes")) {
-						isInstalledFromModsFolder = true;
-						break;
-					}
-				}
-			}
+			boolean isInstalledFromModsFolder = isInstalledInModsFolder();
 
 			if (isInstalledFromModsFolder) {
 				onUpdaterEvent(UpdateEventLevel.INFO, "Setup",
@@ -317,6 +307,19 @@ public class MinetunesUpdateGui extends GuiScreen implements
 		}
 	}
 
+	private static boolean isInstalledInModsFolder() {
+		File modsFolder2 = new File(Minecraft.getMinecraft().mcDataDir, "mods");
+		File[] modsInFolder = modsFolder2.listFiles();
+		if (modsFolder2 != null && modsInFolder != null) {
+			for (File f : modsInFolder) {
+				if (f.getName().toLowerCase().contains("minetunes")) {
+					return true;
+				}
+			}
+		}
+		return false;
+	}
+
 	public static boolean checkForUpdates() {
 		String newVersion = Minetunes.autoUpdater
 				.getLatestVersion(MinetunesConfig.MC_CURRENT_VERSION);
@@ -335,6 +338,7 @@ public class MinetunesUpdateGui extends GuiScreen implements
 				if (autoUpdateButton != null) {
 					autoUpdateButton.enabled = true;
 				}
+
 				return true;
 			} else {
 				// MineTunes is up to date
