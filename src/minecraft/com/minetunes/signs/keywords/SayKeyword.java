@@ -55,8 +55,6 @@ public class SayKeyword extends SignTuneKeyword {
 	 */
 	public SayKeyword(String wholeKeyword) {
 		super(wholeKeyword);
-
-		argParser = new ArgParser();
 	}
 
 	@Override
@@ -84,10 +82,21 @@ public class SayKeyword extends SignTuneKeyword {
 			ParsedSign parsedSign, int keywordLine, T k) {
 		super.parseWithMultiline(parsedSign, keywordLine, k);
 
+		String[] keywordLineTokens = parsedSign.getSignText()[keywordLine]
+				.split(" ");
+		for (int i = 1; i < keywordLineTokens.length; i++) {
+			lyricText += keywordLineTokens[i] + " ";
+		}
+		if (lyricText != null && lyricText.trim().length() > 1) {
+			if (lyricText.substring(lyricText.length() - 2).equals("- ")) {
+				lyricText = lyricText.substring(0, lyricText.length() - 2);
+			}
+		}
+
 		// Read lyric text (but not if there's no line after the keyword)
 		if (keywordLine < 3) {
-			setLyricText(SignTuneParser.readLyricFromSign(keywordLine + 1,
-					parsedSign.getSignText(), ""));
+			lyricText += SignTuneParser.readLyricFromSign(keywordLine + 1,
+					parsedSign.getSignText(), "");
 		}
 	}
 
@@ -112,7 +121,7 @@ public class SayKeyword extends SignTuneKeyword {
 				indexFromEnd++;
 				lastToken = bTokens[bTokens.length - indexFromEnd];
 			}
-			//System.out.println(lastToken);
+			// System.out.println(lastToken);
 			if (lastToken.startsWith("Ysay")) {
 				trailing = true;
 				label = lastToken.substring(1);
