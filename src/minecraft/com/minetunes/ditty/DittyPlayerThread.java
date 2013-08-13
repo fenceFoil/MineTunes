@@ -290,17 +290,18 @@ public class DittyPlayerThread extends Thread implements
 
 	private void cacheAllLyrics(HashMap<String, Clip> speechClipCache2,
 			Ditty ditty2) {
-		System.out.println ("Caching sung lyrics");
+		System.out.println("Caching sung lyrics");
 		LinkedList<String> lyrics = new LinkedList<String>();
-		for (TimedDittyEvent e:ditty2.getLyricsStorage().getAllLyrics()) {
+		for (TimedDittyEvent e : ditty2.getLyricsStorage().getAllLyrics()) {
 			if (e instanceof CueEvent) {
 				CueEvent cue = (CueEvent) e;
-				if (cue.getLyricText() != null && cue.getLyricText().trim().length() > 0) {
+				if (cue.getLyricText() != null
+						&& cue.getLyricText().trim().length() > 0) {
 					lyrics.add(cue.getLyricText());
 				}
 			}
 		}
-		for (String s:lyrics) {
+		for (String s : lyrics) {
 			speech.speak(s);
 			byte[] data = speechPlayer.getWrittenData();
 			AudioFormat format = speechPlayer.getAudioFormat();
@@ -315,9 +316,9 @@ public class DittyPlayerThread extends Thread implements
 		}
 		speech.deallocate();
 	}
-	
+
 	private void closeLyricsCache() {
-		for (Clip c:speechClipCache.values()) {
+		for (Clip c : speechClipCache.values()) {
 			while (c.isRunning()) {
 				try {
 					Thread.sleep(50);
@@ -536,13 +537,17 @@ public class DittyPlayerThread extends Thread implements
 								public void run() {
 									// System.out.println
 									// ("Speaking: "+textToSay);
-									//speech.speak(textToSay);
-									Clip lyricClip = speechClipCache.get(textToSay);
-									lyricClip.start();
+									// speech.speak(textToSay);
+									if (textToSay != null
+											&& textToSay.trim().length() > 0) {
+										Clip lyricClip = speechClipCache
+												.get(textToSay);
+										lyricClip.start();
+									}
 								}
 							});
 							t.start();
-							t.setName("Speech: "+textToSay);
+							t.setName("Speech: " + textToSay);
 							cue.setLyricText(null);
 						}
 					}
