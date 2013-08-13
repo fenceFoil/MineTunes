@@ -290,7 +290,6 @@ public class DittyPlayerThread extends Thread implements
 
 	private void cacheAllLyrics(HashMap<String, Clip> speechClipCache2,
 			Ditty ditty2) {
-		System.out.println("Caching sung lyrics");
 		LinkedList<String> lyrics = new LinkedList<String>();
 		for (TimedDittyEvent e : ditty2.getLyricsStorage().getAllLyrics()) {
 			if (e instanceof CueEvent) {
@@ -542,6 +541,8 @@ public class DittyPlayerThread extends Thread implements
 											&& textToSay.trim().length() > 0) {
 										Clip lyricClip = speechClipCache
 												.get(textToSay);
+										lyricClip.stop();
+										lyricClip.setFramePosition(0);
 										lyricClip.start();
 									}
 								}
