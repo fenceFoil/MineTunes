@@ -2,6 +2,7 @@ package com.minetunes.speech;
 
 import net.minecraft.src.Minecraft;
 
+import com.minetunes.config.MinetunesConfig;
 import com.sun.speech.freetts.VoiceManager;
 
 public class Speech {
@@ -14,6 +15,8 @@ public class Speech {
 		this.name = name;
 		systemVoice = VoiceManager.getInstance().getVoice(this.name);
 		systemVoice.allocate();
+		systemVoice.setPitch(pitch);
+		systemVoice.setRate(rate);
 	}
 
 	public void queue(final String thingToSay) {
@@ -35,6 +38,10 @@ public class Speech {
 	}
 
 	public void say(String thingToSay) {
+		if (!MinetunesConfig.getBoolean("speech.enabled")) {
+			return;
+		}
+		
 		try {
 //			systemVoice
 //					.setVolume(Minecraft.getMinecraft().gameSettings.soundVolume);
