@@ -135,7 +135,7 @@ public class DittyPlayerThread extends Thread implements
 	public static LinkedBlockingQueue<DittyPlayerThread> queuedPlayers = new LinkedBlockingQueue<DittyPlayerThread>();
 
 	public boolean waitingForClipToStart = false;
-	
+
 	public DittyPlayerThread(Ditty ditty) {
 		this.ditty = ditty;
 		setName("Ditty Player");
@@ -174,7 +174,8 @@ public class DittyPlayerThread extends Thread implements
 		ditty.getLyricsStorage().finalizeLyrics();
 
 		// Allocate speech synthesis stuff
-		if (ditty.isUsesSpeech()) {
+		if (ditty.isUsesSpeech()
+				&& MinetunesConfig.getBoolean("speech.enabled")) {
 			setupSpeechSynthezier();
 			cacheAllLyrics(speechClipCache, ditty);
 		}
@@ -543,10 +544,12 @@ public class DittyPlayerThread extends Thread implements
 						unloadSFXInstrument(
 								(SFXInstrumentOffEvent) nextEventToFire, synth);
 					} else if (nextEventToFire instanceof SingEvent) {
-						singingOn = true;
-						if (speech == null) {
-							setupSpeechSynthezier();
+						if (MinetunesConfig.getBoolean("speech.enabled")) {
+							singingOn = true;
 						}
+						// if (speech == null) {
+						// setupSpeechSynthezier();
+						// }
 					} else if (nextEventToFire instanceof SingOffEvent) {
 						singingOn = false;
 					}
@@ -588,7 +591,8 @@ public class DittyPlayerThread extends Thread implements
 											try {
 												Thread.sleep(10);
 											} catch (InterruptedException e) {
-												// TODO Auto-generated catch block
+												// TODO Auto-generated catch
+												// block
 												e.printStackTrace();
 											}
 										}

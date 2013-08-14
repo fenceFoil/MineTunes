@@ -92,7 +92,7 @@ public class CueEvent extends TimedDittyEvent {
 						newText.append(s + " ");
 					}
 				}
-				text = newText.toString().trim();
+				text = newText.toString();
 			} catch (Exception e) {
 			}
 		}
