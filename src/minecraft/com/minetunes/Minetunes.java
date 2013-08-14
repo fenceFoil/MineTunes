@@ -373,6 +373,9 @@ public class Minetunes {
 		// // TODO Auto-generated catch block
 		// e.printStackTrace();
 		// }
+		
+		// Setup FreeTTS
+		System.setProperty("freetts.voices", "com.sun.speech.freetts.en.us.cmu_us_kal.KevinVoiceDirectory"); 
 
 		// Cache a few synths
 		setUpSynthPool();
