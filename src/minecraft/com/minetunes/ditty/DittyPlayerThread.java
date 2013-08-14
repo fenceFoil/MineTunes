@@ -134,6 +134,8 @@ public class DittyPlayerThread extends Thread implements
 
 	public static LinkedBlockingQueue<DittyPlayerThread> queuedPlayers = new LinkedBlockingQueue<DittyPlayerThread>();
 
+	public boolean waitingForClipToStart = false;
+	
 	public DittyPlayerThread(Ditty ditty) {
 		this.ditty = ditty;
 		setName("Ditty Player");
@@ -257,6 +259,9 @@ public class DittyPlayerThread extends Thread implements
 			e.printStackTrace();
 		}
 
+		// Play out and close lyrics clips
+		closeLyricsCache();
+
 		// Fire dittyEnded event
 		Minetunes.executeTimedDittyEvent(new DittyEndedEvent(muting, ditty
 				.getDittyID()));
@@ -283,44 +288,67 @@ public class DittyPlayerThread extends Thread implements
 
 		// Turn off muting flag
 		muting = false;
-
-		// TODO speech.deallocate();
-		closeLyricsCache();
 	}
 
 	private void cacheAllLyrics(HashMap<String, Clip> speechClipCache2,
 			Ditty ditty2) {
-		LinkedList<String> lyrics = new LinkedList<String>();
+		HashSet<CueEvent> lyrics = new HashSet<CueEvent>();
 		for (TimedDittyEvent e : ditty2.getLyricsStorage().getAllLyrics()) {
 			if (e instanceof CueEvent) {
 				CueEvent cue = (CueEvent) e;
 				if (cue.getLyricText() != null
 						&& cue.getLyricText().trim().length() > 0) {
-					lyrics.add(cue.getLyricText());
+					lyrics.add(cue);
 				}
 			}
 		}
-		for (String s : lyrics) {
+
+		for (CueEvent event : lyrics) {
+			String s = event.getLyricText();
+			int pitch = 100;
+			if (event.getMarkedPitch() != null) {
+				pitch = event.getMarkedPitch();
+			}
+			speech.setPitch(pitch);
+			int rate = 150;
+			if (event.getMarkedWPM() != null) {
+				rate = event.getMarkedWPM();
+			}
+			speech.setRate(rate);
 			speech.speak(s);
 			byte[] data = speechPlayer.getWrittenData();
 			AudioFormat format = speechPlayer.getAudioFormat();
 			try {
 				Clip c = AudioSystem.getClip();
 				c.open(format, data, 0, data.length);
+
+				// Tag text with the pitch and rate used to speak it
+				s += ";" + pitch + ";" + rate;
+
 				speechClipCache2.put(s, c);
 			} catch (LineUnavailableException e1) {
 				// TODO Auto-generated catch block
 				e1.printStackTrace();
 			}
+
+			speech.setAudioPlayer(speechPlayer = new MemoryAudioPlayer());
 		}
 		speech.deallocate();
 	}
 
 	private void closeLyricsCache() {
+		while (waitingForClipToStart) {
+			try {
+				Thread.sleep(10);
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
 		for (Clip c : speechClipCache.values()) {
 			while (c.isRunning()) {
 				try {
-					Thread.sleep(50);
+					Thread.sleep(10);
 				} catch (InterruptedException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
@@ -445,8 +473,9 @@ public class DittyPlayerThread extends Thread implements
 	public void mute() {
 		if (!muting) {
 			setMuting(true);
-			if (speech != null) {
-				speech.getAudioPlayer().pause();
+			for (Clip c : speechClipCache.values()) {
+				c.stop();
+				c.close();
 			}
 			try {
 				synchronized (staticPlayerMutex2) {
@@ -529,6 +558,7 @@ public class DittyPlayerThread extends Thread implements
 						// Put lyric text through voice synthesizer
 						final CueEvent cue = (CueEvent) nextEventToFire;
 						if (cue.getLyricText() != null) {
+							final CueEvent cueToPlay = cue.clone();
 							final String textToSay = cue.getLyricText();
 							Thread t = new Thread(new Runnable() {
 
@@ -539,11 +569,30 @@ public class DittyPlayerThread extends Thread implements
 									// speech.speak(textToSay);
 									if (textToSay != null
 											&& textToSay.trim().length() > 0) {
+										int pitch = 100;
+										if (cueToPlay.getMarkedPitch() != null) {
+											pitch = cueToPlay.getMarkedPitch();
+										}
+										int rate = 150;
+										if (cueToPlay.getMarkedWPM() != null) {
+											rate = cueToPlay.getMarkedWPM();
+										}
 										Clip lyricClip = speechClipCache
-												.get(textToSay);
+												.get(textToSay + ";" + (pitch)
+														+ ";" + (rate));
 										lyricClip.stop();
 										lyricClip.setFramePosition(0);
 										lyricClip.start();
+										waitingForClipToStart = true;
+										while (!lyricClip.isRunning()) {
+											try {
+												Thread.sleep(10);
+											} catch (InterruptedException e) {
+												// TODO Auto-generated catch block
+												e.printStackTrace();
+											}
+										}
+										waitingForClipToStart = false;
 									}
 								}
 							});
