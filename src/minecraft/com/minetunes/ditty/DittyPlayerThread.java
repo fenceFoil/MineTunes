@@ -31,6 +31,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.MalformedURLException;
 import java.nio.ByteBuffer;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedList;
@@ -45,6 +47,8 @@ import javax.sound.midi.Synthesizer;
 import javax.sound.sampled.AudioFormat;
 import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.Clip;
+import javax.sound.sampled.LineUnavailableException;
 import javax.sound.sampled.UnsupportedAudioFileException;
 
 import org.jfugue.MidiRenderer;
@@ -60,8 +64,12 @@ import paulscode.sound.codecs.CodecJOrbis;
 
 import com.minetunes.Minetunes;
 import com.minetunes.Point3D;
+import com.minetunes.base64.Base64;
+import com.minetunes.books.booktunes.MidiFileSection;
+import com.minetunes.books.booktunes.PartSection;
 import com.minetunes.config.MinetunesConfig;
 import com.minetunes.ditty.event.CreateEmitterEvent;
+import com.minetunes.ditty.event.CueEvent;
 import com.minetunes.ditty.event.DittyEndedEvent;
 import com.minetunes.ditty.event.HighlightSignPlayingEvent;
 import com.minetunes.ditty.event.NoteStartEvent;
@@ -70,12 +78,15 @@ import com.minetunes.ditty.event.SFXEvent;
 import com.minetunes.ditty.event.SFXInstrumentEvent;
 import com.minetunes.ditty.event.SFXInstrumentOffEvent;
 import com.minetunes.ditty.event.SignPlayingTimedEvent;
+import com.minetunes.ditty.event.SingEvent;
+import com.minetunes.ditty.event.SingOffEvent;
 import com.minetunes.ditty.event.TempoDittyEvent;
 import com.minetunes.ditty.event.TimedDittyEvent;
 import com.minetunes.ditty.event.VolumeEvent;
 import com.minetunes.sfx.SFXManager;
 import com.minetunes.signs.SignDitty;
 import com.minetunes.signs.SignTuneParser;
+import com.minetunes.speech.MemoryAudioPlayer;
 import com.sun.media.sound.SF2Instrument;
 import com.sun.media.sound.SF2InstrumentRegion;
 import com.sun.media.sound.SF2Layer;
@@ -84,6 +95,8 @@ import com.sun.media.sound.SF2Region;
 import com.sun.media.sound.SF2Sample;
 import com.sun.media.sound.SF2Soundbank;
 import com.sun.media.sound.SoftSynthesizer;
+import com.sun.speech.freetts.Voice;
+import com.sun.speech.freetts.VoiceManager;
 
 /**
  * Instantiate once per Ditty played; these are one use only. Plays a Ditty.
@@ -104,6 +117,9 @@ public class DittyPlayerThread extends Thread implements
 
 	private SoftSynthesizer synth;
 
+	private Voice speech;
+	private boolean singingOn = false;
+
 	/**
 	 * The Instruments loaded into the synthesizer after it is set up with
 	 * soundbanks for the ditty. Used by SFXInstruments to revert when they are
@@ -111,10 +127,14 @@ public class DittyPlayerThread extends Thread implements
 	 */
 	private Instrument[] originalSynthInstruments;
 
+	private HashMap<String, Clip> speechClipCache = new HashMap<String, Clip>();
+
 	public static Object staticPlayerMutex = new Object();
 	private static Object staticPlayerMutex2 = new Object();
 
 	public static LinkedBlockingQueue<DittyPlayerThread> queuedPlayers = new LinkedBlockingQueue<DittyPlayerThread>();
+
+	public boolean waitingForClipToStart = false;
 
 	public DittyPlayerThread(Ditty ditty) {
 		this.ditty = ditty;
@@ -152,6 +172,13 @@ public class DittyPlayerThread extends Thread implements
 
 		// Finalize the ditty's lyrics
 		ditty.getLyricsStorage().finalizeLyrics();
+
+		// Allocate speech synthesis stuff
+		if (ditty.isUsesSpeech()
+				&& MinetunesConfig.getBoolean("speech.enabled")) {
+			setupSpeechSynthezier();
+			cacheAllLyrics(speechClipCache, ditty);
+		}
 
 		synchronized (staticPlayerMutex) {
 			player = setUpPlayer();
@@ -195,6 +222,10 @@ public class DittyPlayerThread extends Thread implements
 		// Give self max priority
 		this.setPriority(MAX_PRIORITY);
 
+		// XXX: Part of great multibook midi hack of '13
+		// Play multibook midis now
+		playMultibookMidis(ditty.getMidiParts());
+
 		// Play musicstring
 		SignTuneParser.simpleLog("Starting ditty!");
 		if (!muting) {
@@ -229,6 +260,9 @@ public class DittyPlayerThread extends Thread implements
 			e.printStackTrace();
 		}
 
+		// Play out and close lyrics clips
+		closeLyricsCache();
+
 		// Fire dittyEnded event
 		Minetunes.executeTimedDittyEvent(new DittyEndedEvent(muting, ditty
 				.getDittyID()));
@@ -255,6 +289,131 @@ public class DittyPlayerThread extends Thread implements
 
 		// Turn off muting flag
 		muting = false;
+	}
+
+	private void cacheAllLyrics(HashMap<String, Clip> speechClipCache2,
+			Ditty ditty2) {
+		HashSet<CueEvent> lyrics = new HashSet<CueEvent>();
+		for (TimedDittyEvent e : ditty2.getLyricsStorage().getAllLyrics()) {
+			if (e instanceof CueEvent) {
+				CueEvent cue = (CueEvent) e;
+				if (cue.getLyricText() != null
+						&& cue.getLyricText().trim().length() > 0) {
+					lyrics.add(cue);
+				}
+			}
+		}
+
+		for (CueEvent event : lyrics) {
+			String s = event.getLyricText();
+			int pitch = 100;
+			if (event.getMarkedPitch() != null) {
+				pitch = event.getMarkedPitch();
+			}
+			speech.setPitch(pitch);
+			int rate = 150;
+			if (event.getMarkedWPM() != null) {
+				rate = event.getMarkedWPM();
+			}
+			speech.setRate(rate);
+			speech.speak(s);
+			byte[] data = speechPlayer.getWrittenData();
+			AudioFormat format = speechPlayer.getAudioFormat();
+			try {
+				Clip c = AudioSystem.getClip();
+				c.open(format, data, 0, data.length);
+
+				// Tag text with the pitch and rate used to speak it
+				s += ";" + pitch + ";" + rate;
+
+				speechClipCache2.put(s, c);
+			} catch (LineUnavailableException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+
+			speech.setAudioPlayer(speechPlayer = new MemoryAudioPlayer());
+		}
+		speech.deallocate();
+	}
+
+	private void closeLyricsCache() {
+		while (waitingForClipToStart) {
+			try {
+				Thread.sleep(10);
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		for (Clip c : speechClipCache.values()) {
+			while (c.isRunning()) {
+				try {
+					Thread.sleep(10);
+				} catch (InterruptedException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+			c.close();
+		}
+	}
+
+	private void playMultibookMidis(
+			HashMap<PartSection, MidiFileSection> readParts) {
+
+		if (readParts.isEmpty()) {
+			return;
+		}
+
+		// Organize read midi parts into their sets of books
+		HashMap<String, LinkedList<MidiFileSection>> bookSets = new HashMap<String, LinkedList<MidiFileSection>>();
+		for (PartSection part : readParts.keySet()) {
+			if (!bookSets.containsKey(part.getSet())) {
+				// Set up list
+				bookSets.put(part.getSet(), new LinkedList<MidiFileSection>());
+			}
+
+			bookSets.get(part.getSet()).add(readParts.get(part));
+		}
+
+		for (LinkedList<MidiFileSection> midiSections : bookSets.values()) {
+
+			if (midiSections.size() > 0) {
+
+				// Put sections in order, blindly assuming that all sections are
+				// present
+				Collections.sort(midiSections,
+						new Comparator<MidiFileSection>() {
+
+							@Override
+							public int compare(MidiFileSection o1,
+									MidiFileSection o2) {
+								if (o1.getPart() > o2.getPart()) {
+									return 1;
+								} else {
+									return -1;
+								}
+								// didn't handle equals; that would be silly!
+								// (not really,
+								// this is just the hackiest hack in town)
+							}
+						});
+
+				StringBuilder completeBase64 = new StringBuilder();
+				for (MidiFileSection s : midiSections) {
+					completeBase64.append(s.getBase64Data());
+				}
+				byte[] midiData = new byte[0];
+				try {
+					midiData = Base64.decode(completeBase64.toString());
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				Minetunes.playMidiFile(midiData);
+			}
+		}
 	}
 
 	/**
@@ -315,6 +474,10 @@ public class DittyPlayerThread extends Thread implements
 	public void mute() {
 		if (!muting) {
 			setMuting(true);
+			for (Clip c : speechClipCache.values()) {
+				c.stop();
+				c.close();
+			}
 			try {
 				synchronized (staticPlayerMutex2) {
 					if (player != null) {
@@ -341,6 +504,8 @@ public class DittyPlayerThread extends Thread implements
 	// For playerHook
 	private long lastTimeChecked = 0;
 	private float lastTempo = 0.0f;
+
+	private MemoryAudioPlayer speechPlayer;
 
 	@Override
 	public void playerHook(long time, float tempo) {
@@ -378,9 +543,68 @@ public class DittyPlayerThread extends Thread implements
 					} else if (nextEventToFire instanceof SFXInstrumentOffEvent) {
 						unloadSFXInstrument(
 								(SFXInstrumentOffEvent) nextEventToFire, synth);
+					} else if (nextEventToFire instanceof SingEvent) {
+						if (MinetunesConfig.getBoolean("speech.enabled")) {
+							singingOn = true;
+						}
+						// if (speech == null) {
+						// setupSpeechSynthezier();
+						// }
+					} else if (nextEventToFire instanceof SingOffEvent) {
+						singingOn = false;
 					}
 				} else {
 					// Pass it on to the queue with access to the world
+					// But first, intercept and stop any lyrics events that
+					// should be played by our voice synthesizer
+					if (nextEventToFire instanceof CueEvent && singingOn) {
+						// Put lyric text through voice synthesizer
+						final CueEvent cue = (CueEvent) nextEventToFire;
+						if (cue.getLyricText() != null) {
+							final CueEvent cueToPlay = cue.clone();
+							final String textToSay = cue.getLyricText();
+							Thread t = new Thread(new Runnable() {
+
+								@Override
+								public void run() {
+									// System.out.println
+									// ("Speaking: "+textToSay);
+									// speech.speak(textToSay);
+									if (textToSay != null
+											&& textToSay.trim().length() > 0) {
+										int pitch = 100;
+										if (cueToPlay.getMarkedPitch() != null) {
+											pitch = cueToPlay.getMarkedPitch();
+										}
+										int rate = 150;
+										if (cueToPlay.getMarkedWPM() != null) {
+											rate = cueToPlay.getMarkedWPM();
+										}
+										Clip lyricClip = speechClipCache
+												.get(textToSay + ";" + (pitch)
+														+ ";" + (rate));
+										lyricClip.stop();
+										lyricClip.setFramePosition(0);
+										lyricClip.start();
+										waitingForClipToStart = true;
+										while (!lyricClip.isRunning()) {
+											try {
+												Thread.sleep(10);
+											} catch (InterruptedException e) {
+												// TODO Auto-generated catch
+												// block
+												e.printStackTrace();
+											}
+										}
+										waitingForClipToStart = false;
+									}
+								}
+							});
+							t.start();
+							t.setName("Speech: " + textToSay);
+							cue.setLyricText(null);
+						}
+					}
 					Minetunes.executeTimedDittyEvent(nextEventToFire);
 				}
 			}
@@ -391,6 +615,12 @@ public class DittyPlayerThread extends Thread implements
 			Minetunes.updateDittyTempo(ditty.getDittyID(), tempo);
 			lastTempo = tempo;
 		}
+	}
+
+	private void setupSpeechSynthezier() {
+		speech = VoiceManager.getInstance().getVoice("kevin16");
+		speech.allocate();
+		speech.setAudioPlayer(speechPlayer = new MemoryAudioPlayer());
 	}
 
 	/**

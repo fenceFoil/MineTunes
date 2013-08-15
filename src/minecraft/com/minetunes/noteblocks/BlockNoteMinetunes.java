@@ -66,8 +66,7 @@ public class BlockNoteMinetunes extends BlockNote {
 
 	@Override
 	public void registerIcons(IconRegister par1IconRegister) {
-		this.blockIcon = par1IconRegister
-				.registerIcon("noteblock");
+		this.blockIcon = par1IconRegister.registerIcon("noteblock");
 	}
 
 	public static HashMap<String, String> screenNames = new HashMap<String, String>();
@@ -232,8 +231,8 @@ public class BlockNoteMinetunes extends BlockNote {
 			int adjust = BlockNoteMinetunes.getOctaveAdjust(x, y, z);
 			if (adjust != 0) {
 				// MC161: noteblock octaves don't work :(
-				//noteType = noteType + "_" + adjust + "o";
-				Packet62LevelSoundMinetunes.apologize();
+				noteType = noteType + "_" + adjust + "o";
+				//Packet62LevelSoundMinetunes.apologize();
 			}
 
 			world.playSoundEffect((double) x + 0.5D, (double) y + 0.5D,
@@ -367,14 +366,17 @@ public class BlockNoteMinetunes extends BlockNote {
 
 		String soundName = "note." + noteType;
 		if (octaveAdjust != 0) {
-			//MC161: noteblock sounds don't work :( 
-			//soundName += "_" + octaveAdjust + "o";
-			Packet62LevelSoundMinetunes.apologize();
-		}
-		// System.out.println (soundName);
+			// soundName += "_" + octaveAdjust + "o";
+			soundName = noteType + "_" + octaveAdjust + "o";
+			// Packet62LevelSoundMinetunes.apologize();
+			Minecraft.getMinecraft().sndManager.playSoundFX(soundName, 5.0F,
+					pitchMultiplier);
+		} else {
+			// System.out.println (soundName);
 
-		Minecraft.getMinecraft().sndManager.playSoundFX(soundName, 5.0F,
-				pitchMultiplier);
+			Minecraft.getMinecraft().sndManager.playSoundFX(soundName, 5.0F,
+					pitchMultiplier);
+		}
 	}
 
 	/**

@@ -79,6 +79,7 @@ import net.minecraft.src.Packet;
 import net.minecraft.src.RenderGlobal;
 import net.minecraft.src.RenderManager;
 import net.minecraft.src.ScaledResolution;
+import net.minecraft.src.SoundManager;
 import net.minecraft.src.TileEntity;
 import net.minecraft.src.TileEntityNote;
 import net.minecraft.src.TileEntityRenderer;
@@ -155,6 +156,7 @@ import com.minetunes.signs.TileEntitySignMinetunes;
 import com.minetunes.signs.TileEntitySignRendererMinetunes;
 import com.minetunes.signs.keywords.ProxPadKeyword;
 import com.minetunes.signs.keywords.SignTuneKeyword;
+import com.minetunes.speech.Speech;
 import com.sun.media.sound.SoftSynthesizer;
 
 /**
@@ -371,6 +373,9 @@ public class Minetunes {
 		// // TODO Auto-generated catch block
 		// e.printStackTrace();
 		// }
+		
+		// Setup FreeTTS
+		System.setProperty("freetts.voices", "com.sun.speech.freetts.en.us.cmu_us_kal.KevinVoiceDirectory"); 
 
 		// Cache a few synths
 		setUpSynthPool();
@@ -2382,37 +2387,76 @@ public class Minetunes {
 		t.start();
 	}
 
-	public static void registerSoundResources() {
-		registerSoundResources(new File(MinetunesConfig.getResourcesDir()
-				+ File.separator + "note" + File.separator), "note/");
-	}
+//	public static void registerSoundResources() {
+//		registerSoundResources(new File(MinetunesConfig.getResourcesDir()
+//				+ File.separator + "note" + File.separator), "note/");
+//	}
 
-	private static void registerSoundResources(File resourcesDir, String prefix) {
-		// Iterate through resources directory files, and register any .ogg
-		// sounds
-		if (resourcesDir != null && resourcesDir.exists()
-				&& resourcesDir.listFiles() != null) {
-			for (File f : resourcesDir.listFiles()) {
-				if (f.getName().endsWith(".ogg")) {
-					// Register as a sound
-					String soundName = prefix + f.getName();
-					// System.out
-					// .println("Registering sound effect: " + soundName);
-					// MC161 Sound problems?
-					if (Minecraft.getMinecraft() != null
-							&& Minecraft.getMinecraft().sndManager != null) {
-						System.out.println("Trying to register: " + soundName);
-						Minecraft.getMinecraft().sndManager.addSound(soundName);
-					}
-				} else if (f.isDirectory()) {
-					registerSoundResources(f, f.getName() + "/");
-				}
-			}
+//	private static void registerSoundResources(File resourcesDir, String prefix) {
+//		// Iterate through resources directory files, and register any .ogg
+//		// sounds
+//		if (resourcesDir != null && resourcesDir.exists()
+//				&& resourcesDir.listFiles() != null) {
+//			for (File f : resourcesDir.listFiles()) {
+//				if (f.getName().endsWith(".ogg")) {
+//					// Register as a sound
+//					String soundName = prefix + f.getName();
+//					// System.out
+//					// .println("Registering sound effect: " + soundName);
+//					// MC161 Sound problems?
+//					if (Minecraft.getMinecraft() != null
+//							&& Minecraft.getMinecraft().sndManager != null) {
+//						System.out.println("Trying to register: " + soundName);
+//						Minecraft.getMinecraft().sndManager.addSound(soundName);
+//					}
+//				} else if (f.isDirectory()) {
+//					registerSoundResources(f, f.getName() + "/");
+//				}
+//			}
+//		}
+//		//
+//		// // Test
+//		// GetMinecraft.instance().sndManager.playSoundFX("note.harmonica", 1f,
+//		// 1f);
+//	}
+	
+	public static void registerSoundResources() {
+		SoundManager s;
+		try {
+			s = Minecraft.getMinecraft().sndManager;
+		} catch (Exception e) {
+			e.printStackTrace();
+			return;
 		}
-		//
-		// // Test
-		// GetMinecraft.instance().sndManager.playSoundFX("note.harmonica", 1f,
-		// 1f);
+		
+		if (s == null) {
+			return;
+		}
+		
+		s.addSound("harp_-1o.ogg");
+		s.addSound("harp_-2o.ogg");
+		s.addSound("harp_1o.ogg");
+		s.addSound("harp_2o.ogg");
+		
+		s.addSound("bassattack_-1o.ogg");
+		s.addSound("bassattack_-2o.ogg");
+		s.addSound("bassattack_1o.ogg");
+		s.addSound("bassattack_2o.ogg");
+		
+		s.addSound("bd_-1o.ogg");
+		s.addSound("bd_-2o.ogg");
+		s.addSound("bd_1o.ogg");
+		s.addSound("bd_2o.ogg");
+		
+		s.addSound("hat_-1o.ogg");
+		s.addSound("hat_-2o.ogg");
+		s.addSound("hat_1o.ogg");
+		s.addSound("hat_2o.ogg");
+		
+		s.addSound("snare_-1o.ogg");
+		s.addSound("snare_-2o.ogg");
+		s.addSound("snare_1o.ogg");
+		s.addSound("snare_2o.ogg");
 	}
 
 	public static void setUpSynthPool() {

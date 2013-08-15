@@ -7,14 +7,14 @@ Volume, Staccato, StaccatoOff, Tran, TranOff, Octaves, OctavesOff, Accel
 Reset, SyncVoices, SyncWith
 §aTriggers:
 Area, Proximity, [SignTune]
-§aDitty:
-OneAtATime, IsDitty, SaveMIDI, Mute, PlayLast, MaxPlays
+§aLyrics:
+Lyric, PreLyric, Say, Sing, SingOff
 §aEffects:
-Lyric, PreLyric, Emitter, SFX, SFXInst, SFXInst2, SFXInstOff, PlayMIDI, Firework
+Emitter, SFX, SFXInst, SFXInst2, SFXInstOff, PlayMIDI, Firework
 §aMisc:
-OneLine
+OneLine, Book, OneAtATime, IsDitty, SaveMIDI, Mute, PlayLast, MaxPlays
 §aExperimental:
-Disco, NewBot, Book
+Disco, NewBot
 
 §bNew:
-Book, [SignTune] 
+Sing, SingOff, Say

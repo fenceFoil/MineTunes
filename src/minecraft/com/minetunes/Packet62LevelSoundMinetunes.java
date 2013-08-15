@@ -27,6 +27,8 @@ package com.minetunes;
 import java.io.DataInput;
 import java.io.IOException;
 
+import net.minecraft.src.Block;
+import net.minecraft.src.Minecraft;
 import net.minecraft.src.Packet62LevelSound;
 
 import com.minetunes.config.MinetunesConfig;
@@ -49,15 +51,28 @@ public class Packet62LevelSoundMinetunes extends Packet62LevelSound {
 				setNoteNameWithReflection("");
 			}
 		} else if (getSoundName().startsWith("note.")) {
-			// Handle noteblock octave adjustment
-			int adjust = BlockNoteMinetunes.getOctaveAdjust(
+
+			// Check for noteblock at location
+			if (Minecraft.getMinecraft().theWorld.getBlockId(
 					(int) (getEffectX() - 0.5), (int) (getEffectY() - 0.5),
-					(int) (getEffectZ() - 0.5));
-			if (adjust != 0) {
-				// String newSoundName = getSoundName() + "_" + adjust + "o";
-				// setNoteNameWithReflection(newSoundName);
-				// MC161 doesn't work :(
-				apologize();
+					(int) (getEffectZ() - 0.5)) == Block.music.blockID) {
+				// Handle noteblock octave adjustment
+				int adjust = BlockNoteMinetunes.getOctaveAdjust(
+						(int) (getEffectX() - 0.5), (int) (getEffectY() - 0.5),
+						(int) (getEffectZ() - 0.5));
+				if (adjust != 0) {
+					// TODO String newSoundName = getSoundName() + "_" + adjust
+					// + "o";
+					String newSoundName = BlockNoteMinetunes
+							.getNoteTypeForBlock(
+									Minecraft.getMinecraft().theWorld,
+									(int) (getEffectX() - 0.5),
+									(int) (getEffectY() - 0.5),
+									(int) (getEffectZ() - 0.5))
+							+ "_" + adjust + "o";
+					setNoteNameWithReflection(newSoundName);
+					// apologize();
+				}
 			}
 		}
 	}

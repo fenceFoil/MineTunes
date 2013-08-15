@@ -57,7 +57,10 @@ import com.minetunes.signs.keywords.SFXInstKeyword;
 import com.minetunes.signs.keywords.SFXInstOffKeyword;
 import com.minetunes.signs.keywords.SFXKeyword;
 import com.minetunes.signs.keywords.SaveMidiKeyword;
+import com.minetunes.signs.keywords.SayKeyword;
 import com.minetunes.signs.keywords.SignTuneKeyword;
+import com.minetunes.signs.keywords.SingKeyword;
+import com.minetunes.signs.keywords.SingOffKeyword;
 import com.minetunes.signs.keywords.StaccatoKeyword;
 import com.minetunes.signs.keywords.StaccatoOffKeyword;
 import com.minetunes.signs.keywords.SyncVoicesKeyword;
@@ -142,6 +145,9 @@ public class SignParser {
 		// keywordClasses.put("flare", FlareKeyword.class);
 		keywordClasses.put("firework", FireworkKeyword.class);
 		keywordClasses.put("book", BookKeyword.class);
+		keywordClasses.put("say", SayKeyword.class);
+		keywordClasses.put("sing", SingKeyword.class);
+		keywordClasses.put("singoff", SingOffKeyword.class);
 
 		// Create the array of keywords
 		keywords = keywordClasses.keySet().toArray(new String[0]);

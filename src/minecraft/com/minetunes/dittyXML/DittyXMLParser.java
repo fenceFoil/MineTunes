@@ -38,6 +38,7 @@ import com.minetunes.config.MinetunesConfig;
 import com.minetunes.ditty.Ditty;
 import com.minetunes.ditty.event.SFXInstrumentEvent;
 import com.minetunes.ditty.event.SFXInstrumentOffEvent;
+import com.minetunes.ditty.event.SingEvent;
 import com.minetunes.sfx.SFXManager;
 import com.minetunes.signs.SignTuneParser;
 
@@ -324,6 +325,14 @@ public class DittyXMLParser {
 					// Add reset token to musicstring
 					ditty.addMusicStringTokens(musicStringBuffer,
 							SignTuneParser.getResetToken(ditty), false);
+				} else if (currNodeName.equals("sing")) {
+					// Sing element
+					// Add event
+					int eventID = ditty.addDittyEvent(
+							new SingEvent(ditty.getDittyID()));
+					ditty.addMusicStringTokens(musicStringBuffer,
+							SignTuneParser.TIMED_EVENT_TOKEN + eventID, false);
+					ditty.setUsesSpeech(true);
 				} else if (currNodeName.equals("syncVoices")) {
 					// SyncVoices element
 					// Add token to musicstring
