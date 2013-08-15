@@ -50,7 +50,7 @@ public class MidiFileSection extends BookSection {
 	/**
 	 * XXX: Part of the multibook midi hack of '13. Parts start at 0
 	 */
-	private Integer part;
+	private Integer part = null;
 
 	@Override
 	public boolean load(Element element) throws IOException {
@@ -72,6 +72,7 @@ public class MidiFileSection extends BookSection {
 				// GZipping automatically detected
 				data = Base64.decode(dataText);
 			}
+			setBase64Data(dataElement.getTextContent());
 		} else if (part != null) {
 			setBase64Data(dataElement.getTextContent());
 		}
