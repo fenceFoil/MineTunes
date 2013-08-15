@@ -24,6 +24,9 @@
 package com.minetunes.signs;
 
 import java.io.IOException;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.Random;
 
@@ -43,6 +46,8 @@ import com.minetunes.Minetunes;
 import com.minetunes.PlayDittyFromSignWorkThread;
 import com.minetunes.Point3D;
 import com.minetunes.RightClickCheckThread;
+import com.minetunes.books.booktunes.MidiFileSection;
+import com.minetunes.books.booktunes.PartSection;
 import com.minetunes.config.MinetunesConfig;
 import com.minetunes.ditty.Ditty;
 import com.minetunes.ditty.DittyPlayerThread;
@@ -436,7 +441,7 @@ public class SignTuneParser {
 
 		// Play the ditty
 
-		// Add a reset to the start of the ditty to formally init volume ect.
+		// Add a reset to the start of the ditty to explicitly init volume ect.
 		musicStringToPlay.insert(0, getResetToken() + " ");
 		// Convert buffer to string
 		String ditty = musicStringToPlay.toString();
@@ -453,6 +458,11 @@ public class SignTuneParser {
 		if ((totalTokensFound > 0 && ((double) validTokensFound)
 				/ (double) totalTokensFound > 0.8d)
 				|| dittyProperties.isForceGoodDittyDetect()) {
+
+			// XXX: Part of multibook MIDI hack of '13
+			// Post-process ditty to assemble and verify that Multibook midi
+			// files are complete and playable
+			postProcessDittyMultibookMidiBits(dittyProperties);
 
 			// If there are no errors...
 			if (dittyProperties.getErrorMessages().size() <= 0) {
@@ -565,6 +575,100 @@ public class SignTuneParser {
 		// + Double.toString(totalTimeSeconds));
 
 		return dittyProperties;
+	}
+
+	// XXX: Part of multibook midi hack of '13
+	private static void postProcessDittyMultibookMidiBits(
+			SignDitty dittyProperties) {
+		HashMap<PartSection, MidiFileSection> readParts = dittyProperties
+				.getMidiParts();
+
+		if (readParts.isEmpty()) {
+			return;
+		}
+
+		// Organize read midi parts into their sets of books
+		HashMap<String, LinkedList<MidiFileSection>> bookSets = new HashMap<String, LinkedList<MidiFileSection>>();
+		HashMap<MidiFileSection, Integer> bookSetSizes = new HashMap<MidiFileSection, Integer>();
+		for (PartSection part : readParts.keySet()) {
+			if (!bookSets.containsKey(part.getSet())) {
+				// Set up list
+				bookSets.put(part.getSet(), new LinkedList<MidiFileSection>());
+			}
+
+			bookSets.get(part.getSet()).add(readParts.get(part));
+			bookSetSizes.put(readParts.get(part), part.getOf());
+		}
+
+		// Check for missing parts of a set, writing message of missing parts
+		for (LinkedList<MidiFileSection> midiSectionSet : bookSets.values()) {
+			// Assume that "of" and "set" values are consistent across all.
+			// Faulty assumption?
+
+			// XXX: so many checks not going on on this line...
+			int of = bookSetSizes.get(midiSectionSet.get(0));
+			String setName = midiSectionSet.get(0).getName();
+
+			// Sort parts of set
+			Collections.sort(midiSectionSet, new Comparator<MidiFileSection>() {
+
+				@Override
+				public int compare(MidiFileSection o1, MidiFileSection o2) {
+					if (o1.getPart() > o2.getPart()) {
+						return 1;
+					} else if (o1.getPart() < o2.getPart()) {
+						return -1;
+					}
+					return 0;
+				}
+			});
+
+			// Check for missing parts
+			LinkedList<Integer> missingParts = new LinkedList<Integer>();
+			for (int i = 0; i < of; i++) {
+				if (getPartNum(i, midiSectionSet) == null) {
+					missingParts.add(i + 1);
+				}
+			}
+
+			// Show an error according to the number missing
+			if (missingParts.size() == 1) {
+				dittyProperties.addErrorMessage(setName + " written across "
+						+ of + " books is missing part " + missingParts.get(0)
+						+ ".");
+				return;
+			} else if (missingParts.size() == 2) {
+				dittyProperties.addErrorMessage(setName
+						+ " is missing two books: Parts " + missingParts.get(0)
+						+ " and " + missingParts.get(1) + ".");
+				return;
+			} else if (missingParts.size() > 2) {
+				StringBuffer message = new StringBuffer();
+				message.append(setName + " is missing ")
+						.append(Integer.toString(missingParts.size()))
+						.append(" books in your SignTune: Parts ");
+				for (int i = 0; i < missingParts.size() - 1; i++) {
+					message.append(Integer.toString(missingParts.get(i)))
+							.append(", ");
+				}
+				message.append("and ")
+						.append(missingParts.get(missingParts.size() - 1)
+								.toString()).append(".");
+				dittyProperties.addErrorMessage(message.toString());
+				return;
+			}
+		}
+	}
+
+	// XXX: Part of great multibook midi hack of '13
+	private static MidiFileSection getPartNum(int partNum,
+			LinkedList<MidiFileSection> sections) {
+		for (MidiFileSection s : sections) {
+			if (s.getPart() == partNum) {
+				return s;
+			}
+		}
+		return null;
 	}
 
 	/**
@@ -989,6 +1093,11 @@ public class SignTuneParser {
 		return readMusicString;
 	}
 
+	public static String readLyricFromSign(int startLine, String[] signText,
+			String colorCode) {
+		return readLyricFromSign(startLine, signText, colorCode, false);
+	}
+
 	/**
 	 * Combines text below startLine into a single-line lyric. Handles hyphens
 	 * and whitespace.
@@ -999,7 +1108,7 @@ public class SignTuneParser {
 	 * @return
 	 */
 	public static String readLyricFromSign(int startLine, String[] signText,
-			String colorCode) {
+			String colorCode, boolean keepLastHyphen) {
 		String lyricText = "";
 
 		for (int lyricTextLine = startLine; lyricTextLine < LINES_ON_A_SIGN; lyricTextLine++) {
@@ -1027,6 +1136,25 @@ public class SignTuneParser {
 		// Replace inline color codes
 		for (String s : colorCodeChars) {
 			lyricText = lyricText.replace("&" + s, "§" + s);
+		}
+
+		// Check for and preserve the final hyphen of the lyrics if needed
+		if (keepLastHyphen) {
+			// Look for last line with text in it, and if it has a hyphen at the
+			// end reinstate it onto our read lyrics
+			for (int i = 3; i >= startLine; i--) {
+				String currLine = signText[i];
+				if (currLine.trim().length() > 0) {
+					// TODO check for hyphen, add to end of read lyrics
+					if (currLine.trim().substring(currLine.trim().length() - 1)
+							.equals("-")) {
+						System.out.println ("Trailing hyphen found");
+						lyricText += "-";
+						break;
+					}
+				}
+				System.out.println (startLine+":"+i);
+			}
 		}
 
 		return lyricText;

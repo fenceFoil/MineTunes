@@ -55,6 +55,7 @@ import com.minetunes.config.MinetunesConfig;
 import com.minetunes.gui.help.GuiHelpTopics;
 import com.minetunes.gui.settings.GuiSettings;
 import com.minetunes.resources.UpdateResourcesThread;
+import com.minetunes.speech.Speech;
 
 public class MinetunesGui extends GuiScreen {
 
@@ -93,10 +94,9 @@ public class MinetunesGui extends GuiScreen {
 				.getMinecraft()
 				.func_110434_K()
 				.func_110577_a(
-						new ResourceLocation(
-								"textures/misc/mineTunesLogo.png"));
+						new ResourceLocation("textures/misc/mineTunesLogo.png"));
 		// drawTexturedModalRect(width / 2 - 64, 10, 100, 0, 128, 64);
-		drawRect(width / 2 - 55, 5, width / 2 + 55, 55, 0xddbb4422);
+		drawRect(width / 2 - 55, 5, width / 2 + 55, 55, 0xdddddddd);
 		drawTexturedModalRect(width / 2 - 50, 10, 0, 0, 100, 36);
 
 		// Update buttons

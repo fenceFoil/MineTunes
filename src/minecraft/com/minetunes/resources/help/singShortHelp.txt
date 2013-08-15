@@ -1,0 +1,18 @@
+SING
+
+Lyrics played after this point will be "sung" by a voice synthesizer.
+
+To change the pitch of the synthesizer or its speed, put control tokens in the lyrics to sing:
+
+~G3 changes the pitch to G3
+~Db4 changes the pitch to Db4
+~100 changes the rate to 100 words per minute.
+~200 changes the rate to 200 words per minute.
+
+The voice's normal pitch is G3: a low bass voice. Default words per minute is 150. 
+
+You can only include these control tokens once per lyric, and they don't appear when the lyric is printed on the chat.
+
+BUG: If a lyric is set to be sung AT THE VERY LAST MOMENT of a SignTune, it will be silent. Solution: Add a single "R" token to the end of the signtune to move the last moment until after the lyric.
+
+See: SingOff

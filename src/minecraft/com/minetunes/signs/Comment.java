@@ -54,28 +54,33 @@ public class Comment {
 	 * @return
 	 */
 	public boolean stillExistsInWorld(World world) {
-		// Redundant, next set of checks do same thing
-		// if (BlockSign.getSignBlockType(location, world) == null) {
-		// // No sign at location
-		// return false;
-		// }
+		try {
+			// Redundant, next set of checks do same thing
+			// if (BlockSign.getSignBlockType(location, world) == null) {
+			// // No sign at location
+			// return false;
+			// }
 
-		TileEntity tile = world.getBlockTileEntity(location.x, location.y,
-				location.z);
-		if (tile == null || !(tile instanceof TileEntitySign)) {
-			// Problem finding tile entity for sign in the world
-			return false;
-		} else {
-			TileEntitySign signTile = (TileEntitySign) tile;
-			String commentLineText = signTile.signText[location.getLine()];
-			if (commentLineText == null
-					|| !commentLineText.equals(getCommentText())) {
-				// If the comment line is blank or different from the comment in
-				// this object
+			TileEntity tile = world.getBlockTileEntity(location.x, location.y,
+					location.z);
+			if (tile == null || !(tile instanceof TileEntitySign)) {
+				// Problem finding tile entity for sign in the world
 				return false;
 			} else {
-				return true;
+				TileEntitySign signTile = (TileEntitySign) tile;
+				String commentLineText = signTile.signText[location.getLine()];
+				if (commentLineText == null
+						|| !commentLineText.equals(getCommentText())) {
+					// If the comment line is blank or different from the comment in
+					// this object
+					return false;
+				} else {
+					return true;
+				}
 			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			return false;
 		}
 	}
 

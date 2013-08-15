@@ -1,0 +1,5 @@
+SINGOFF
+
+Turns off "singing" lyrics aloud after this point. Use "Sing" to start them again.
+
+See: SING

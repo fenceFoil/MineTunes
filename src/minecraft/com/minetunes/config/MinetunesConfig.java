@@ -50,12 +50,12 @@ public class MinetunesConfig {
 	/**
 	 * Current MineTunes version.
 	 */
-	public static final String CURRENT_VERSION = "3.4.02";
+	public static final String CURRENT_VERSION = "3.6.01";
 	/**
 	 * Minecraft version that the mod is designed for.
 	 */
 	public static final String MC_CURRENT_VERSION = "1.6.2";
-	private static final String[] UPDATE_MESSAGE = {};
+	private static final String[] UPDATE_MESSAGE = { "New: Voice synthesis with 'Sing' keyword, multi-book MIDIs, and fixed high/low noteblocks." };
 	/**
 	 * Disable to stop costly printlns from being called
 	 */
@@ -128,6 +128,7 @@ public class MinetunesConfig {
 		defaultProperties.setProperty("mod.lastVersionRun", "0");
 		defaultProperties.setProperty("tutorial.lastDownload", "0");
 		defaultProperties.setProperty("slides.highQuality", "true");
+		defaultProperties.setProperty("speech.enabled", "true");
 	}
 
 	/**
@@ -186,7 +187,7 @@ public class MinetunesConfig {
 
 			// Load config settings
 			load();
-			
+
 			// Copy over sound resources as necessary, regardless of versions
 			Minetunes.tryToCopyOverSoundResources();
 

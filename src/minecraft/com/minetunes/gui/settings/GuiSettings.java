@@ -51,6 +51,8 @@ public class GuiSettings extends GuiScreen {
 				"signs.playingColor", SettingType.COLOR));
 		SIGNTUNES_SETTINGS.add(new Setting("MIDI Volume", "",
 				SettingType.MIDI_VOLUME));
+		SIGNTUNES_SETTINGS.add(new Setting("Speech Synthesis",
+				"speech.enabled", SettingType.BOOLEAN_ON_OFF));
 		SIGNTUNES_SETTINGS.add(new Setting("Show Errors on Chat",
 				"signs.showErrors", SettingType.BOOLEAN_ON_OFF));
 		SIGNTUNES_SETTINGS.add(new Setting("Note Particles",

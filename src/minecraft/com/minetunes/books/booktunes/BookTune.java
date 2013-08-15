@@ -51,6 +51,7 @@ public class BookTune {
 	private static HashMap<String, Class<? extends BookSection>> sectionTagNames = new HashMap<String, Class<? extends BookSection>>();
 	static {
 		sectionTagNames.put("midiFile", MidiFileSection.class);
+		sectionTagNames.put("part", PartSection.class);
 		// sectionTagNames.put("music", MusicSection.class);
 		// sectionTagNames.put("lyrics", LyricsSection.class);
 	}
@@ -153,5 +154,14 @@ public class BookTune {
 		xmlBuffer.flush();
 		xmlBuffer.close();
 		return xmlBuffer.toString();
+	}
+	
+	public PartSection getPartSection() {
+		for (BookSection s:sections) {
+			if (s instanceof PartSection) {
+				return (PartSection) s;
+			} 
+		}
+		return null;
 	}
 }
