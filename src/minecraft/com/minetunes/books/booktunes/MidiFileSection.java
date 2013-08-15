@@ -50,7 +50,7 @@ public class MidiFileSection extends BookSection {
 	/**
 	 * XXX: Part of the multibook midi hack of '13. Parts start at 0
 	 */
-	private Integer part = null;
+	private Integer part;
 
 	@Override
 	public boolean load(Element element) throws IOException {
@@ -140,7 +140,11 @@ public class MidiFileSection extends BookSection {
 	}
 
 	public int getPart() {
-		return part;
+		if (part != null) {
+			return part;
+		} else {
+			return 0;
+		}
 	}
 
 	public void setPart(int part) {
