@@ -72,6 +72,7 @@ public class MidiFileSection extends BookSection {
 				// GZipping automatically detected
 				data = Base64.decode(dataText);
 			}
+			setBase64Data(dataElement.getTextContent());
 		} else if (part != null) {
 			setBase64Data(dataElement.getTextContent());
 		}
@@ -140,7 +141,11 @@ public class MidiFileSection extends BookSection {
 	}
 
 	public int getPart() {
-		return part;
+		if (part != null) {
+			return part;
+		} else {
+			return 0;
+		}
 	}
 
 	public void setPart(int part) {
