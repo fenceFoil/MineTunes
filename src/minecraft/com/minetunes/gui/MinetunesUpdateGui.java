@@ -449,7 +449,7 @@ public class MinetunesUpdateGui extends GuiScreen implements
 		folder.mkdirs();
 
 		// (Code from GuiTexturePacks)
-		if (Util.func_110647_a() == EnumOS.MACOS) {
+		if (Util.getOSType() == EnumOS.MACOS) {
 			try {
 				System.out.println(fileLocation);
 				Runtime.getRuntime().exec(
@@ -458,7 +458,7 @@ public class MinetunesUpdateGui extends GuiScreen implements
 			} catch (IOException var7) {
 				var7.printStackTrace();
 			}
-		} else if (Util.func_110647_a() == EnumOS.WINDOWS) {
+		} else if (Util.getOSType() == EnumOS.WINDOWS) {
 			String var2 = String.format(
 					"cmd.exe /C start \"Open file\" \"%s\"",
 					new Object[] { fileLocation });

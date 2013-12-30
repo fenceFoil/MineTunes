@@ -49,22 +49,26 @@ Updating Minetunes:
 - Recompile, Reobfuscate
 - Copy all reobf files into release template
 - Copy /com/minetunes/resources/*/ to release template
+- Check for / copy over jfugue's random ".properties" file.
+- Copy /assets/minecraft/* to release template
 - Copy /com/minetunes/forgeLauncher/*.* to release template if not present
 - Package as zip with Windows's zipper
 - Name zip MineTunes-#_##_##-MC#_#_#.zip
 - Copy to /minetunes/versions/MC#_#_#/ in dropbox
 
-- Test with forge and non-forge with MultiMC
-- Test auto-updater especially if it has been meddled with
+- Test with forge and non-forge with MultiMC (or equivalent)
+- Test auto-updater, *especially* if it has been meddled with
 	- SHORT TERM: Test forge auto-updater to see if bug is fixed
+	- Keep hoping, anyway.
 - Briefly test
 	- Opening menu
 	- Playing signs
 	- Sign Editor's presence
 	- Book Editor's presence
 	- Playing books
-	- Tuning noteblocks
+	- Tuning noteblocks at different pitches (netherrack/endstone)
 	- Playing BlockTunes
+	- Voice synthesizer
 
 - Make a master branch merge-commit and tag
 - Push to GitHub for sure!

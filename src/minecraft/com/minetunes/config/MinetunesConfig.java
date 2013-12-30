@@ -50,14 +50,18 @@ public class MinetunesConfig {
 	/**
 	 * Current MineTunes version.
 	 */
-	public static final String CURRENT_VERSION = "3.6.01";
+	public static final String CURRENT_VERSION = "3.7.00";
 	/**
-	 * Minecraft version that the mod is designed for.
+	 * Minecraft version that the mod is designed for. Note that this value may
+	 * be different from the actual Minecraft version: for example, if 1.6.1 and
+	 * 1.6.2 can use the same mods, I'll make a version of Minetunes for 1.6.1,
+	 * and the 1.6.2 versions after will still say 1.6.1 in this flag.
 	 */
-	public static final String MC_CURRENT_VERSION = "1.6.2";
-	private static final String[] UPDATE_MESSAGE = { "New: Voice synthesis with 'Sing' keyword, multi-book MIDIs, and fixed high/low noteblocks." };
+	public static final String MC_CURRENT_VERSION = "1.6.4";
+	private static final String[] UPDATE_MESSAGE = { "" };
 	/**
-	 * Disable to stop costly printlns from being called
+	 * Disable to stop (some) costly printlns from being called This flag is
+	 * pretty unused these days.
 	 */
 	public static boolean DEBUG = false;
 

@@ -248,8 +248,8 @@ public class TGComponent extends Gui {
 		} else {
 			ColorUtil.setGLColor(bgColor);
 		}
-		Minecraft.getMinecraft().func_110434_K()
-				.func_110577_a(new ResourceLocation(texture));
+		Minecraft.getMinecraft().getTextureManager()
+				.bindTexture(new ResourceLocation(texture));
 
 		// Draw complete tiles
 		for (int i = 0; i < width / tWidth; i++) {
