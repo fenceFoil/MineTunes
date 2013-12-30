@@ -116,7 +116,7 @@ public class RenderNoteBlockTooltip extends Render {
 	}
 
 	@Override
-	protected ResourceLocation func_110775_a(Entity var1) {
+	protected ResourceLocation getEntityTexture(Entity var1) {
 		// TODO Auto-generated method stub
 		// MC161: Is a  null func_110775_a a problem?
 		return null;

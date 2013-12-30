@@ -536,8 +536,7 @@ public class TGFrame extends GuiScreen {
 			GL11.glColor4f(r, g, b, a);
 			Minecraft
 					.getMinecraft()
-					.func_110434_K()
-					.func_110577_a(
+					.getTextureManager().bindTexture(
 							new ResourceLocation(TGTextureManager.GUI_TEX_1));
 
 			// Draw texture as needed to protrude

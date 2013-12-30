@@ -150,7 +150,7 @@ public class GuiButtonL extends GuiButton {
 			// mc.renderEngine.getTexture("/gui/gui.png"));
 			// mc.func_110434_K().bindTexture("/gui/gui.png");
 			// MC161 textures
-			mc.func_110434_K().func_110577_a(
+			mc.getTextureManager().bindTexture(
 					new ResourceLocation("textures/gui/widgets.png"));
 			GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
 
@@ -188,8 +188,7 @@ public class GuiButtonL extends GuiButton {
 				// GL11.glBindTexture(GL11.GL_TEXTURE_2D, iconTex);
 				// mc.func_110434_K().bindTexture(iconTex);
 				// MC161 Textures
-				mc.func_110434_K().func_110577_a(
-						new ResourceLocation(iconTex));
+				mc.getTextureManager().bindTexture(new ResourceLocation(iconTex));
 				drawTexturedModalRect(xPosition + 2, yPosition + 2,
 						(iconIndex % 16) * 16, (iconIndex / 16) * 16, 16, 16);
 			}

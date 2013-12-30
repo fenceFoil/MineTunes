@@ -273,7 +273,7 @@ public class GuiEditSignTune extends GuiEditSignBase {
 		GL11.glColor4f(1, 1, 1, 1);
 		// MC161 textures
 		// mc.func_110434_K().bindTexture(iconTexture);
-		this.mc.func_110434_K().func_110577_a(
+		this.mc.getTextureManager().bindTexture(
 				new ResourceLocation(iconTexture));
 		int iconIndex = 17;
 		drawTexturedModalRect(shovelButtonDown.xPosition - 16,

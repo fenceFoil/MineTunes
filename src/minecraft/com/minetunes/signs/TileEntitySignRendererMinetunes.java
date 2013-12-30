@@ -430,10 +430,10 @@ public class TileEntitySignRendererMinetunes extends TileEntitySignRenderer {
 
 		// MC161 Texture issues?
 		if (signEntity.isFace(false)) {
-			this.func_110628_a(new ResourceLocation(
+			this.bindTexture(new ResourceLocation(
 					"textures/misc/skinSign1.png"));
 		} else {
-			this.func_110628_a(new ResourceLocation("textures/entity/sign.png"));
+			this.bindTexture(new ResourceLocation("textures/entity/sign.png"));
 		}
 		GL11.glPushMatrix();
 		GL11.glScalef(f, -f, -f);

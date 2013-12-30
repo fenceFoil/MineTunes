@@ -1639,3 +1639,7 @@
 /Team.java
 /WorldClientINNER3.java
 /WorldClientINNER4.java
+/CommandSetPlayerTimeout.java
+/ComponentScatteredFeaturePieces.java
+/MapGenStructureData.java
+/MapGenStructureIO.java

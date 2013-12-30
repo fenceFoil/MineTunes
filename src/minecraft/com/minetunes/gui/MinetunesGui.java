@@ -92,8 +92,7 @@ public class MinetunesGui extends GuiScreen {
 		// .bindTexture("/com/minetunes/resources/textures/mineTunesLogo.png");
 		Minecraft
 				.getMinecraft()
-				.func_110434_K()
-				.func_110577_a(
+				.getTextureManager().bindTexture(
 						new ResourceLocation("textures/misc/mineTunesLogo.png"));
 		// drawTexturedModalRect(width / 2 - 64, 10, 100, 0, 128, 64);
 		drawRect(width / 2 - 55, 5, width / 2 + 55, 55, 0xdddddddd);
@@ -258,7 +257,7 @@ public class MinetunesGui extends GuiScreen {
 		MinetunesConfig.getMidiDir().mkdirs();
 
 		// (Code from GuiTexturePacks)
-		if (Util.func_110647_a() == EnumOS.MACOS) {
+		if (Util.getOSType() == EnumOS.MACOS) {
 			try {
 				System.out.println(fileLocation);
 				Runtime.getRuntime().exec(
@@ -267,7 +266,7 @@ public class MinetunesGui extends GuiScreen {
 			} catch (IOException var7) {
 				var7.printStackTrace();
 			}
-		} else if (Util.func_110647_a() == EnumOS.WINDOWS) {
+		} else if (Util.getOSType() == EnumOS.WINDOWS) {
 			String var2 = String.format(
 					"cmd.exe /C start \"Open file\" \"%s\"",
 					new Object[] { fileLocation });

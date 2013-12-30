@@ -179,8 +179,8 @@ public class GuiHelp extends GuiScreen {
 		// .bindTexture("/com/minetunes/resources/textures/signBG2.png");
 		Minecraft
 				.getMinecraft()
-				.func_110434_K()
-				.func_110577_a(
+				.getTextureManager()
+				.bindTexture(
 						new ResourceLocation(
 								"textures/misc/signBG2.png"));
 		// drawTexturedModalRect(0, height - BOTTOM_MARGIN, 0, 0, width,

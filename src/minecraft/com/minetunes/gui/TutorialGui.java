@@ -94,7 +94,7 @@ public class TutorialGui extends GuiScreen {
 		// MC161 textures
 		// mc.func_110434_K()
 		// .bindTexture("/com/minetunes/resources/textures/MCDittyLand1.png");
-		mc.func_110434_K().func_110577_a(
+		mc.getTextureManager().bindTexture(
 				new ResourceLocation(ResourceManager.MCDITTY_LAND_PIC));
 		GL11.glColor4f(1.0F, 1.0F, 1.0F, 0.5f);
 		drawTexturedModalRect(width - 10 - (width / 2 - 20), 60, 0, 0,

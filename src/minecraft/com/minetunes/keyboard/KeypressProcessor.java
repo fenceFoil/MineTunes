@@ -115,7 +115,7 @@ public class KeypressProcessor {
 							break;
 						} else {
 							// Not pressed
-							if (Util.func_110647_a() == EnumOS.MACOS) {
+							if (Util.getOSType() == EnumOS.MACOS) {
 								// If checking for a ctrl key, automatically
 								// check
 								// for the mac meta key as well

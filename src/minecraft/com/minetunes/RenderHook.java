@@ -48,7 +48,7 @@ public class RenderHook extends Render {
 	}
 
 	@Override
-	protected ResourceLocation func_110775_a(Entity var1) {
+	protected ResourceLocation getEntityTexture(Entity var1) {
 		// TODO Auto-generated method stub
 		return null;
 	}
