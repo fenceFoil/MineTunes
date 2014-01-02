@@ -432,6 +432,9 @@ public class TileEntitySignRendererMinetunes extends TileEntitySignRenderer {
 		if (signEntity.isFace(false)) {
 			this.bindTexture(new ResourceLocation(
 					"textures/misc/skinSign1.png"));
+		} else if (signEntity.isSignTuneSign) {
+			this.bindTexture(new ResourceLocation(
+					"textures/signtune/signtuneSkin.png"));
 		} else {
 			this.bindTexture(new ResourceLocation("textures/entity/sign.png"));
 		}

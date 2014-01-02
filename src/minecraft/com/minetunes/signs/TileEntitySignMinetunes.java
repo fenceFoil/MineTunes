@@ -45,6 +45,7 @@ public class TileEntitySignMinetunes extends TileEntitySign {
 	public boolean startBlinking = false;
 	public boolean blinking = false;
 	public long blinkingEndTime = 0;
+	public boolean isSignTuneSign = false;
 	public boolean[] errorBlinkLine;
 	public String signColorCode = null;
 	/**

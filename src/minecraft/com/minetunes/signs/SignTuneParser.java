@@ -500,6 +500,16 @@ public class SignTuneParser {
 				dittyProperties.setMusicString(ditty);
 				DittyPlayerThread.playDitty(dittyProperties);
 
+				// Mark all signs involved as signtune signs
+				for (SignLogPoint signPoint : signsReadList) {
+					TileEntity tile = world.getBlockTileEntity(signPoint.x,
+							signPoint.y, signPoint.z);
+					if (tile instanceof TileEntitySignMinetunes) {
+						TileEntitySignMinetunes signTile = (TileEntitySignMinetunes) tile;
+						signTile.isSignTuneSign = true;
+					}
+				}
+
 				// Emit single particle, if necessary
 				if ((MinetunesConfig.noteParticlesDisabled)
 						|| MinetunesConfig.particlesEnabled) {
@@ -1148,12 +1158,12 @@ public class SignTuneParser {
 					// TODO check for hyphen, add to end of read lyrics
 					if (currLine.trim().substring(currLine.trim().length() - 1)
 							.equals("-")) {
-						System.out.println ("Trailing hyphen found");
+						System.out.println("Trailing hyphen found");
 						lyricText += "-";
 						break;
 					}
 				}
-				System.out.println (startLine+":"+i);
+				System.out.println(startLine + ":" + i);
 			}
 		}
 
