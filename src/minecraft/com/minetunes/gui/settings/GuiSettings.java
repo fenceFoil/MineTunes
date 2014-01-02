@@ -128,7 +128,8 @@ public class GuiSettings extends GuiScreen {
 
 	@Override
 	public void drawScreen(int mx, int my, float par3) {
-		drawMinetunesBackground(width, height);
+		//drawMinetunesBackground(width, height);
+		drawDefaultBackground();
 
 		// Update settings
 		for (Setting s : settings) {
@@ -165,16 +166,16 @@ public class GuiSettings extends GuiScreen {
 		}
 	}
 
-	/**
-	 * Copied from GuiMinetunes
-	 * 
-	 * @param width
-	 * @param height
-	 */
-	public void drawMinetunesBackground(int width, int height) {
-		drawGradientRect(0, 0, width, height / 2, 0x40111111, 0xa0ffffff);
-		drawGradientRect(0, height / 2, width, height, 0xa0ffffff, 0xff101010);
-	}
+//	/**
+//	 * Copied from GuiMinetunes
+//	 * 
+//	 * @param width
+//	 * @param height
+//	 */
+//	public void drawMinetunesBackground(int width, int height) {
+//		drawGradientRect(0, 0, width, height / 2, 0x40111111, 0xa0ffffff);
+//		drawGradientRect(0, height / 2, width, height, 0xa0ffffff, 0xff101010);
+//	}
 
 	/**
 	 * @return

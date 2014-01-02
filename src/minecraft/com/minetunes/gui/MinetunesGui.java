@@ -83,7 +83,8 @@ public class MinetunesGui extends GuiScreen {
 		updateTweens();
 
 		// draw background
-		drawMinetunesBackground(width, height);
+		//drawMinetunesBackground(width, height);
+		drawDefaultBackground();
 
 		// Draw logo
 		GL11.glColor4f(1.0F, 1.0F, 1.0F, 0.5f);
