@@ -29,7 +29,6 @@ package com.minetunes.gui.signEditor;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
-import java.util.HashMap;
 import java.util.LinkedList;
 
 import net.minecraft.src.Block;
@@ -66,13 +65,6 @@ public class GuiEditSignBase extends GuiEditSign {
 	public static final int MODE_RETRO = 0;
 	public static final int MODE_DISCREET = 1;
 
-	public static final HashMap<Integer, String> editorModes = new HashMap<Integer, String>();
-	static {
-		editorModes.put(MODE_SIGNTUNES, "MineTunes");
-		editorModes.put(MODE_RETRO, "Normal");
-		editorModes.put(MODE_DISCREET, "Invisible");
-	}
-
 	/** Reference to the sign object. */
 	protected TileEntitySignMinetunes sign;
 
@@ -93,8 +85,7 @@ public class GuiEditSignBase extends GuiEditSign {
 
 	private boolean overwrite = false;
 
-	// protected GuiButtonL editorModeButton;
-	protected LinkedList<GuiButtonL> editorModeButtons = new LinkedList<GuiButtonL>();
+	protected GuiButtonL editorModeButton;
 
 	/**
 	 * MineTunes's buffer of saved signs.
@@ -310,91 +301,37 @@ public class GuiEditSignBase extends GuiEditSign {
 
 		buttonList.clear();
 
-		// String iconTexture = "textures/misc/signEditor1.png";
-		// // editorModeButton = new GuiButton(1000, width - 100, 10, 80, 20,
-		// "");
-		// editorModeButton = new GuiButtonL("editorMode", width - 30, 10, 20,
-		// 20,
-		// iconTexture, 13);
-		// editorModeButton.addListener(new ActionListener() {
-		//
-		// @Override
-		// public void actionPerformed(ActionEvent e) {
-		// // Switch gui mode
-		// if (MinetunesConfig.getInt("signeditor.mode") == MODE_RETRO) {
-		// MinetunesConfig.setInt("signeditor.mode", MODE_SIGNTUNES);
-		// setQueuedGUI(new GuiEditSignTune(sign, recalledSignCount,
-		// editLine, editChar));
-		// } else if (MinetunesConfig.getInt("signeditor.mode") ==
-		// MODE_SIGNTUNES) {
-		// MinetunesConfig.setInt("signeditor.mode", MODE_DISCREET);
-		// setQueuedGUI(queuedGui = new GuiEditSignBase(sign,
-		// recalledSignCount, editLine, editChar));
-		// } else {
-		// MinetunesConfig.setInt("signeditor.mode", MODE_RETRO);
-		// setQueuedGUI(queuedGui = new GuiEditSignBase(sign,
-		// recalledSignCount, editLine, editChar));
-		// }
-		// try {
-		// // Save mode change
-		// MinetunesConfig.flush();
-		// } catch (IOException e1) {
-		// e1.printStackTrace();
-		// }
-		// }
-		// });
-		// buttonList.add(editorModeButton);
+		String iconTexture = "textures/misc/signEditor1.png";
+		// editorModeButton = new GuiButton(1000, width - 100, 10, 80, 20, "");
+		editorModeButton = new GuiButtonL("editorMode", width - 30, 10, 20, 20,
+				iconTexture, 13);
+		editorModeButton.addListener(new ActionListener() {
 
-		// Add editor mode buttons
-		int numModes = editorModes.size();
-		int currMode = 0;
-		for (Integer i : editorModes.keySet()) {
-			String label = editorModes.get(i);
-
-			// Create button
-			int buttonWidth = 70;
-			int buttonShare = width / numModes;
-			int buttonMargin = (buttonShare - buttonWidth) / 2;
-			GuiButtonL newButton = new GuiButtonL("EditorMode" + i, buttonShare
-					* currMode + buttonMargin, 0, buttonWidth, 20, label);
-			if (MinetunesConfig.getInt("signeditor.mode") == i) {
-				newButton.enabled = false;
-			}
-			final int buttonMode = i;
-			newButton.addListener(new ActionListener() {
-
-				@Override
-				public void actionPerformed(ActionEvent e) {
-					// Switch gui mode
-					if (buttonMode == MODE_SIGNTUNES) {
-						MinetunesConfig.setInt("signeditor.mode",
-								MODE_SIGNTUNES);
-						setQueuedGUI(new GuiEditSignTune(sign,
-								recalledSignCount, editLine, editChar));
-					} else if (buttonMode == MODE_DISCREET) {
-						MinetunesConfig
-								.setInt("signeditor.mode", MODE_DISCREET);
-						setQueuedGUI(queuedGui = new GuiEditSignBase(sign,
-								recalledSignCount, editLine, editChar));
-					} else {
-						MinetunesConfig.setInt("signeditor.mode", MODE_RETRO);
-						setQueuedGUI(queuedGui = new GuiEditSignBase(sign,
-								recalledSignCount, editLine, editChar));
-					}
-					try {
-						// Save mode change
-						MinetunesConfig.flush();
-					} catch (IOException e1) {
-						e1.printStackTrace();
-					}
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// Switch gui mode
+				if (MinetunesConfig.getInt("signeditor.mode") == MODE_RETRO) {
+					MinetunesConfig.setInt("signeditor.mode", MODE_SIGNTUNES);
+					setQueuedGUI(new GuiEditSignTune(sign, recalledSignCount,
+							editLine, editChar));
+				} else if (MinetunesConfig.getInt("signeditor.mode") == MODE_SIGNTUNES) {
+					MinetunesConfig.setInt("signeditor.mode", MODE_DISCREET);
+					setQueuedGUI(queuedGui = new GuiEditSignBase(sign,
+							recalledSignCount, editLine, editChar));
+				} else {
+					MinetunesConfig.setInt("signeditor.mode", MODE_RETRO);
+					setQueuedGUI(queuedGui = new GuiEditSignBase(sign,
+							recalledSignCount, editLine, editChar));
 				}
-			});
-			editorModeButtons.add(newButton);
-			buttonList.add(newButton);
-
-			// Increment button counter
-			currMode++;
-		}
+				try {
+					// Save mode change
+					MinetunesConfig.flush();
+				} catch (IOException e1) {
+					e1.printStackTrace();
+				}
+			}
+		});
+		buttonList.add(editorModeButton);
 
 		doneButton = new GuiButtonL("done", width / 2 - 100, height - 50, 200,
 				20, "Done");
