@@ -1,6 +1,0 @@
-MIDI
-Next line contains the filename
-
-§cNote:§r This is an old keyword. Use the identical but better-named §dSaveMIDI§r instead. 
-
-§dSee:§r SaveMIDI, PlayMIDI

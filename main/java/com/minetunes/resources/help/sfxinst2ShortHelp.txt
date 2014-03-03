@@ -1,0 +1,3 @@
+SFXInst2
+
+§bUse SFXInst instead in Minecraft 1.6 and later.

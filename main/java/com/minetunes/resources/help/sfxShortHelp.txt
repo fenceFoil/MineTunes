@@ -1,0 +1,7 @@
+SFX [effect]
+
+SFX plays a Minecraft sound effect. It's like a note, except it has no length.
+
+Many sound effects are random; if you play "ghast", for example, there are a few types of horrid ghast screams.
+
+This keyword always plays the latest Minecraft version's sounds.

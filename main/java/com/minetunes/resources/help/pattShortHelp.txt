@@ -1,0 +1,13 @@
+Patt [Count] #Comment
+
+Plays a pattern [Count] times. The one-line equivalent of:
+
+Pattern [Count]
+Goto #Comment
+
+***
+
+[Count]: Number of times to repeat pattern
+#Comment: A comment at the start of the pattern to repeat.
+
+See: Pattern, Goto

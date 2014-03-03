@@ -1,3 +1,0 @@
-[SignTune]
-
-Usually signs attached to Noteblocks are treated as lyrics, but if they have this keyword they are played as SignTunes.

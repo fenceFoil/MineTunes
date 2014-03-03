@@ -1,3 +1,0 @@
-Ditty
-
-Use [Ditty] instead.

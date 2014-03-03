@@ -1,3 +1,0 @@
-TGFramework
-
-All classes starting with TG are part of the Tempo Gui Framework.

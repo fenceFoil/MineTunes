@@ -1,8 +1,0 @@
-Say [text]
-[more text]
-
-Chats or sings the given text immediately. You can even put text on the same line as the word "say".
-
-Similar to Lyric, but does not require a 'Ylyricname' token to show the text. 
-
-See: Lyric, the MusicString 'Y' token

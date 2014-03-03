@@ -1,0 +1,83 @@
+Updating Minetunes:
+
+*** FROM OLD MC VERSION ***
+
+- Download new MCP
+- Use normal MC launcher to download new bin folder
+	- Alternately, MultiMC if we're still in snapshot-mode
+- Extract MCP
+- Update names?
+- Put jars in, decompile
+- Make copy, put in zip as mcpXXXXX-Clean.7z
+- Rename folder mcpXXX-Minetunes
+
+- Copy all .gitignore files and the .git folder to new mcp
+- Copy from old mcp's /src/ dir:
+	- BlockSign.java
+	- and all other minetunes dirs
+- Copy over the /lib/ dir
+
+- Open the copied repo in SmartGit Hg
+
+- In MinetunesConfig.java:
+	- Update the current version
+	- Update the current MC version if new version is not compatible with the previous version's mods
+- In BookWrapper.java:
+	- Ensure that book length checking is modern (compare with GuiScreenBook.java)
+- Resolve any compile errors
+
+- Diff the following clean base source files from the last MC version with the new one's
+	- BlockSign
+	- BlockNote
+	- EntityItemStack (name right?)
+	- Packet...Updatesign
+	- Packet...LevelSound
+	- GuiEditSign
+	- GuiScreen
+	- GuiScreenBook (note book saving to server esp.)
+	- TileEntitySign
+	- TileEntitySignRenderer
+	- Block
+- If any changes are found, deal with them in all affected Minetunes Classes
+- Watch esp. for overridden classes' method names: there's no @Override annotation in decompiled code!!! Ensure that methods are still being overriden.
+
+*** BUILDING A RELEASE ***
+
+- Test on Java 6 (in eclipse)
+
+- Resolve compile errors, create release branch (not to master yet!)
+- Recompile, Reobfuscate
+- Copy all reobf files into release template
+- Copy /com/minetunes/resources/*/ to release template
+- Check for / copy over jfugue's random ".properties" file.
+- Copy /assets/minecraft/* to release template
+- Copy /com/minetunes/forgeLauncher/*.* to release template if not present
+- Package as zip with Windows's zipper
+- Name zip MineTunes-#_##_##-MC#_#_#.zip
+- Copy to /minetunes/versions/MC#_#_#/ in dropbox
+
+- Test with forge and non-forge with MultiMC (or equivalent)
+- Test auto-updater, *especially* if it has been meddled with
+	- SHORT TERM: Test forge auto-updater to see if bug is fixed
+	- Keep hoping, anyway.
+- Briefly test
+	- Opening menu
+	- Playing signs
+	- Sign Editor's presence
+	- Book Editor's presence
+	- Playing books
+	- Tuning noteblocks at different pitches (netherrack/endstone)
+	- Playing BlockTunes
+	- Voice synthesizer
+
+- Make a master branch merge-commit and tag
+- Push to GitHub for sure!
+
+- Update changelog
+- Get share link to zip
+- Update minetunesVersions
+- Put new link on MinecraftForums
+- Update listings on RedstonePowered and MinecraftWiki/wiki/mods
+
+
+

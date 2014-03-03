@@ -1,7 +1,0 @@
-Proximity
-
-Walking into this sign's block starts a ditty, just like clicking on it.
-
-Identical to the keyword "Area 1 1".
-
-§bSee:§r Area

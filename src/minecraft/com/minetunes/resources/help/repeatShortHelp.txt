@@ -1,5 +1,0 @@
-Repeat ##
-
-Plays anything on the lines below ## times (or 2 if not given). If there are any GoTo keywords, will play the pointed at signs ## times as well.
-
-0.9.11: §bRepeat§r replaces and improves §bPattern§r

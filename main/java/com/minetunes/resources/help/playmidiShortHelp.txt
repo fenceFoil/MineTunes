@@ -1,0 +1,10 @@
+PlayMIDI
+[Next Line Contains The Filename]
+
+Plays a MIDI file from /.minecraft/mineTunes/midi/
+
+The filename should be letters and numbers, with no symbols or spaces. ".mid" or ".midi" is automatically added to the end.
+
+There is no guarantee that the MIDI will be played in sync with the SignTune. There will be a pause before the MIDI begins playing.
+
+§dSee:§r SaveMIDI

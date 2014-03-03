@@ -1,3 +1,0 @@
-Book
-
-Reads any BookTunes from adjacent item frames and adds them to the SignTune.
