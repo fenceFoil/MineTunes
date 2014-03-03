@@ -301,24 +301,34 @@ public class GuiEditSignBase extends GuiEditSign {
 
 		buttonList.clear();
 
-		String iconTexture = "textures/misc/signEditor1.png";
+		// Version 3.8: Discreet mode is being retired. If it is turned on,
+		// switch to normal MC Mode
+		if (MinetunesConfig.getInt("signeditor.mode") == MODE_DISCREET) {
+			MinetunesConfig.setInt("signeditor.mode", MODE_RETRO);
+			setQueuedGUI(queuedGui = new GuiEditSignBase(sign,
+					recalledSignCount, editLine, editChar));
+			try {
+				// Save mode change
+				MinetunesConfig.flush();
+			} catch (IOException e1) {
+				e1.printStackTrace();
+			}
+		}
+		
 		// editorModeButton = new GuiButton(1000, width - 100, 10, 80, 20, "");
-		editorModeButton = new GuiButtonL("editorMode", width - 30, 10, 20, 20,
-				iconTexture, 13);
+		String modeButtonLabel = "MineTunes";
+		editorModeButton = new GuiButtonL("editorMode", width - 65, 5, 60, 20,
+				modeButtonLabel);
 		editorModeButton.addListener(new ActionListener() {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				// Switch gui mode
+				// Switch gui mode between signtunes and retro
 				if (MinetunesConfig.getInt("signeditor.mode") == MODE_RETRO) {
 					MinetunesConfig.setInt("signeditor.mode", MODE_SIGNTUNES);
 					setQueuedGUI(new GuiEditSignTune(sign, recalledSignCount,
 							editLine, editChar));
 				} else if (MinetunesConfig.getInt("signeditor.mode") == MODE_SIGNTUNES) {
-					MinetunesConfig.setInt("signeditor.mode", MODE_DISCREET);
-					setQueuedGUI(queuedGui = new GuiEditSignBase(sign,
-							recalledSignCount, editLine, editChar));
-				} else {
 					MinetunesConfig.setInt("signeditor.mode", MODE_RETRO);
 					setQueuedGUI(queuedGui = new GuiEditSignBase(sign,
 							recalledSignCount, editLine, editChar));
