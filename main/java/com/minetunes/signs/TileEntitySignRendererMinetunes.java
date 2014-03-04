@@ -1,14 +1,14 @@
 package com.minetunes.signs;
 
-import net.minecraft.src.Block;
-import net.minecraft.src.FontRenderer;
-import net.minecraft.src.MathHelper;
-import net.minecraft.src.Minecraft;
-import net.minecraft.src.ModelSign;
-import net.minecraft.src.ResourceLocation;
-import net.minecraft.src.TileEntity;
-import net.minecraft.src.TileEntitySign;
-import net.minecraft.src.TileEntitySignRenderer;
+import net.minecraft.block.Block;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.FontRenderer;
+import net.minecraft.client.model.ModelSign;
+import net.minecraft.client.renderer.tileentity.TileEntitySignRenderer;
+import net.minecraft.tileentity.TileEntity;
+import net.minecraft.tileentity.TileEntitySign;
+import net.minecraft.util.MathHelper;
+import net.minecraft.util.ResourceLocation;
 
 import org.lwjgl.opengl.GL11;
 

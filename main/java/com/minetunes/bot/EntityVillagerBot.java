@@ -24,8 +24,8 @@
  */
 package com.minetunes.bot;
 
-import net.minecraft.src.EntityVillager;
-import net.minecraft.src.World;
+import net.minecraft.entity.passive.EntityVillager;
+import net.minecraft.world.World;
 
 public class EntityVillagerBot extends EntityVillager {
 

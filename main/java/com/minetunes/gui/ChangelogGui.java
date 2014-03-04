@@ -28,8 +28,8 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 
-import net.minecraft.src.GuiButton;
-import net.minecraft.src.GuiScreen;
+import net.minecraft.client.gui.GuiButton;
+import net.minecraft.client.gui.GuiScreen;
 
 import org.lwjgl.input.Keyboard;
 
@@ -59,7 +59,7 @@ public class ChangelogGui extends GuiScreen {
 		buttonList.add(new GuiButton(100, width / 2 - 100, height - 30, "Done"));
 		buttonList.add(new MinetunesVersionGuiElement(100));
 
-		textPanel = new GuiScrollingTextPanel(10, 40, width - 20, height - 80, false, fontRenderer, true);
+		textPanel = new GuiScrollingTextPanel(10, 40, width - 20, height - 80, false, fontRendererObj, true);
 
 		// Load guide text
 		try {
@@ -91,7 +91,7 @@ public class ChangelogGui extends GuiScreen {
 		drawDefaultBackground();
 
 		// Draw label at top of screen
-		drawCenteredString(fontRenderer, title, width / 2, 15, 0xffff00);
+		drawCenteredString(fontRendererObj, title, width / 2, 15, 0xffff00);
 
 		// Draw sliding panel o' text
 		textPanel.draw(par1, par2);

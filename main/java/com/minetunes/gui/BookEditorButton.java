@@ -23,8 +23,8 @@
  */
 package com.minetunes.gui;
 
-import net.minecraft.src.GuiScreenBook;
-import net.minecraft.src.Minecraft;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.GuiScreenBook;
 
 /**
  * @author William

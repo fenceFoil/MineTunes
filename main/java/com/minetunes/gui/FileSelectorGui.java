@@ -27,9 +27,9 @@ import java.io.File;
 import java.io.FilenameFilter;
 import java.util.ArrayList;
 
-import net.minecraft.src.GuiButton;
-import net.minecraft.src.GuiScreen;
-import net.minecraft.src.GuiTextField;
+import net.minecraft.client.gui.GuiButton;
+import net.minecraft.client.gui.GuiScreen;
+import net.minecraft.client.gui.GuiTextField;
 
 import org.lwjgl.input.Keyboard;
 
@@ -75,7 +75,7 @@ public class FileSelectorGui extends GuiScreen {
 		buttonList.add(openButton);
 		buttonList.add(new GuiButton(200, width - 80, height - 30, 70, 20, "Cancel"));
 
-		fileNameTextField = new GuiTextField(fontRenderer, width / 4, 45, width / 2, 20);
+		fileNameTextField = new GuiTextField(fontRendererObj, width / 4, 45, width / 2, 20);
 		fileNameTextField.setFocused(true);
 		fileNameTextField.setCanLoseFocus(false);
 	}
@@ -90,35 +90,35 @@ public class FileSelectorGui extends GuiScreen {
 		drawDefaultBackground();
 
 		// Print version
-		drawString(fontRenderer, "MineTunes Version " + MinetunesConfig.CURRENT_VERSION, 0, 0, 0x444444);
+		drawString(fontRendererObj, "MineTunes Version " + MinetunesConfig.CURRENT_VERSION, 0, 0, 0x444444);
 
 		// Draw label at top of screen
-		drawCenteredString(fontRenderer, title, width / 2, 15, 0xffffff);
+		drawCenteredString(fontRendererObj, title, width / 2, 15, 0xffffff);
 
 		// Draw helpful labels
-		drawCenteredString(fontRenderer, "Type a Name, or Part of a Name", width / 2, 30, 0xdddddd);
-		drawCenteredString(fontRenderer, "Matches:", width / 2, 90, 0xffffffff);
+		drawCenteredString(fontRendererObj, "Type a Name, or Part of a Name", width / 2, 30, 0xdddddd);
+		drawCenteredString(fontRendererObj, "Matches:", width / 2, 90, 0xffffffff);
 
 		// Draw text area
 		fileNameTextField.drawTextBox();
 
 		// Show matching files
 		if (files.size() <= 0) {
-			drawCenteredString(fontRenderer, "Folder is Empty", width / 2, height / 2, 0xff0000);
+			drawCenteredString(fontRendererObj, "Folder is Empty", width / 2, height / 2, 0xff0000);
 			openButton.enabled = false;
 		} else {
 			if (files.size() > 0 && matchingFiles.size() <= 0) {
-				drawCenteredString(fontRenderer, "No Matching Files", width / 2, height / 2, 0xff0000);
+				drawCenteredString(fontRendererObj, "No Matching Files", width / 2, height / 2, 0xff0000);
 				openButton.enabled = false;
 			} else {
 				openButton.enabled = true;
-				drawCenteredString(fontRenderer, "Will Open: " + matchingFiles.get(0).getName(), width / 2, 100, 0x00ff00);
+				drawCenteredString(fontRendererObj, "Will Open: " + matchingFiles.get(0).getName(), width / 2, 100, 0x00ff00);
 				for (int i = 1; i < matchingFiles.size(); i++) {
 					int yOnGui = 100 + i * 12;
 					if (yOnGui > height - 30) {
 						break;
 					} else {
-						drawCenteredString(fontRenderer, matchingFiles.get(i).getName(), width / 2, yOnGui, 0x004400);
+						drawCenteredString(fontRendererObj, matchingFiles.get(i).getName(), width / 2, yOnGui, 0x004400);
 					}
 				}
 			}

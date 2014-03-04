@@ -27,8 +27,8 @@ package com.minetunes;
 
 import java.util.LinkedList;
 
-import net.minecraft.src.TileEntity;
-import net.minecraft.src.World;
+import net.minecraft.tileentity.TileEntity;
+import net.minecraft.world.World;
 
 public class Point3D {
 

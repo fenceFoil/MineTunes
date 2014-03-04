@@ -25,9 +25,9 @@ package com.minetunes.gui;
 
 import java.io.File;
 
-import net.minecraft.src.GuiButton;
-import net.minecraft.src.GuiScreen;
-import net.minecraft.src.ResourceLocation;
+import net.minecraft.client.gui.GuiButton;
+import net.minecraft.client.gui.GuiScreen;
+import net.minecraft.util.ResourceLocation;
 
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.opengl.GL11;
@@ -68,7 +68,7 @@ public class TutorialGui extends GuiScreen {
 		buttonList.add(new MinetunesVersionGuiElement(100));
 
 		textPanel = new GuiScrollingTextPanel(10, 60, width / 2 - 20,
-				height - 130, false, fontRenderer, false);
+				height - 130, false, fontRendererObj, false);
 
 		// Load guide text
 		textPanel.setText(ResourceManager
@@ -103,7 +103,7 @@ public class TutorialGui extends GuiScreen {
 		// 256, 133);
 
 		// Draw label at top of screen
-		drawCenteredString(fontRenderer, title, width / 2, 15, 0xaaaaff);
+		drawCenteredString(fontRendererObj, title, width / 2, 15, 0xaaaaff);
 
 		// Is up to date?
 		String isUpToDateString;
@@ -125,7 +125,7 @@ public class TutorialGui extends GuiScreen {
 			downloadButton.displayString = "Reset MineTunesLand";
 		}
 		drawRect(width / 4, 70 - 40, width / 4 * 3, 88 - 40, 0x228888ff);
-		drawCenteredString(fontRenderer, isUpToDateString, width / 2, 75 - 40,
+		drawCenteredString(fontRendererObj, isUpToDateString, width / 2, 75 - 40,
 				isUpToDateColor);
 
 		// Draw sliding panel o' text

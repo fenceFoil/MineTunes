@@ -23,7 +23,7 @@
  */
 package com.minetunes;
 
-import net.minecraft.src.FontRenderer;
+import net.minecraft.client.gui.FontRenderer;
 
 /**
  * Utilities for dealing with FontRenderer

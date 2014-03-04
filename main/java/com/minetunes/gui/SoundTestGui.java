@@ -28,9 +28,9 @@ import java.util.Collections;
 import java.util.LinkedList;
 import java.util.Set;
 
-import net.minecraft.src.GuiButton;
-import net.minecraft.src.GuiScreen;
-import net.minecraft.src.GuiTextField;
+import net.minecraft.client.gui.GuiButton;
+import net.minecraft.client.gui.GuiScreen;
+import net.minecraft.client.gui.GuiTextField;
 
 import org.lwjgl.input.Keyboard;
 
@@ -93,11 +93,11 @@ public class SoundTestGui extends GuiScreen {
 		testSFXButton = new GuiButton(200, (width / 3) - 35, topMargin, 30, 20,
 				"Play");
 		buttonList.add(testSFXButton);
-		sfxField = new GuiTextField(fontRenderer, panelMargins, topMargin,
+		sfxField = new GuiTextField(fontRendererObj, panelMargins, topMargin,
 				width / 3 - (2 * panelMargins) - 30, 20);
 		sfxTextPanel = new GuiScrollingTextPanel(panelMargins, topMargin + 30,
 				width / 3 - (2 * panelMargins), height - panelMargins
-						- topMargin - 30 - 30, false, fontRenderer, true);
+						- topMargin - 30 - 30, false, fontRendererObj, true);
 		changeSFXSourceButton = new GuiButton(2000, panelMargins, height - 20
 				- panelMargins, 100, 20, "Alpha to 1.3");
 		buttonList.add(changeSFXSourceButton);
@@ -121,12 +121,12 @@ public class SoundTestGui extends GuiScreen {
 		testMidiButton = new GuiButton(400, width - 35, topMargin, 30, 20,
 				"Play");
 		buttonList.add(testMidiButton);
-		midiField = new GuiTextField(fontRenderer, (width / 3) * 2
+		midiField = new GuiTextField(fontRendererObj, (width / 3) * 2
 				+ panelMargins, topMargin, (width / 3) - (2 * panelMargins)
 				- 30, 20);
 		midiTextPanel = new GuiScrollingTextPanel((width / 3) * 2
 				+ panelMargins, topMargin + 30, width / 3 - (2 * panelMargins),
-				height - panelMargins - topMargin - 30, false, fontRenderer,
+				height - panelMargins - topMargin - 30, false, fontRendererObj,
 				true);
 
 		updateMidiTestPanel();
@@ -140,7 +140,7 @@ public class SoundTestGui extends GuiScreen {
 		drawDefaultBackground();
 
 		// Draw label at top of screen
-		drawCenteredString(fontRenderer, "MineTunes Sound Tests", width / 2,
+		drawCenteredString(fontRendererObj, "MineTunes Sound Tests", width / 2,
 				10, 0x4444bb);
 
 		// Draw elements that are not buttons

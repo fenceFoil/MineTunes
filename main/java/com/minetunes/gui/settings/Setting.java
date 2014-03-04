@@ -26,9 +26,9 @@ package com.minetunes.gui.settings;
 import java.awt.Color;
 import java.io.IOException;
 
-import net.minecraft.src.Gui;
-import net.minecraft.src.GuiButton;
-import net.minecraft.src.Minecraft;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.Gui;
+import net.minecraft.client.gui.GuiButton;
 import aurelienribon.tweenengine.Tween;
 
 import com.minetunes.Color4f;

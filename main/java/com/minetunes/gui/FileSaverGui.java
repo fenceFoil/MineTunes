@@ -25,10 +25,10 @@ package com.minetunes.gui;
 
 import java.io.File;
 
-import net.minecraft.src.ChatAllowedCharacters;
-import net.minecraft.src.GuiButton;
-import net.minecraft.src.GuiScreen;
-import net.minecraft.src.GuiTextField;
+import net.minecraft.client.gui.GuiButton;
+import net.minecraft.client.gui.GuiScreen;
+import net.minecraft.client.gui.GuiTextField;
+import net.minecraft.util.ChatAllowedCharacters;
 
 import org.lwjgl.input.Keyboard;
 
@@ -62,21 +62,21 @@ public class FileSaverGui extends GuiScreen {
 		drawDefaultBackground();
 
 		// Print version
-		drawString(fontRenderer, "MineTunes Version " + MinetunesConfig.CURRENT_VERSION, 0, 0, 0x444444);
+		drawString(fontRendererObj, "MineTunes Version " + MinetunesConfig.CURRENT_VERSION, 0, 0, 0x444444);
 
 		// Draw label at top of screen
-		drawCenteredString(fontRenderer, title, width / 2, 25, 0xffffff);
-		drawCenteredString(fontRenderer, "(Press Escape To Cancel)", width / 2, 35, 0x444444);
+		drawCenteredString(fontRendererObj, title, width / 2, 25, 0xffffff);
+		drawCenteredString(fontRendererObj, "(Press Escape To Cancel)", width / 2, 35, 0x444444);
 
 		// Draw helpful labels
-		drawCenteredString(fontRenderer, "Type a Name", width / 2, 85, 0xdddddd);
+		drawCenteredString(fontRendererObj, "Type a Name", width / 2, 85, 0xdddddd);
 
 		// Draw text area
 		saveNameTextField.drawTextBox();
 		
 		// Show overwriting warning
 		if (overwriting) {
-			drawCenteredString(fontRenderer, "Will Overwrite "+saveFileName, width/2, 125, 0xff0000);
+			drawCenteredString(fontRendererObj, "Will Overwrite "+saveFileName, width/2, 125, 0xff0000);
 		}
 
 		super.drawScreen(par1, par2, par3);
@@ -155,7 +155,7 @@ public class FileSaverGui extends GuiScreen {
 		buttonList.add(saveButton);
 		buttonList.add(new GuiButton(200, width / 2 - 55, height - 20, 110, 20, "Cancel"));
 
-		saveNameTextField = new GuiTextField(fontRenderer, width / 4, 100, width / 2, 20);
+		saveNameTextField = new GuiTextField(fontRendererObj, width / 4, 100, width / 2, 20);
 		saveNameTextField.setFocused(true);
 		saveNameTextField.setCanLoseFocus(false);
 	}

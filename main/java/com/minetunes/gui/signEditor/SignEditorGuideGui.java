@@ -23,8 +23,8 @@
  */
 package com.minetunes.gui.signEditor;
 
-import net.minecraft.src.GuiButton;
-import net.minecraft.src.GuiScreen;
+import net.minecraft.client.gui.GuiButton;
+import net.minecraft.client.gui.GuiScreen;
 
 import org.lwjgl.input.Keyboard;
 
@@ -56,7 +56,7 @@ public class SignEditorGuideGui extends GuiScreen {
 				.add(new GuiButton(100, width / 2 - 100, height - 30, "Done"));
 
 		textPanel = new GuiScrollingTextPanel(10, 40, width - 20, height - 80,
-				false, fontRenderer, true);
+				false, fontRendererObj, true);
 
 		// Load guide text
 		String guideText = ResourceManager
@@ -75,11 +75,11 @@ public class SignEditorGuideGui extends GuiScreen {
 		drawDefaultBackground();
 
 		// Print version
-		drawString(fontRenderer, "MineTunes Version "
+		drawString(fontRendererObj, "MineTunes Version "
 				+ MinetunesConfig.CURRENT_VERSION, 0, 0, 0x444444);
 
 		// Draw label at top of screen
-		drawCenteredString(fontRenderer, "Sign Editor Keys", width / 2, 15,
+		drawCenteredString(fontRendererObj, "Sign Editor Keys", width / 2, 15,
 				0xffff00);
 
 		// Draw sliding panel o' text

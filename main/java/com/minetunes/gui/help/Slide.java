@@ -32,8 +32,8 @@ import java.nio.IntBuffer;
 
 import javax.imageio.ImageIO;
 
-import net.minecraft.src.GLAllocation;
-import net.minecraft.src.Tessellator;
+import net.minecraft.client.renderer.GLAllocation;
+import net.minecraft.client.renderer.Tessellator;
 
 import org.imgscalr.Scalr;
 import org.lwjgl.opengl.GL11;

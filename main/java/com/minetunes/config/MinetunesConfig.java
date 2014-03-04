@@ -31,7 +31,7 @@ import java.io.IOException;
 import java.util.InvalidPropertiesFormatException;
 import java.util.Properties;
 
-import net.minecraft.src.Minecraft;
+import net.minecraft.client.Minecraft;
 
 import com.minetunes.CachedCustomSoundfont;
 import com.minetunes.Color4f;

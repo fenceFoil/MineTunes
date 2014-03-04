@@ -27,8 +27,6 @@ import java.io.File;
 import java.io.IOException;
 import java.util.Properties;
 
-import net.minecraft.src.Minecraft;
-
 import com.minetunes.Minetunes;
 import com.minetunes.autoUpdate.CompareVersion;
 import com.minetunes.autoUpdate.FileUpdater;

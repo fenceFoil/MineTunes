@@ -23,7 +23,7 @@
  */
 package com.minetunes.noteblocks;
 
-import net.minecraft.src.TileEntityNote;
+import net.minecraft.tileentity.TileEntityNote;
 
 /**
  * An enhanced version of TileEntityNote.

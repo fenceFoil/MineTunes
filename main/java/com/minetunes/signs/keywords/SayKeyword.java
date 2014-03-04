@@ -23,17 +23,15 @@
  */
 package com.minetunes.signs.keywords;
 
-import net.minecraft.src.TileEntitySign;
-import net.minecraft.src.World;
+import net.minecraft.tileentity.TileEntitySign;
+import net.minecraft.world.World;
 
 import com.minetunes.CueScheduler;
-import com.minetunes.Minetunes;
 import com.minetunes.Point3D;
 import com.minetunes.config.MinetunesConfig;
 import com.minetunes.ditty.Ditty;
 import com.minetunes.signs.ParsedSign;
 import com.minetunes.signs.SignTuneParser;
-import com.minetunes.signs.keywords.argparser.ArgParser;
 
 /**
  * @author William

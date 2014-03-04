@@ -4,11 +4,10 @@ import java.io.File;
 import java.io.IOException;
 import java.net.URI;
 
-import net.minecraft.src.EnumOS;
-import net.minecraft.src.GuiButton;
-import net.minecraft.src.GuiScreen;
-import net.minecraft.src.Minecraft;
-import net.minecraft.src.Util;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.GuiButton;
+import net.minecraft.client.gui.GuiScreen;
+import net.minecraft.util.Util.EnumOS;
 
 import org.lwjgl.Sys;
 import org.lwjgl.input.Keyboard;
@@ -20,9 +19,7 @@ import com.minetunes.autoUpdate.FileUpdaterListener;
 import com.minetunes.autoUpdate.ModUpdater;
 import com.minetunes.autoUpdate.UpdateEventLevel;
 import com.minetunes.config.MinetunesConfig;
-import com.minetunes.resources.ResourceManager;
 import com.minetunes.signs.SignTuneParser;
-import com.minetunes.speech.Speech;
 
 /**
  * Copyright (c) 2012 William Karnavas 
@@ -74,16 +71,16 @@ public class MinetunesUpdateGui extends GuiScreen implements
 		drawDefaultBackground();
 
 		// Print version
-		drawString(fontRenderer, "MineTunes Version "
+		drawString(fontRendererObj, "MineTunes Version "
 				+ MinetunesConfig.CURRENT_VERSION, 0, 0, 0x444444);
 
 		// Is up to date?
 		drawRect(width / 4, 70, width / 4 * 3, 88, 0x228888ff);
-		drawCenteredString(fontRenderer, isUpToDateString, width / 2, 75,
+		drawCenteredString(fontRendererObj, isUpToDateString, width / 2, 75,
 				isUpToDateColor);
 
 		// Draw label at top of screen
-		drawCenteredString(fontRenderer, "Check for Updates", width / 2, 25,
+		drawCenteredString(fontRendererObj, "Check for Updates", width / 2, 25,
 				0x0000ff);
 
 		super.drawScreen(par1, par2, par3);

@@ -28,8 +28,8 @@ import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.util.LinkedList;
 
-import net.minecraft.src.Minecraft;
-import net.minecraft.src.Timer;
+import net.minecraft.client.Minecraft;
+import net.minecraft.util.Timer;
 
 /**
  * Methods to get private Minecraft fields and methods using reflection and good

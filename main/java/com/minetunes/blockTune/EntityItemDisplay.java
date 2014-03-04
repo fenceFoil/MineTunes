@@ -23,11 +23,11 @@
  */
 package com.minetunes.blockTune;
 
-import net.minecraft.src.EntityItem;
-import net.minecraft.src.ItemStack;
-import net.minecraft.src.NBTTagCompound;
-import net.minecraft.src.Vec3;
-import net.minecraft.src.World;
+import net.minecraft.entity.item.EntityItem;
+import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.util.Vec3;
+import net.minecraft.world.World;
 
 /**
  * A floating item, identical to a item or block dropped with the "q" key, that

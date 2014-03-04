@@ -26,7 +26,6 @@ import java.util.HashMap;
 
 import javax.swing.event.EventListenerList;
 
-
 import org.jfugue.Environment;
 import org.jfugue.Environment.Error;
 import org.jfugue.JFugueDefinitions;

@@ -28,10 +28,8 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.regex.Pattern;
 
-import org.jfugue.JFugueDefinitions;
 import org.jfugue.JFugueException;
 import org.jfugue.Messages;
-import org.jfugue.elements.interfaces.ByteExp.MSB;
 import org.jfugue.factories.JFugueElementFactory;
 import org.jfugue.factories.JFugueElementFactoryManager;
 import org.jfugue.factories.NoteFactory;

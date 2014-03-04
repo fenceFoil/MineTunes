@@ -2,7 +2,23 @@ package org.jfugue.visitors;
 
 import org.jfugue.NoteVisitor;
 import org.jfugue.Pattern;
-import org.jfugue.elements.*;
+import org.jfugue.elements.ChannelPressure;
+import org.jfugue.elements.CommentProperty;
+import org.jfugue.elements.Controller;
+import org.jfugue.elements.DictAdd;
+import org.jfugue.elements.Instrument;
+import org.jfugue.elements.KeySignature;
+import org.jfugue.elements.Layer;
+import org.jfugue.elements.Lyric;
+import org.jfugue.elements.MCDittyEvent;
+import org.jfugue.elements.Measure;
+import org.jfugue.elements.Note;
+import org.jfugue.elements.PitchBend;
+import org.jfugue.elements.PolyphonicPressure;
+import org.jfugue.elements.SystemExclusive;
+import org.jfugue.elements.Tempo;
+import org.jfugue.elements.Time;
+import org.jfugue.elements.Voice;
 
 public interface ElementVisitor extends NoteVisitor {
 	

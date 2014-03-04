@@ -29,15 +29,13 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
-import net.minecraft.src.ChatAllowedCharacters;
-import net.minecraft.src.EnumChatFormatting;
-import net.minecraft.src.ItemStack;
-import net.minecraft.src.Minecraft;
-import net.minecraft.src.NBTTagCompound;
-import net.minecraft.src.NBTTagList;
-import net.minecraft.src.NBTTagString;
-import net.minecraft.src.Packet;
-import net.minecraft.src.Packet250CustomPayload;
+import net.minecraft.client.Minecraft;
+import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.nbt.NBTTagList;
+import net.minecraft.nbt.NBTTagString;
+import net.minecraft.util.ChatAllowedCharacters;
+import net.minecraft.util.EnumChatFormatting;
 
 import com.minetunes.config.MinetunesConfig;
 

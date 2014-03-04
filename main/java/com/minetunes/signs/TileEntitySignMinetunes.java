@@ -25,10 +25,9 @@ package com.minetunes.signs;
 
 import java.util.HashMap;
 
-import net.minecraft.src.Block;
-import net.minecraft.src.Minecraft;
-import net.minecraft.src.NBTTagCompound;
-import net.minecraft.src.TileEntitySign;
+import net.minecraft.client.Minecraft;
+import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.tileentity.TileEntitySign;
 
 import org.lwjgl.opengl.GL11;
 

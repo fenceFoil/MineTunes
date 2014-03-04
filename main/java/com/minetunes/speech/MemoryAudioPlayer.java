@@ -26,13 +26,11 @@ package com.minetunes.speech;
 
 import java.io.BufferedOutputStream;
 import java.io.ByteArrayOutputStream;
-import java.io.FileOutputStream;
 import java.io.IOException;
 
 import javax.sound.sampled.AudioFormat;
 
 import com.sun.speech.freetts.audio.AudioPlayer;
-import com.sun.speech.freetts.util.Utilities;
 
 /**
  * Takes output from a voice synthesizer and stores it in memory.

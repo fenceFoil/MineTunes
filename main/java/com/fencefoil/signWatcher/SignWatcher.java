@@ -24,10 +24,9 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 
-import net.minecraft.src.GuiEditSign;
-import net.minecraft.src.Minecraft;
-import net.minecraft.src.Packet;
-import net.minecraft.src.TileEntitySign;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.inventory.GuiEditSign;
+import net.minecraft.tileentity.TileEntitySign;
 
 import com.fencefoil.signWatcher.interfaces.SignChangedListener;
 

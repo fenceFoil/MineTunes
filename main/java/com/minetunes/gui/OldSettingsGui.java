@@ -26,9 +26,9 @@ package com.minetunes.gui;
 import java.awt.Color;
 import java.io.IOException;
 
-import net.minecraft.src.GuiButton;
-import net.minecraft.src.GuiScreen;
-import net.minecraft.src.GuiTextField;
+import net.minecraft.client.gui.GuiButton;
+import net.minecraft.client.gui.GuiScreen;
+import net.minecraft.client.gui.GuiTextField;
 
 import org.lwjgl.input.Keyboard;
 
@@ -223,8 +223,8 @@ public class OldSettingsGui extends GuiScreen {
 
 		buttonList.add(new MinetunesVersionGuiElement(100));
 
-		debugButton.drawButton = false;
-		highlightButton.drawButton = false;
+		debugButton.visible = false;
+		highlightButton.visible = false;
 
 		// Add text fields
 		// endOfLineTuneTextField = new GuiTextField(fontRenderer, (width / 3) *
@@ -252,7 +252,7 @@ public class OldSettingsGui extends GuiScreen {
 		// "MineTunes Version " + BlockSign.CURRENT_VERSION, 0, 0, 0x444444);
 
 		// Draw label at top of screen
-		drawCenteredString(fontRenderer, "MineTunes Settings", width / 2, 20,
+		drawCenteredString(fontRendererObj, "MineTunes Settings", width / 2, 20,
 				0x4444bb);
 
 		// System.out.println(signColorSlider.sliderValue);
@@ -366,8 +366,8 @@ public class OldSettingsGui extends GuiScreen {
 		} else if (par1 == 'g' && lastChar == 'u') {
 			// DEBUG BUTTON ACTIVATE!
 			System.out.println("g!");
-			debugButton.drawButton = true;
-			highlightButton.drawButton = true;
+			debugButton.visible = true;
+			highlightButton.visible = true;
 		}
 	}
 

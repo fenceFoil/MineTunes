@@ -25,9 +25,9 @@
 package com.minetunes.signs;
 
 
-import net.minecraft.src.TileEntity;
-import net.minecraft.src.TileEntitySign;
-import net.minecraft.src.World;
+import net.minecraft.tileentity.TileEntity;
+import net.minecraft.tileentity.TileEntitySign;
+import net.minecraft.world.World;
 
 /**
  * Represents a particular single comment line on a particular sign.

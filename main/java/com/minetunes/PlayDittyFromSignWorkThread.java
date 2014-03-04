@@ -25,7 +25,7 @@ package com.minetunes;
 
 import java.util.LinkedList;
 
-import net.minecraft.src.World;
+import net.minecraft.world.World;
 
 import com.minetunes.signs.SignTuneParser;
 

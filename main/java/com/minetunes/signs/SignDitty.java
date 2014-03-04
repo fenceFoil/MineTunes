@@ -28,7 +28,6 @@ import java.util.HashMap;
 import java.util.LinkedList;
 
 import com.minetunes.Point3D;
-import com.minetunes.books.booktunes.MidiFileSection;
 import com.minetunes.ditty.Ditty;
 
 /**

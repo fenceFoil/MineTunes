@@ -27,12 +27,11 @@ import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.io.IOException;
 
-import net.minecraft.src.EnumOptions;
-import net.minecraft.src.GuiButton;
-import net.minecraft.src.GuiScreen;
-import net.minecraft.src.ItemStack;
-import net.minecraft.src.Minecraft;
-import net.minecraft.src.TileEntity;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.GuiButton;
+import net.minecraft.client.gui.GuiScreen;
+import net.minecraft.item.ItemStack;
+import net.minecraft.tileentity.TileEntity;
 
 import org.jfugue.elements.Note;
 import org.lwjgl.input.Keyboard;
@@ -192,7 +191,7 @@ public class NoteblockTunerGui extends GuiScreen {
 					// (EntityNoteFX
 					// // .getBlueForNote(xVel) * 0xFFFF));
 					int fontColor = 0x00ff00;
-					screen.drawCenteredString(fontRenderer, text, currX
+					screen.drawCenteredString(fontRendererObj, text, currX
 							+ pianoKeys[i][j].width / 2, currY
 							+ pianoKeys[i][j].height / 2 - fontHeight,
 							fontColor);
@@ -446,7 +445,7 @@ public class NoteblockTunerGui extends GuiScreen {
 
 		// Draw instrument type
 		drawCenteredString(
-				fontRenderer,
+				fontRendererObj,
 				"Instrument: §a"
 						+ BlockNoteMinetunes.getScreenName(BlockNoteMinetunes
 								.getNoteTypeForBlock(mc.theWorld, tile.xCoord,
@@ -454,19 +453,19 @@ public class NoteblockTunerGui extends GuiScreen {
 				25, 0xffffff);
 
 		// Draw instruction text
-		drawString(fontRenderer, "Keyboard:", 50, 25, 0xffffff);
+		drawString(fontRendererObj, "Keyboard:", 50, 25, 0xffffff);
 		String chooseKeyText = String
 				.format("Move with %1$s, %2$s, %3$s, and %4$s",
 						new Object[] {
-								Keyboard.getKeyName(mc.gameSettings.keyBindForward.keyCode),
-								Keyboard.getKeyName(mc.gameSettings.keyBindLeft.keyCode),
-								Keyboard.getKeyName(mc.gameSettings.keyBindBack.keyCode),
-								Keyboard.getKeyName(mc.gameSettings.keyBindRight.keyCode) });
-		drawString(fontRenderer, chooseKeyText, 20, 40, 0xaaaaaa);
+								Keyboard.getKeyName(mc.gameSettings.keyBindForward.getKeyCode()),
+								Keyboard.getKeyName(mc.gameSettings.keyBindLeft.getKeyCode()),
+								Keyboard.getKeyName(mc.gameSettings.keyBindBack.getKeyCode()),
+								Keyboard.getKeyName(mc.gameSettings.keyBindRight.getKeyCode()) });
+		drawString(fontRendererObj, chooseKeyText, 20, 40, 0xaaaaaa);
 		String exitKeyText = String.format("Select with %1$s",
 				new Object[] { Keyboard
-						.getKeyName(mc.gameSettings.keyBindJump.keyCode) });
-		drawString(fontRenderer, exitKeyText, 20, 50, 0xaaaaaa);
+						.getKeyName(mc.gameSettings.keyBindJump.getKeyCode()) });
+		drawString(fontRendererObj, exitKeyText, 20, 50, 0xaaaaaa);
 
 		// Draw keyboard diagram
 		keyboard.draw(this, tuningAndExiting);
@@ -723,25 +722,25 @@ public class NoteblockTunerGui extends GuiScreen {
 
 		if (!tuningAndExiting) {
 
-			if (keyCode == mc.gameSettings.keyBindForward.keyCode) {
+			if (keyCode == mc.gameSettings.keyBindForward.getKeyCode()) {
 				keyboard.moveSelectedKey(-1, 0);
 				BlockNoteMinetunes.chimeBlockAtPitch(tile,
 						keyboard.getSelectedKeyNum());
-			} else if (keyCode == mc.gameSettings.keyBindBack.keyCode) {
+			} else if (keyCode == mc.gameSettings.keyBindBack.getKeyCode()) {
 				keyboard.moveSelectedKey(1, 0);
 				BlockNoteMinetunes.chimeBlockAtPitch(tile,
 						keyboard.getSelectedKeyNum());
-			} else if (keyCode == mc.gameSettings.keyBindLeft.keyCode) {
+			} else if (keyCode == mc.gameSettings.keyBindLeft.getKeyCode()) {
 				keyboard.moveSelectedKey(0, -1);
 				BlockNoteMinetunes.chimeBlockAtPitch(tile,
 						keyboard.getSelectedKeyNum());
-			} else if (keyCode == mc.gameSettings.keyBindRight.keyCode) {
+			} else if (keyCode == mc.gameSettings.keyBindRight.getKeyCode()) {
 				keyboard.moveSelectedKey(0, 1);
 				BlockNoteMinetunes.chimeBlockAtPitch(tile,
 						keyboard.getSelectedKeyNum());
 			}
 
-			if (keyCode == mc.gameSettings.keyBindJump.keyCode) {
+			if (keyCode == mc.gameSettings.keyBindJump.getKeyCode()) {
 				// Choose note, tune block, and exit gui
 				tuningAndExiting = true;
 			}

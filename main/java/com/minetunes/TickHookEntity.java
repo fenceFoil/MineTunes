@@ -25,12 +25,11 @@ package com.minetunes;
 
 import java.util.HashSet;
 
-import net.minecraft.src.Entity;
-import net.minecraft.src.EntityClientPlayerMP;
-import net.minecraft.src.Minecraft;
-import net.minecraft.src.NBTTagCompound;
-import net.minecraft.src.Vec3;
-import net.minecraft.src.World;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.entity.EntityClientPlayerMP;
+import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.util.Vec3;
+import net.minecraft.world.World;
 
 /**
  * Fires a tick event to all registered TickListeners every tick.

@@ -26,8 +26,8 @@ package com.minetunes.gui;
 import java.io.IOException;
 import java.util.LinkedList;
 
-import net.minecraft.src.GuiButton;
-import net.minecraft.src.GuiScreen;
+import net.minecraft.client.gui.GuiButton;
+import net.minecraft.client.gui.GuiScreen;
 
 import org.lwjgl.input.Keyboard;
 
@@ -141,12 +141,12 @@ public class KeysGui extends GuiScreen {
 				labelString += " (Unused)";
 			}
 
-			int labelWidth = fontRenderer.getStringWidth(labelString);
-			fontRenderer.drawString(labelString, width / 8 * 2
+			int labelWidth = fontRendererObj.getStringWidth(labelString);
+			fontRendererObj.drawString(labelString, width / 8 * 2
 					- (labelWidth / 2), 26 + 30 * i, 0xffffff);
 
 			// Draw + between mod button and main key button
-			fontRenderer.drawString("+", (width / 2) + 72, 26 + 30 * i,
+			fontRendererObj.drawString("+", (width / 2) + 72, 26 + 30 * i,
 					0xffffff);
 		}
 

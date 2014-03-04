@@ -28,9 +28,9 @@ import java.awt.event.ActionListener;
 import java.util.HashSet;
 import java.util.Random;
 
-import net.minecraft.src.GuiButton;
-import net.minecraft.src.Minecraft;
-import net.minecraft.src.ResourceLocation;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.GuiButton;
+import net.minecraft.util.ResourceLocation;
 
 import org.lwjgl.opengl.GL11;
 
@@ -141,7 +141,7 @@ public class GuiButtonL extends GuiButton {
 
 	@Override
 	public void drawButton(Minecraft mc, int mx, int my) {
-		if (drawButton) {
+		if (visible) {
 			// Check for hover
 			field_82253_i = isMouseOver(mx, my);
 

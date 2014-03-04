@@ -25,10 +25,9 @@ package com.minetunes.signs.keywords;
 
 import java.util.LinkedList;
 
-import net.minecraft.src.Item;
-import net.minecraft.src.ItemStack;
-import net.minecraft.src.TileEntitySign;
-import net.minecraft.src.World;
+import net.minecraft.item.ItemStack;
+import net.minecraft.tileentity.TileEntitySign;
+import net.minecraft.world.World;
 
 import org.w3c.dom.Element;
 import org.xml.sax.SAXException;

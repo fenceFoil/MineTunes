@@ -24,11 +24,11 @@ import java.util.Collections;
 import java.util.LinkedList;
 import java.util.Random;
 
-import net.minecraft.src.GuiButton;
-import net.minecraft.src.GuiScreen;
-import net.minecraft.src.Minecraft;
-import net.minecraft.src.ResourceLocation;
-import net.minecraft.src.Tessellator;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.GuiButton;
+import net.minecraft.client.gui.GuiScreen;
+import net.minecraft.client.renderer.Tessellator;
+import net.minecraft.util.ResourceLocation;
 
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.opengl.GL11;
@@ -39,7 +39,6 @@ import aurelienribon.tweenengine.TweenEquation;
 import aurelienribon.tweenengine.TweenManager;
 import aurelienribon.tweenengine.equations.Cubic;
 
-import com.minetunes.resources.UpdateResourcesThread;
 import com.minetunes.tempoGui.event.TGEvent;
 
 /**
@@ -120,14 +119,14 @@ public class TGFrame extends GuiScreen {
 			// Draw box around title string, with a 2 pixel margin
 			drawRectSideFade(
 					getFrameX()
-							+ (getFrameWidth() - fontRenderer.getStringWidth(frameTitle))
+							+ (getFrameWidth() - fontRendererObj.getStringWidth(frameTitle))
 							/ 2 - 2, getFrameY() - 10 - 2,
-					fontRenderer.getStringWidth(frameTitle) + 4, 10 + 2,
+					fontRendererObj.getStringWidth(frameTitle) + 4, 10 + 2,
 					FADE_OUT_WIDTH, frameColor);
-			fontRenderer.drawString(
+			fontRendererObj.drawString(
 					frameTitle,
 					getFrameX()
-							+ (getFrameWidth() - fontRenderer
+							+ (getFrameWidth() - fontRendererObj
 									.getStringWidth(frameTitle)) / 2,
 					getFrameY() - 10, 0xff000000, false);
 		}

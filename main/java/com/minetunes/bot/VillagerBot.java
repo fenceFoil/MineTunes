@@ -24,9 +24,8 @@
  */
 package com.minetunes.bot;
 
-import net.minecraft.src.Entity;
-import net.minecraft.src.EntityLiving;
-import net.minecraft.src.Minecraft;
+import net.minecraft.client.Minecraft;
+import net.minecraft.entity.EntityLiving;
 
 import com.minetunes.bot.action.BotAction;
 import com.minetunes.bot.action.DestroyAction;

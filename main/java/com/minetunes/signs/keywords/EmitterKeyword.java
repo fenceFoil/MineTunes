@@ -26,8 +26,8 @@ package com.minetunes.signs.keywords;
 import java.util.ArrayList;
 import java.util.Collection;
 
-import net.minecraft.src.TileEntitySign;
-import net.minecraft.src.World;
+import net.minecraft.tileentity.TileEntitySign;
+import net.minecraft.world.World;
 
 import com.minetunes.Emitter;
 import com.minetunes.Point3D;

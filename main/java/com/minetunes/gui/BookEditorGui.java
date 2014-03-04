@@ -34,8 +34,8 @@ import java.util.LinkedList;
 import javax.xml.stream.FactoryConfigurationError;
 import javax.xml.stream.XMLStreamException;
 
-import net.minecraft.src.GuiScreenBook;
-import net.minecraft.src.ItemStack;
+import net.minecraft.client.gui.GuiScreenBook;
+import net.minecraft.item.ItemStack;
 
 import com.minetunes.Finder;
 import com.minetunes.base64.Base64;
@@ -44,8 +44,6 @@ import com.minetunes.books.booktunes.BookSection;
 import com.minetunes.books.booktunes.BookTune;
 import com.minetunes.books.booktunes.MidiFileSection;
 import com.minetunes.books.booktunes.PartSection;
-import com.minetunes.resources.SFXSynth;
-import com.minetunes.sfx.SFXManager;
 import com.minetunes.tempoGui.TGButton;
 import com.minetunes.tempoGui.TGFrame;
 import com.minetunes.tempoGui.TGList;

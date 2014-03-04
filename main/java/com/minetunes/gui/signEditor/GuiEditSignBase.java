@@ -31,16 +31,13 @@ import java.awt.event.ActionListener;
 import java.io.IOException;
 import java.util.LinkedList;
 
-import net.minecraft.src.Block;
-import net.minecraft.src.ChatAllowedCharacters;
-import net.minecraft.src.GuiButton;
-import net.minecraft.src.GuiEditSign;
-import net.minecraft.src.GuiScreen;
-import net.minecraft.src.Minecraft;
-import net.minecraft.src.NetClientHandler;
-import net.minecraft.src.Packet130UpdateSign;
-import net.minecraft.src.TileEntityRenderer;
-import net.minecraft.src.TileEntitySign;
+import net.minecraft.block.Block;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.GuiButton;
+import net.minecraft.client.gui.GuiScreen;
+import net.minecraft.client.gui.inventory.GuiEditSign;
+import net.minecraft.tileentity.TileEntitySign;
+import net.minecraft.util.ChatAllowedCharacters;
 
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.opengl.GL11;
@@ -59,8 +56,8 @@ public class GuiEditSignBase extends GuiEditSign {
 	 * This String is just a local copy of the characters allowed in text
 	 * rendering of minecraft.
 	 */
-	private static final String allowedCharacters = ChatAllowedCharacters.allowedCharacters;
-
+	private static final String allowedCharacters = new String(
+			ChatAllowedCharacters.allowedCharacters);
 	public static final int MODE_SIGNTUNES = 24601;
 	public static final int MODE_RETRO = 0;
 	public static final int MODE_DISCREET = 1;
@@ -192,18 +189,18 @@ public class GuiEditSignBase extends GuiEditSign {
 					drawString += " + %" + sign.signColorCode;
 				}
 
-				drawCenteredString(fontRenderer, drawString, width / 2, 25,
+				drawCenteredString(fontRendererObj, drawString, width / 2, 25,
 						charsLeftColor);
 			}
 
 			// Draw message
 			if (bottomMessage != null) {
-				drawCenteredString(fontRenderer, bottomMessage, width / 2,
+				drawCenteredString(fontRendererObj, bottomMessage, width / 2,
 						height - 10, bottomMessageColor);
 			}
 
 			// Draw colorcode info
-			drawCenteredString(fontRenderer,
+			drawCenteredString(fontRendererObj,
 					TileEntitySignMinetunes
 							.getNameForSignColorCode(sign.signColorCode),
 					width - 45, height - 44, 0xffffff);
@@ -213,7 +210,7 @@ public class GuiEditSignBase extends GuiEditSign {
 			// 20+10,
 			// 0x44888888);
 			if (overwrite) {
-				drawString(fontRenderer, "Overwrite", 20, 12, 0xff8800);
+				drawString(fontRendererObj, "Overwrite", 20, 12, 0xff8800);
 			} else {
 				// drawString(fontRenderer, "Insert", 20, 20, 0xffff00);
 			}
@@ -314,7 +311,7 @@ public class GuiEditSignBase extends GuiEditSign {
 				e1.printStackTrace();
 			}
 		}
-		
+
 		// editorModeButton = new GuiButton(1000, width - 100, 10, 80, 20, "");
 		String modeButtonLabel = "MineTunes";
 		editorModeButton = new GuiButtonL("editorMode", width - 65, 5, 60, 20,

@@ -26,8 +26,8 @@
  */
 package com.minetunes.gui;
 
-import net.minecraft.src.GuiButton;
-import net.minecraft.src.Minecraft;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.GuiButton;
 
 import org.lwjgl.opengl.GL11;
 
@@ -56,7 +56,7 @@ public class GuiSlider extends GuiButton {
 	 * MouseListener.mouseDragged(MouseEvent e).
 	 */
 	protected void mouseDragged(Minecraft par1Minecraft, int x, int y) {
-		if (!drawButton) {
+		if (!visible) {
 			return;
 		}
 

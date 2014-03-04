@@ -23,11 +23,11 @@
  */
 package com.minetunes.particle;
 
-import net.minecraft.src.EntityFX;
-import net.minecraft.src.Minecraft;
-import net.minecraft.src.ResourceLocation;
-import net.minecraft.src.Tessellator;
-import net.minecraft.src.World;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.particle.EntityFX;
+import net.minecraft.client.renderer.Tessellator;
+import net.minecraft.util.ResourceLocation;
+import net.minecraft.world.World;
 
 /**
  * @author William

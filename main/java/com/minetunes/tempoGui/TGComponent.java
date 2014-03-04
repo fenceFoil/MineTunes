@@ -23,9 +23,9 @@ package com.minetunes.tempoGui;
 import java.awt.Rectangle;
 import java.util.HashSet;
 
-import net.minecraft.src.Gui;
-import net.minecraft.src.Minecraft;
-import net.minecraft.src.ResourceLocation;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.Gui;
+import net.minecraft.util.ResourceLocation;
 
 import com.minetunes.tempoGui.event.TGEvent;
 

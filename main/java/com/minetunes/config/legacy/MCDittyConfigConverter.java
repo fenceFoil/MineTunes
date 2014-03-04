@@ -32,7 +32,7 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.nio.channels.FileChannel;
 
-import net.minecraft.src.Minecraft;
+import net.minecraft.client.Minecraft;
 
 import com.minetunes.Color4f;
 import com.minetunes.Minetunes;

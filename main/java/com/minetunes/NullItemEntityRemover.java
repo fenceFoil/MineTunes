@@ -23,9 +23,9 @@
  */
 package com.minetunes;
 
-import net.minecraft.src.EntityItem;
-import net.minecraft.src.Minecraft;
-import net.minecraft.src.WorldServer;
+import net.minecraft.client.Minecraft;
+import net.minecraft.entity.item.EntityItem;
+import net.minecraft.world.WorldServer;
 
 import com.minetunes.blockTune.EntityItemDisplay;
 

@@ -24,12 +24,11 @@
  */
 package com.minetunes.signs.keywords;
 
-import net.minecraft.src.TileEntitySign;
-import net.minecraft.src.World;
+import net.minecraft.tileentity.TileEntitySign;
+import net.minecraft.world.World;
 
 import com.minetunes.Point3D;
 import com.minetunes.ditty.Ditty;
-import com.minetunes.ditty.event.SFXInstrumentOffEvent;
 import com.minetunes.ditty.event.SingOffEvent;
 import com.minetunes.signs.SignTuneParser;
 import com.minetunes.signs.keywords.argparser.ArgParser;

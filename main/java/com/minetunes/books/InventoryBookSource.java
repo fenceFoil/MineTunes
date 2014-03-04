@@ -26,8 +26,8 @@ package com.minetunes.books;
 import java.util.LinkedList;
 import java.util.List;
 
-import net.minecraft.src.EntityClientPlayerMP;
-import net.minecraft.src.ItemStack;
+import net.minecraft.client.entity.EntityClientPlayerMP;
+import net.minecraft.item.ItemStack;
 
 /**
  * Use over as short a time as possible; if the player has time to rearrange

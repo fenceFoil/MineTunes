@@ -25,8 +25,8 @@ package com.minetunes.gui;
 
 import java.io.IOException;
 
-import net.minecraft.src.GuiButton;
-import net.minecraft.src.GuiScreen;
+import net.minecraft.client.gui.GuiButton;
+import net.minecraft.client.gui.GuiScreen;
 
 import org.lwjgl.input.Keyboard;
 
@@ -71,33 +71,33 @@ public class GraphicsGui extends GuiScreen {
 		drawDefaultBackground();
 
 		// Draw label at top of screen
-		drawCenteredString(fontRenderer, "MineTunes Graphics", width / 2, 15,
+		drawCenteredString(fontRendererObj, "MineTunes Graphics", width / 2, 15,
 				0xffff00);
 
 		drawCenteredString(
-				fontRenderer,
+				fontRendererObj,
 				"Full Minecraft Signs: Renders every single sign and its text within about 100 blocks.",
 				width / 2, 30, 0xffffff);
 		drawCenteredString(
-				fontRenderer,
+				fontRendererObj,
 				"Fast Signs: Renders only signs within 64 blocks, and text within 16 blocks; ",
 				width / 2, 60, 0xffffff);
-		drawCenteredString(fontRenderer,
+		drawCenteredString(fontRendererObj,
 				"Doesn't render signs behind your back;", width / 2, 70,
 				0xffffff);
 		drawCenteredString(
-				fontRenderer,
+				fontRendererObj,
 				"Doesn't render text on hidden sides of signs or wall signs on other sides of walls.",
 				width / 2, 80, 0xffffff);
 
 		if (TileEntitySignRendererMinetunes.areSignsCurrentlyBeingRendered()) {
-			drawCenteredString(fontRenderer, "Frame Counter: "
+			drawCenteredString(fontRendererObj, "Frame Counter: "
 					+ TileEntitySignRendererMinetunes.fpsCounter, width / 2,
 					130, 0xaaaaff);
-			drawCenteredString(fontRenderer, "FPS: "
+			drawCenteredString(fontRendererObj, "FPS: "
 					+ TileEntitySignRendererMinetunes.currentFPS, width / 2,
 					145, 0xaaaaff);
-			drawCenteredString(fontRenderer, "Sign Count: "
+			drawCenteredString(fontRendererObj, "Sign Count: "
 					+ TileEntitySignRendererMinetunes.renderCountLastTick,
 					width / 2, 160, 0xaaaaff);
 		} else {

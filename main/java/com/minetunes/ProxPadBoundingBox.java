@@ -23,7 +23,7 @@
  */
 package com.minetunes;
 
-import net.minecraft.src.AxisAlignedBB;
+import net.minecraft.util.AxisAlignedBB;
 
 /**
  * Represents the collision box of a proxpad.

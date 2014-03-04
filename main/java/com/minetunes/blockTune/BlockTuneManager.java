@@ -26,9 +26,9 @@ package com.minetunes.blockTune;
 import java.util.LinkedList;
 import java.util.List;
 
-import net.minecraft.src.Minecraft;
-import net.minecraft.src.TileEntityRecordPlayer;
-import net.minecraft.src.WorldClient;
+import net.minecraft.block.BlockJukebox.TileEntityJukebox;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.multiplayer.WorldClient;
 import aurelienribon.tweenengine.TweenManager;
 
 import com.minetunes.Point3D;
@@ -98,8 +98,8 @@ public class BlockTuneManager implements TickListener {
 		List l = world.loadedTileEntityList;
 		for (int i = 0; i < l.size(); i++) {
 			Object o = l.get(i);
-			if (o instanceof TileEntityRecordPlayer) {
-				TileEntityRecordPlayer tile = (TileEntityRecordPlayer) o;
+			if (o instanceof TileEntityJukebox) {
+				TileEntityJukebox tile = (TileEntityJukebox) o;
 				if (!tileEntityAlreadyNode(tile)) {
 					if (BlockTune.isTileEntityNode(tile, world)) {
 						BlockTune node = new BlockTune(tile);
@@ -116,7 +116,7 @@ public class BlockTuneManager implements TickListener {
 	 * @param tile
 	 * @return
 	 */
-	private boolean tileEntityAlreadyNode(TileEntityRecordPlayer tile) {
+	private boolean tileEntityAlreadyNode(TileEntityJukebox tile) {
 		Point3D tilePoint = Point3D.getTileEntityPos(tile);
 		for (BlockTune n : trackedNodes) {
 			if (n.getNodePoint().equals(tilePoint)) {

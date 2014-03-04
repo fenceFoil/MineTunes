@@ -34,10 +34,10 @@ import java.io.IOException;
 import java.util.LinkedList;
 import java.util.Properties;
 
-import net.minecraft.src.GuiButton;
-import net.minecraft.src.GuiScreen;
-import net.minecraft.src.Minecraft;
-import net.minecraft.src.ResourceLocation;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.GuiButton;
+import net.minecraft.client.gui.GuiScreen;
+import net.minecraft.util.ResourceLocation;
 
 import org.lwjgl.opengl.GL11;
 
@@ -203,26 +203,26 @@ public class GuiHelp extends GuiScreen {
 				- TOP_MARGIN - BOTTOM_MARGIN), true);
 
 		// Render the title and caption
-		drawCenteredString(fontRenderer, slide.getTitle(), width / 2,
+		drawCenteredString(fontRendererObj, slide.getTitle(), width / 2,
 				(TOP_MARGIN / 2) - 5, 0xffff00);
-		fontRenderer.drawSplitString(slide.getCaption(), SIDE_BUTTON_WIDTH + 2,
+		fontRendererObj.drawSplitString(slide.getCaption(), SIDE_BUTTON_WIDTH + 2,
 				height - 40, width - 2 * SIDE_BUTTON_WIDTH - 4, 0xffffff);
 
 		// Render left and right buttons
 		if (currSlide < numSlides - 1) {
-			fwdButton.draw(mx, my, par3, fontRenderer);
+			fwdButton.draw(mx, my, par3, fontRendererObj);
 		}
 		if (currSlide > 0) {
-			backButton.draw(mx, my, par3, fontRenderer);
+			backButton.draw(mx, my, par3, fontRendererObj);
 		}
 
-		exitButton.draw(mx, my, par3, fontRenderer);
+		exitButton.draw(mx, my, par3, fontRendererObj);
 		if (printableSlide) {
-			printButton.draw(mx, my, par3, fontRenderer);
+			printButton.draw(mx, my, par3, fontRendererObj);
 		}
 
 		// Render count
-		drawString(fontRenderer, (currSlide + 1) + " of " + numSlides,
+		drawString(fontRendererObj, (currSlide + 1) + " of " + numSlides,
 				width - 50, (TOP_MARGIN / 2) - 5, 0xffffff);
 
 		// Render buttons

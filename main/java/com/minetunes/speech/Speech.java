@@ -1,7 +1,5 @@
 package com.minetunes.speech;
 
-import net.minecraft.src.Minecraft;
-
 import com.minetunes.config.MinetunesConfig;
 import com.sun.speech.freetts.VoiceManager;
 

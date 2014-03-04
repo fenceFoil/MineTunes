@@ -23,9 +23,8 @@
  */
 package com.minetunes;
 
-import net.minecraft.src.Entity;
-import net.minecraft.src.Render;
-import net.minecraft.src.ResourceLocation;
+import net.minecraft.client.renderer.entity.Render;
+import net.minecraft.util.ResourceLocation;
 
 public class RenderHook extends Render {
 

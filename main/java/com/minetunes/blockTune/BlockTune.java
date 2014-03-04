@@ -30,19 +30,19 @@ import java.util.LinkedList;
 import java.util.Properties;
 import java.util.Random;
 
-import net.minecraft.src.AxisAlignedBB;
-import net.minecraft.src.BiomeGenBase;
-import net.minecraft.src.Block;
-import net.minecraft.src.GuiMainMenu;
-import net.minecraft.src.ItemStack;
-import net.minecraft.src.Minecraft;
-import net.minecraft.src.TileEntity;
-import net.minecraft.src.TileEntityNote;
-import net.minecraft.src.TileEntityRecordPlayer;
-import net.minecraft.src.TileEntitySign;
-import net.minecraft.src.Vec3;
-import net.minecraft.src.World;
-import net.minecraft.src.WorldClient;
+import net.minecraft.block.Block;
+import net.minecraft.block.BlockJukebox.TileEntityJukebox;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.GuiMainMenu;
+import net.minecraft.client.multiplayer.WorldClient;
+import net.minecraft.item.ItemStack;
+import net.minecraft.tileentity.TileEntity;
+import net.minecraft.tileentity.TileEntityNote;
+import net.minecraft.tileentity.TileEntitySign;
+import net.minecraft.util.AxisAlignedBB;
+import net.minecraft.util.Vec3;
+import net.minecraft.world.World;
+import net.minecraft.world.biome.BiomeGenBase;
 
 import org.jfugue.elements.Note;
 
@@ -400,7 +400,7 @@ public class BlockTune implements BlockTuneAccess {
 
 	private TileEntitySign getAdjacentSignTileEntity(Point3D point) {
 		for (Point3D p : Point3D.getAdjacentBlocks(point)) {
-			TileEntity t = world.getBlockTileEntity(p.x, p.y, p.z);
+			TileEntity t = world.getTileEntity(p.x, p.y, p.z);
 			if (t != null && t instanceof TileEntitySign) {
 				return (TileEntitySign) t;
 			}
@@ -421,7 +421,7 @@ public class BlockTune implements BlockTuneAccess {
 	}
 
 	public static boolean isTileEntityNode(TileEntity block, WorldClient world) {
-		if (block instanceof TileEntityRecordPlayer) {
+		if (block instanceof TileEntityJukebox) {
 			if (searchForStructure(world, block)) {
 				return true;
 			}
@@ -594,14 +594,14 @@ public class BlockTune implements BlockTuneAccess {
 		}
 	}
 
-	private TileEntityRecordPlayer getNodeTileEntity(World world) {
+	private TileEntityJukebox getNodeTileEntity(World world) {
 		if (nodePoint == null) {
 			return null;
 		} else {
-			TileEntity blockEntity = world.getBlockTileEntity(nodePoint.x,
+			TileEntity blockEntity = world.getTileEntity(nodePoint.x,
 					nodePoint.y, nodePoint.z);
-			if (blockEntity instanceof TileEntityRecordPlayer) {
-				return (TileEntityRecordPlayer) blockEntity;
+			if (blockEntity instanceof TileEntityJukebox) {
+				return (TileEntityJukebox) blockEntity;
 			} else {
 				return null;
 			}
@@ -693,7 +693,7 @@ public class BlockTune implements BlockTuneAccess {
 		LinkedList<CornerSet> goodPairs = new LinkedList<CornerSet>();
 		for (TileEntityNote xCorner : xCandidates) {
 			for (TileEntityNote zCorner : zCandidates) {
-				TileEntity farCornerTileEntity = world.getBlockTileEntity(
+				TileEntity farCornerTileEntity = world.getTileEntity(
 						zCorner.xCoord, startPoint.y, xCorner.zCoord);
 				if (farCornerTileEntity != null
 						&& farCornerTileEntity instanceof TileEntityNote) {

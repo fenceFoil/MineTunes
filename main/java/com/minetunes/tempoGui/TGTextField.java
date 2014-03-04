@@ -20,9 +20,9 @@
  */
 package com.minetunes.tempoGui;
 
-import net.minecraft.src.ChatAllowedCharacters;
-import net.minecraft.src.FontRenderer;
-import net.minecraft.src.Minecraft;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.FontRenderer;
+import net.minecraft.util.ChatAllowedCharacters;
 
 import org.lwjgl.input.Keyboard;
 

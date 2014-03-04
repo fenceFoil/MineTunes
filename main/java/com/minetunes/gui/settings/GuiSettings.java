@@ -28,9 +28,9 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.LinkedList;
 
-import net.minecraft.src.GuiButton;
-import net.minecraft.src.GuiScreen;
-import net.minecraft.src.Timer;
+import net.minecraft.client.gui.GuiButton;
+import net.minecraft.client.gui.GuiScreen;
+import net.minecraft.util.Timer;
 import aurelienribon.tweenengine.Tween;
 import aurelienribon.tweenengine.TweenManager;
 import aurelienribon.tweenengine.equations.Linear;
@@ -141,7 +141,7 @@ public class GuiSettings extends GuiScreen {
 
 		// Draw rect buttons
 		for (GuiButtonRect r : rectButtons) {
-			r.draw(mx, my, par3, fontRenderer);
+			r.draw(mx, my, par3, fontRendererObj);
 		}
 
 		// Draw borders
@@ -151,9 +151,9 @@ public class GuiSettings extends GuiScreen {
 		// - PAGE_BUTTON_WIDTH, height, 0xff000000);
 
 		// Draw labels
-		drawCenteredString(fontRenderer, (currPage + 1) + " of "
+		drawCenteredString(fontRendererObj, (currPage + 1) + " of "
 				+ getMaxPages(), width - 90, 15, 0xa0a0a0);
-		drawCenteredString(fontRenderer, title, width / 2, 15, 0xffff00);
+		drawCenteredString(fontRendererObj, title, width / 2, 15, 0xffff00);
 
 		// Draw exit button
 		for (Object o : buttonList) {

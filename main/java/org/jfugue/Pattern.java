@@ -28,7 +28,6 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
-
 import org.jfugue.elements.AbstractPattern;
 import org.jfugue.elements.JFugueElement;
 import org.jfugue.extras.GetInstrumentsUsedTool;

@@ -31,7 +31,6 @@ import javax.xml.stream.XMLStreamWriter;
 import org.w3c.dom.Element;
 
 import com.minetunes.DOMUtil;
-import com.minetunes.base64.Base64;
 
 /**
  *

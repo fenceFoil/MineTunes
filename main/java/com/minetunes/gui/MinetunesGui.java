@@ -29,14 +29,12 @@ import java.io.IOException;
 import java.net.URI;
 import java.util.LinkedList;
 
-import net.minecraft.src.EnumOS;
-import net.minecraft.src.FontRenderer;
-import net.minecraft.src.GuiButton;
-import net.minecraft.src.GuiScreen;
-import net.minecraft.src.Minecraft;
-import net.minecraft.src.ResourceLocation;
-import net.minecraft.src.Timer;
-import net.minecraft.src.Util;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.GuiButton;
+import net.minecraft.client.gui.GuiScreen;
+import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.Timer;
+import net.minecraft.util.Util.EnumOS;
 
 import org.lwjgl.Sys;
 import org.lwjgl.input.Keyboard;
@@ -48,14 +46,12 @@ import aurelienribon.tweenengine.equations.Linear;
 import aurelienribon.tweenengine.equations.Quart;
 
 import com.minetunes.Finder;
-import com.minetunes.FontRendererUtils;
 import com.minetunes.Minetunes;
 import com.minetunes.autoUpdate.FileUpdater;
 import com.minetunes.config.MinetunesConfig;
 import com.minetunes.gui.help.GuiHelpTopics;
 import com.minetunes.gui.settings.GuiSettings;
 import com.minetunes.resources.UpdateResourcesThread;
-import com.minetunes.speech.Speech;
 
 public class MinetunesGui extends GuiScreen {
 

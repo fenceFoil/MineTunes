@@ -26,8 +26,6 @@ package com.fencefoil.signWatcher;
 import java.io.DataInput;
 import java.io.IOException;
 
-import net.minecraft.src.Packet130UpdateSign;
-
 /**
  * Provides a hook for when new signs are created
  * 

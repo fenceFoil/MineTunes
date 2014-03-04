@@ -30,8 +30,9 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Properties;
 
-import net.minecraft.src.GuiButton;
-import net.minecraft.src.GuiScreen;
+import net.minecraft.client.gui.FontRenderer;
+import net.minecraft.client.gui.GuiButton;
+import net.minecraft.client.gui.GuiScreen;
 
 import com.minetunes.config.MinetunesConfig;
 
@@ -51,6 +52,7 @@ public class GuiHelpTopics extends GuiScreen {
 	private HashMap<String, GuiButton> subButtons = new HashMap<String, GuiButton>();
 	private HashMap<Integer, String> buttonIDToSub = new HashMap<Integer, String>();
 	private boolean noSubs;
+	private FontRenderer fontRenderer;
 
 	public GuiHelpTopics(String topic, GuiScreen backScreen) {
 		setTopic(topic);

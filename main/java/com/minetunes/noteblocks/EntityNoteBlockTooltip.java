@@ -26,10 +26,10 @@ package com.minetunes.noteblocks;
 import java.util.HashMap;
 import java.util.Map;
 
-import net.minecraft.src.Block;
-import net.minecraft.src.Entity;
-import net.minecraft.src.NBTTagCompound;
-import net.minecraft.src.TileEntityNote;
+import net.minecraft.block.Block;
+import net.minecraft.entity.Entity;
+import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.tileentity.TileEntityNote;
 
 import org.jfugue.elements.Note;
 

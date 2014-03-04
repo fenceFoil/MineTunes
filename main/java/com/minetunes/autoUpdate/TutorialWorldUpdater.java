@@ -28,10 +28,10 @@ import java.io.File;
 import java.io.IOException;
 import java.util.LinkedList;
 
-import net.minecraft.src.GuiMainMenu;
-import net.minecraft.src.Minecraft;
-import net.minecraft.src.StatList;
-import net.minecraft.src.WorldClient;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.GuiMainMenu;
+import net.minecraft.client.multiplayer.WorldClient;
+import net.minecraft.stats.StatList;
 
 import com.minetunes.Minetunes;
 import com.minetunes.Point3D;

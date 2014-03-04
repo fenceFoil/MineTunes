@@ -20,8 +20,8 @@
  */
 package com.minetunes.tempoGui;
 
-import net.minecraft.src.FontRenderer;
-import net.minecraft.src.Minecraft;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.FontRenderer;
 
 import com.minetunes.tempoGui.event.TGEvent;
 

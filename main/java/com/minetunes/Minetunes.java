@@ -55,38 +55,36 @@ import javax.sound.midi.MidiUnavailableException;
 import javax.sound.midi.Sequence;
 import javax.sound.midi.Sequencer;
 
-import net.minecraft.src.AxisAlignedBB;
-import net.minecraft.src.Block;
-import net.minecraft.src.BlockSign;
-import net.minecraft.src.DestroyBlockProgress;
-import net.minecraft.src.Entity;
-import net.minecraft.src.EntityClientPlayerMP;
-import net.minecraft.src.EntityFX;
-import net.minecraft.src.EntityFireworkRocket;
-import net.minecraft.src.EntityHeartFX;
-import net.minecraft.src.EntityItemFrame;
-import net.minecraft.src.EntityPlayerSP;
-import net.minecraft.src.GuiButton;
-import net.minecraft.src.GuiEditSign;
-import net.minecraft.src.GuiOptions;
-import net.minecraft.src.GuiScreen;
-import net.minecraft.src.GuiScreenBook;
-import net.minecraft.src.GuiVideoSettings;
-import net.minecraft.src.ItemStack;
-import net.minecraft.src.Minecraft;
-import net.minecraft.src.NBTTagCompound;
-import net.minecraft.src.Packet;
-import net.minecraft.src.RenderGlobal;
-import net.minecraft.src.RenderManager;
-import net.minecraft.src.ScaledResolution;
-import net.minecraft.src.SoundManager;
-import net.minecraft.src.TileEntity;
-import net.minecraft.src.TileEntityNote;
-import net.minecraft.src.TileEntityRenderer;
-import net.minecraft.src.TileEntitySign;
-import net.minecraft.src.Vec3;
-import net.minecraft.src.World;
-import net.minecraft.src.WorldClient;
+import net.minecraft.block.Block;
+import net.minecraft.block.BlockSign;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.audio.SoundManager;
+import net.minecraft.client.entity.EntityClientPlayerMP;
+import net.minecraft.client.entity.EntityPlayerSP;
+import net.minecraft.client.gui.GuiButton;
+import net.minecraft.client.gui.GuiOptions;
+import net.minecraft.client.gui.GuiScreen;
+import net.minecraft.client.gui.GuiScreenBook;
+import net.minecraft.client.gui.GuiVideoSettings;
+import net.minecraft.client.gui.ScaledResolution;
+import net.minecraft.client.gui.inventory.GuiEditSign;
+import net.minecraft.client.multiplayer.WorldClient;
+import net.minecraft.client.particle.EntityFX;
+import net.minecraft.client.particle.EntityHeartFX;
+import net.minecraft.client.renderer.DestroyBlockProgress;
+import net.minecraft.client.renderer.RenderGlobal;
+import net.minecraft.client.renderer.entity.RenderManager;
+import net.minecraft.entity.item.EntityFireworkRocket;
+import net.minecraft.entity.item.EntityItemFrame;
+import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.network.Packet;
+import net.minecraft.tileentity.TileEntity;
+import net.minecraft.tileentity.TileEntityNote;
+import net.minecraft.tileentity.TileEntitySign;
+import net.minecraft.util.AxisAlignedBB;
+import net.minecraft.util.Vec3;
+import net.minecraft.world.World;
 
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.input.Mouse;
@@ -156,7 +154,6 @@ import com.minetunes.signs.TileEntitySignMinetunes;
 import com.minetunes.signs.TileEntitySignRendererMinetunes;
 import com.minetunes.signs.keywords.ProxPadKeyword;
 import com.minetunes.signs.keywords.SignTuneKeyword;
-import com.minetunes.speech.Speech;
 import com.sun.media.sound.SoftSynthesizer;
 
 /**
@@ -827,7 +824,7 @@ public class Minetunes {
 					minecraft.objectMouseOver.blockY,
 					minecraft.objectMouseOver.blockZ);
 			// Get the tile entity of the block the mouse is pointing at
-			TileEntity hoverTileEntity = minecraft.theWorld.getBlockTileEntity(
+			TileEntity hoverTileEntity = minecraft.theWorld.getTileEntity(
 					hoverPoint.x, hoverPoint.y, hoverPoint.z);
 			if (hoverTileEntity != null
 					&& hoverTileEntity instanceof TileEntityNoteMinetunes) {
@@ -865,7 +862,7 @@ public class Minetunes {
 
 						// Pickaxe! "Pick" a sign to test.
 						TileEntity blockEntity = minecraft.theWorld
-								.getBlockTileEntity(hoverPoint.x, hoverPoint.y,
+								.getTileEntity(hoverPoint.x, hoverPoint.y,
 										hoverPoint.z);
 						if (blockEntity instanceof TileEntitySignMinetunes) {
 							((TileEntitySignMinetunes) blockEntity).picked = !((TileEntitySignMinetunes) blockEntity).picked;
@@ -923,7 +920,7 @@ public class Minetunes {
 	}
 
 	private static int getNoteBlockValue(Point3D hoverPoint, World world) {
-		TileEntity tile = world.getBlockTileEntity(hoverPoint.x, hoverPoint.y,
+		TileEntity tile = world.getTileEntity(hoverPoint.x, hoverPoint.y,
 				hoverPoint.z);
 		if (tile != null && tile instanceof TileEntityNote) {
 			TileEntityNote noteTile = (TileEntityNote) tile;
@@ -1264,7 +1261,7 @@ public class Minetunes {
 					// the
 					// song
 					TileEntity signEntity = Minecraft.getMinecraft().theWorld
-							.getBlockTileEntity(bb.getPadX(), bb.getPadY(),
+							.getTileEntity(bb.getPadX(), bb.getPadY(),
 									bb.getPadZ());
 					if (signEntity instanceof TileEntitySign) {
 						TileEntitySign signTileEntity = (TileEntitySign) signEntity;
@@ -1398,7 +1395,7 @@ public class Minetunes {
 
 				boolean firstProxPadKeyword = true;
 				for (String s : ((TileEntitySign) Minecraft.getMinecraft().theWorld
-						.getBlockTileEntity(bb.getPadX(), bb.getPadY(),
+						.getTileEntity(bb.getPadX(), bb.getPadY(),
 								bb.getPadZ())).signText) {
 					// Get proxpad size
 
@@ -1555,7 +1552,7 @@ public class Minetunes {
 				if (SignTuneParser.getSignBlockType(new Point3D(damBlockX,
 						damBlockY, damBlockZ), minecraft.theWorld) != null) {
 					TileEntity entity = Minecraft.getMinecraft().theWorld
-							.getBlockTileEntity(damBlockX, damBlockY, damBlockZ);
+							.getTileEntity(damBlockX, damBlockY, damBlockZ);
 					if (entity != null
 							&& entity instanceof TileEntitySignMinetunes) {
 						((TileEntitySignMinetunes) entity).damage = damage
@@ -1593,7 +1590,7 @@ public class Minetunes {
 				} else {
 					// If no longer being damaged, try to reset damage value
 					TileEntity entity = Minecraft.getMinecraft().theWorld
-							.getBlockTileEntity(lastDamage.getPartialBlockX(),
+							.getTileEntity(lastDamage.getPartialBlockX(),
 									lastDamage.getPartialBlockY(),
 									lastDamage.getPartialBlockZ());
 					if (entity != null
@@ -1713,7 +1710,7 @@ public class Minetunes {
 			// nextEventToFire).isTurnOn());
 			HighlightSignPlayingEvent highlightEvent = (HighlightSignPlayingEvent) nextEventToFire;
 			if (highlightEvent.isTurnOn()) {
-				TileEntity s = world.getBlockTileEntity(
+				TileEntity s = world.getTileEntity(
 						highlightEvent.getPos().x, highlightEvent.getPos().y,
 						highlightEvent.getPos().z);
 				if (s instanceof TileEntitySignMinetunes) {
@@ -1723,7 +1720,7 @@ public class Minetunes {
 					onSigns.add(highlightEvent);
 				}
 			} else {
-				TileEntity s = world.getBlockTileEntity(
+				TileEntity s = world.getTileEntity(
 						highlightEvent.getPos().x, highlightEvent.getPos().y,
 						highlightEvent.getPos().z);
 				if (s instanceof TileEntitySignMinetunes) {
@@ -1776,7 +1773,7 @@ public class Minetunes {
 
 					float[] noColor = new float[4];
 					noColor[0] = -1;
-					TileEntity s = world.getBlockTileEntity(e.getPos().x,
+					TileEntity s = world.getTileEntity(e.getPos().x,
 							e.getPos().y, e.getPos().z);
 					if (s instanceof TileEntitySignMinetunes) {
 						((TileEntitySignMinetunes) s)

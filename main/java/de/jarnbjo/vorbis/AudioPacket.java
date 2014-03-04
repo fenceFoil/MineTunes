@@ -24,9 +24,8 @@
 package de.jarnbjo.vorbis;
 
 import java.io.IOException;
-import java.util.*;
 
-import de.jarnbjo.util.io.*;
+import de.jarnbjo.util.io.BitInputStream;
 
 class AudioPacket {
 

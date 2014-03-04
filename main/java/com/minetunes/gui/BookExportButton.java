@@ -32,9 +32,9 @@ import java.io.IOException;
 
 import javax.swing.JOptionPane;
 
-import net.minecraft.src.GuiScreenBook;
-import net.minecraft.src.ItemStack;
-import net.minecraft.src.Minecraft;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.GuiScreenBook;
+import net.minecraft.item.ItemStack;
 
 import com.minetunes.Finder;
 import com.minetunes.Minetunes;

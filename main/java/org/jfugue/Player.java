@@ -37,7 +37,6 @@ import javax.sound.midi.MidiSystem;
 import javax.sound.midi.MidiUnavailableException;
 import javax.sound.midi.Sequence;
 import javax.sound.midi.Sequencer;
-import javax.sound.midi.Soundbank;
 import javax.sound.midi.Synthesizer;
 
 import org.jfugue.parsers.MidiParser;
@@ -45,8 +44,6 @@ import org.jfugue.parsers.MusicStringParser;
 import org.jfugue.parsers.Parser;
 
 import com.minetunes.ditty.DittyPlayerPlayingHookListener;
-import com.sun.media.sound.SF2Soundbank;
-import com.sun.media.sound.SF2SoundbankReader;
 
 /**
  * Prepares a pattern to be turned into music by the Renderer. This class also

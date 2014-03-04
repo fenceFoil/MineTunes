@@ -20,7 +20,7 @@
  */
 package com.minetunes.tempoGui;
 
-import net.minecraft.src.Minecraft;
+import net.minecraft.client.Minecraft;
 
 /**
  *

@@ -23,8 +23,8 @@
  */
 package com.minetunes.gui.help;
 
-import net.minecraft.src.GuiButton;
-import net.minecraft.src.GuiScreen;
+import net.minecraft.client.gui.GuiButton;
+import net.minecraft.client.gui.GuiScreen;
 
 /**
  * @author William
@@ -44,7 +44,7 @@ public class GuiSimpleMessage extends GuiScreen {
 	@Override
 	public void drawScreen(int par1, int par2, float par3) {
 		drawDefaultBackground();
-		drawCenteredString(fontRenderer, text, width / 2,
+		drawCenteredString(fontRendererObj, text, width / 2,
 				height / 5, textColor);
 		
 		super.drawScreen(par1, par2, par3);

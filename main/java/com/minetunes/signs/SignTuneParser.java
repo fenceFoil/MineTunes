@@ -30,14 +30,14 @@ import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.Random;
 
-import net.minecraft.src.Block;
-import net.minecraft.src.EntityClientPlayerMP;
-import net.minecraft.src.EntityPlayer;
-import net.minecraft.src.ItemStack;
-import net.minecraft.src.Minecraft;
-import net.minecraft.src.TileEntity;
-import net.minecraft.src.TileEntitySign;
-import net.minecraft.src.World;
+import net.minecraft.block.Block;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.entity.EntityClientPlayerMP;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.ItemStack;
+import net.minecraft.tileentity.TileEntity;
+import net.minecraft.tileentity.TileEntitySign;
+import net.minecraft.world.World;
 
 import org.jfugue.Player;
 import org.jfugue.parsers.MusicStringParser;
@@ -169,7 +169,7 @@ public class SignTuneParser {
 			} else if (Minetunes.isIDShovel(held)) {
 				// Shovel! "Scoop up" sign text.
 				GuiEditSignBase.addTextToSavedSigns(((TileEntitySign) par1World
-						.getBlockTileEntity(parX, parY, parZ)).signText);
+						.getTileEntity(parX, parY, parZ)).signText);
 				// Minetunes.writeChatMessage(par1World,
 				// "§2Sign's text has been saved.");
 				for (int i = 0; i < 20; i++) {
@@ -502,7 +502,7 @@ public class SignTuneParser {
 
 				// Mark all signs involved as signtune signs
 				for (SignLogPoint signPoint : signsReadList) {
-					TileEntity tile = world.getBlockTileEntity(signPoint.x,
+					TileEntity tile = world.getTileEntity(signPoint.x,
 							signPoint.y, signPoint.z);
 					if (tile instanceof TileEntitySignMinetunes) {
 						TileEntitySignMinetunes signTile = (TileEntitySignMinetunes) tile;
@@ -763,7 +763,7 @@ public class SignTuneParser {
 			currSignFacing = getSignFacing(currSignMetadata, currSignType);
 			// Called currBLOCK because we don't yet know if the tileentity is a
 			// sign for sure
-			TileEntity currBlockTileEntity = world.getBlockTileEntity(
+			TileEntity currBlockTileEntity = world.getTileEntity(
 					currSignPoint.x, currSignPoint.y, currSignPoint.z);
 			// Flag denoting this as an empty sign
 			boolean signIsEmpty = false;
@@ -1386,7 +1386,7 @@ public class SignTuneParser {
 	// public static final String RESET_TOKEN = "~Reset";
 
 	private static void highlightSignErrorLine(World world, SignLine signLine) {
-		TileEntity t = world.getBlockTileEntity(signLine.x, signLine.y,
+		TileEntity t = world.getTileEntity(signLine.x, signLine.y,
 				signLine.z);
 		if (t instanceof TileEntitySignMinetunes) {
 			TileEntitySignMinetunes t2 = (TileEntitySignMinetunes) t;
@@ -1399,7 +1399,7 @@ public class SignTuneParser {
 	private static void highlightSignLine(World world,
 			SignLineHighlight signLine) {
 		if (MinetunesConfig.highlightEnabled) {
-			TileEntity t = world.getBlockTileEntity(signLine.x, signLine.y,
+			TileEntity t = world.getTileEntity(signLine.x, signLine.y,
 					signLine.z);
 			if (t instanceof TileEntitySignMinetunes) {
 				TileEntitySignMinetunes t2 = (TileEntitySignMinetunes) t;

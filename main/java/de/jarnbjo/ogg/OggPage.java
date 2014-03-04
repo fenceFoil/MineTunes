@@ -28,9 +28,15 @@
 
 package de.jarnbjo.ogg;
 
-import java.io.*;
+import java.io.EOFException;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.RandomAccessFile;
 
-import de.jarnbjo.util.io.*;
+import com.sun.java.util.jar.pack.Attribute.FormatException;
+
+import de.jarnbjo.util.io.BitInputStream;
+import de.jarnbjo.util.io.ByteArrayBitInputStream;
 
 /**
  * <p>An instance of this class represents an ogg page read from an ogg file

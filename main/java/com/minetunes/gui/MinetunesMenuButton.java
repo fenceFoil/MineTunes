@@ -23,8 +23,8 @@
  */
 package com.minetunes.gui;
 
-import net.minecraft.src.GuiButton;
-import net.minecraft.src.Minecraft;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.GuiButton;
 
 /**
  * A button that appears in the upper left corner of a gui. Opens the MineTunes

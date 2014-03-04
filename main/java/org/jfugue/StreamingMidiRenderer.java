@@ -25,7 +25,6 @@ package org.jfugue;
 import javax.sound.midi.ShortMessage;
 import javax.sound.midi.Synthesizer;
 
-
 import org.jfugue.elements.ChannelPressure;
 import org.jfugue.elements.Controller;
 import org.jfugue.elements.Instrument;

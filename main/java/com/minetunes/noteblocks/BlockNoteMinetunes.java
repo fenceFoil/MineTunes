@@ -27,21 +27,20 @@ package com.minetunes.noteblocks;
 import java.util.HashMap;
 import java.util.LinkedList;
 
-import net.minecraft.src.Block;
-import net.minecraft.src.BlockNote;
-import net.minecraft.src.IBlockAccess;
-import net.minecraft.src.Icon;
-import net.minecraft.src.IconRegister;
-import net.minecraft.src.Material;
-import net.minecraft.src.Minecraft;
-import net.minecraft.src.TileEntity;
-import net.minecraft.src.TileEntityNote;
-import net.minecraft.src.TileEntitySign;
-import net.minecraft.src.World;
+import javax.swing.Icon;
+
+import net.minecraft.block.Block;
+import net.minecraft.block.BlockNote;
+import net.minecraft.block.material.Material;
+import net.minecraft.client.Minecraft;
+import net.minecraft.tileentity.TileEntity;
+import net.minecraft.tileentity.TileEntityNote;
+import net.minecraft.tileentity.TileEntitySign;
+import net.minecraft.world.IBlockAccess;
+import net.minecraft.world.World;
 
 import com.minetunes.Finder;
 import com.minetunes.Minetunes;
-import com.minetunes.Packet62LevelSoundMinetunes;
 import com.minetunes.Point3D;
 import com.minetunes.config.MinetunesConfig;
 import com.minetunes.ditty.event.CueEvent;

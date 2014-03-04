@@ -23,7 +23,7 @@
  */
 package com.minetunes.gui.signEditor;
 
-import net.minecraft.src.GuiEditSign;
+import net.minecraft.client.gui.inventory.GuiEditSign;
 
 import org.jfugue.ParserListener;
 import org.jfugue.elements.ChannelPressure;

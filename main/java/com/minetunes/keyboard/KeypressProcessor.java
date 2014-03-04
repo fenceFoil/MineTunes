@@ -31,10 +31,8 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.LinkedList;
 
-import net.minecraft.src.Block;
-import net.minecraft.src.EnumOS;
-import net.minecraft.src.Minecraft;
-import net.minecraft.src.Util;
+import net.minecraft.client.Minecraft;
+import net.minecraft.util.Util.EnumOS;
 
 import org.lwjgl.input.Keyboard;
 

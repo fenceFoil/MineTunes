@@ -29,9 +29,8 @@ import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.Random;
 
-import net.minecraft.src.Block;
-import net.minecraft.src.TileEntitySign;
-import net.minecraft.src.World;
+import net.minecraft.tileentity.TileEntitySign;
+import net.minecraft.world.World;
 
 import com.minetunes.ditty.event.NoteStartEvent;
 import com.minetunes.resources.ResourceManager;

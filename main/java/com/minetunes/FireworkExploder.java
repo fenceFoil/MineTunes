@@ -26,9 +26,9 @@ package com.minetunes;
 import java.util.LinkedList;
 import java.util.Random;
 
-import net.minecraft.src.EntityFireworkRocket;
-import net.minecraft.src.Minecraft;
-import net.minecraft.src.WorldClient;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.multiplayer.WorldClient;
+import net.minecraft.entity.item.EntityFireworkRocket;
 
 /**
  * Handles exploding firework rockets after they reach a certain height.

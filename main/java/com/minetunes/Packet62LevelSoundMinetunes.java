@@ -27,9 +27,7 @@ package com.minetunes;
 import java.io.DataInput;
 import java.io.IOException;
 
-import net.minecraft.src.Block;
-import net.minecraft.src.Minecraft;
-import net.minecraft.src.Packet62LevelSound;
+import net.minecraft.client.Minecraft;
 
 import com.minetunes.config.MinetunesConfig;
 import com.minetunes.noteblocks.BlockNoteMinetunes;

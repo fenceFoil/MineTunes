@@ -23,8 +23,8 @@
  */
 package com.minetunes.signs.keywords;
 
-import net.minecraft.src.TileEntitySign;
-import net.minecraft.src.World;
+import net.minecraft.tileentity.TileEntitySign;
+import net.minecraft.world.World;
 
 import org.jfugue.JFugueDefinitions;
 

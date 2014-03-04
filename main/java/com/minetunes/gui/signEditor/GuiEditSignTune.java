@@ -33,12 +33,11 @@ import java.util.LinkedList;
 import java.util.Map;
 import java.util.Set;
 
-import net.minecraft.src.Block;
-import net.minecraft.src.GuiButton;
-import net.minecraft.src.GuiScreen;
-import net.minecraft.src.ResourceLocation;
-import net.minecraft.src.TileEntity;
-import net.minecraft.src.TileEntitySign;
+import net.minecraft.client.gui.GuiButton;
+import net.minecraft.client.gui.GuiScreen;
+import net.minecraft.tileentity.TileEntity;
+import net.minecraft.tileentity.TileEntitySign;
+import net.minecraft.util.ResourceLocation;
 
 import org.jfugue.JFugueException;
 import org.jfugue.ParserListener;
@@ -263,7 +262,7 @@ public class GuiEditSignTune extends GuiEditSignBase {
 		super.drawScreen(mx, my, par3);
 
 		// Draw keyword messages display
-		drawCenteredString(fontRenderer, parseResultText, width / 2,
+		drawCenteredString(fontRendererObj, parseResultText, width / 2,
 				height - 15, 0xffff00);
 
 		// Draw the help text area
@@ -286,7 +285,7 @@ public class GuiEditSignTune extends GuiEditSignBase {
 				posToShow = 0;
 			}
 
-			drawCenteredString(fontRenderer,
+			drawCenteredString(fontRendererObj,
 					posToShow + " / " + (savedSigns.size() - 1),
 					shovelButtonDown.xPosition - 7,
 					shovelButtonDown.yPosition - 10, 0xffffff);
@@ -433,7 +432,7 @@ public class GuiEditSignTune extends GuiEditSignBase {
 
 		// Set up the keyword text area
 		helpTextArea = new GuiScrollingTextPanel(10, 32, 125, height - 60,
-				false, fontRenderer, true);
+				false, fontRendererObj, true);
 
 		// Position the change suggestion mode button below the keywordtextarea
 		selectHelpButton = new GuiButton(1300, helpTextArea.getX(),
@@ -452,7 +451,7 @@ public class GuiEditSignTune extends GuiEditSignBase {
 
 		if (signsHereBefore.length <= 0) {
 			recallButton.enabled = false;
-			recallButton.drawButton = false;
+			recallButton.visible = false;
 			recallButton.displayString = "(0)";
 		} else {
 			recallButton.enabled = true;

@@ -27,8 +27,8 @@ import java.awt.FileDialog;
 import java.awt.Frame;
 import java.io.IOException;
 
-import net.minecraft.src.GuiButton;
-import net.minecraft.src.GuiScreen;
+import net.minecraft.client.gui.GuiButton;
+import net.minecraft.client.gui.GuiScreen;
 
 import org.lwjgl.input.Keyboard;
 
@@ -75,31 +75,31 @@ public class SoundfontGui extends GuiScreen {
 		drawDefaultBackground();
 
 		// Draw label at top of screen
-		drawCenteredString(fontRenderer, "Custom SoundFont", width / 2, 15,
+		drawCenteredString(fontRendererObj, "Custom SoundFont", width / 2, 15,
 				0xffff00);
 
 		drawCenteredString(
-				fontRenderer,
+				fontRendererObj,
 				"A custom SoundFont specifies different MIDI instrument sounds.",
 				width / 2, 45, 0xffffff);
-		drawCenteredString(fontRenderer,
+		drawCenteredString(fontRendererObj,
 				"Most SoundFonts ending in '.sf2' are supported by MineTunes.",
 				width / 2, 60, 0xffffff);
 
 		if (MinetunesConfig.customSF2.isSF2Loaded()) {
-			drawCenteredString(fontRenderer, "Current SoundFont: "
+			drawCenteredString(fontRendererObj, "Current SoundFont: "
 					+ MinetunesConfig.customSF2.getCachedSoundbank().getName(),
 					width / 2, 90, 0xaaffaa);
-			drawCenteredString(fontRenderer, "Instruments in SoundFont: "
+			drawCenteredString(fontRendererObj, "Instruments in SoundFont: "
 					+ MinetunesConfig.customSF2.getCachedSoundbank()
 							.getInstruments().length, width / 2, 105, 0xaaaaff);
 		} else {
-			drawCenteredString(fontRenderer,
+			drawCenteredString(fontRendererObj,
 					"Current SoundFont: System Default", width / 2, 90,
 					0xffffff);
 		}
 
-		drawCenteredString(fontRenderer, loadMessage, width / 2, 130, 0xaaaaff);
+		drawCenteredString(fontRendererObj, loadMessage, width / 2, 130, 0xaaaaff);
 
 		super.drawScreen(par1, par2, par3);
 	}
