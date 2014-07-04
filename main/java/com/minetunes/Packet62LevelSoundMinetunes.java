@@ -27,7 +27,9 @@ package com.minetunes;
 import java.io.DataInput;
 import java.io.IOException;
 
+import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;
+import net.minecraft.init.Blocks;
 
 import com.minetunes.config.MinetunesConfig;
 import com.minetunes.noteblocks.BlockNoteMinetunes;
@@ -51,9 +53,9 @@ public class Packet62LevelSoundMinetunes extends Packet62LevelSound {
 		} else if (getSoundName().startsWith("note.")) {
 
 			// Check for noteblock at location
-			if (Minecraft.getMinecraft().theWorld.getBlockId(
+			if (Minecraft.getMinecraft().theWorld.getBlock(
 					(int) (getEffectX() - 0.5), (int) (getEffectY() - 0.5),
-					(int) (getEffectZ() - 0.5)) == Block.music.blockID) {
+					(int) (getEffectZ() - 0.5)) == Blocks.noteblock) {
 				// Handle noteblock octave adjustment
 				int adjust = BlockNoteMinetunes.getOctaveAdjust(
 						(int) (getEffectX() - 0.5), (int) (getEffectY() - 0.5),

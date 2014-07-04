@@ -74,8 +74,12 @@ import net.minecraft.client.particle.EntityHeartFX;
 import net.minecraft.client.renderer.DestroyBlockProgress;
 import net.minecraft.client.renderer.RenderGlobal;
 import net.minecraft.client.renderer.entity.RenderManager;
+import net.minecraft.client.renderer.tileentity.TileEntityRendererDispatcher;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.item.EntityFireworkRocket;
 import net.minecraft.entity.item.EntityItemFrame;
+import net.minecraft.init.Blocks;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.Packet;
@@ -531,13 +535,13 @@ public class Minetunes {
 							// Register all tile entity renderers
 							Map registeredTileEntityRenderers = (Map) Finder
 									.getUniqueTypedFieldFromClass(
-											TileEntityRenderer.class,
+											TileEntityRendererDispatcher.class,
 											Map.class,
-											TileEntityRenderer.instance);
+											TileEntityRendererDispatcher.instance);
 
 							if (registeredTileEntityRenderers != null) {
 								TileEntitySignRendererMinetunes r = new TileEntitySignRendererMinetunes();
-								r.setTileEntityRenderer(TileEntityRenderer.instance);
+								r.func_147497_a(TileEntityRendererDispatcher.instance);
 								registeredTileEntityRenderers.put(
 										TileEntitySignMinetunes.class, r);
 							}
@@ -545,11 +549,11 @@ public class Minetunes {
 							// Change the tile entity associated with BlockSign
 							Finder.setUniqueTypedFieldFromClass(
 									BlockSign.class, Class.class,
-									Block.signPost,
+									Blocks.standing_sign,
 									TileEntitySignMinetunes.class);
 							Finder.setUniqueTypedFieldFromClass(
 									BlockSign.class, Class.class,
-									Block.signWall,
+									Blocks.wall_sign,
 									TileEntitySignMinetunes.class);
 						} catch (IllegalArgumentException e) {
 							// TODO Auto-generated catch block
@@ -847,7 +851,7 @@ public class Minetunes {
 						.getCurrentEquippedItem();
 				int held = 0;
 				if (heldStack != null) {
-					held = heldStack.itemID;
+					held = Item.getIdFromItem(heldStack.getItem());
 				}
 
 				if (SignTuneParser.getSignBlockType(hoverPoint,
@@ -2418,42 +2422,43 @@ public class Minetunes {
 //	}
 	
 	public static void registerSoundResources() {
-		SoundManager s;
-		try {
-			s = Minecraft.getMinecraft().sndManager;
-		} catch (Exception e) {
-			e.printStackTrace();
-			return;
-		}
-		
-		if (s == null) {
-			return;
-		}
-		
-		s.addSound("harp_-1o.ogg");
-		s.addSound("harp_-2o.ogg");
-		s.addSound("harp_1o.ogg");
-		s.addSound("harp_2o.ogg");
-		
-		s.addSound("bassattack_-1o.ogg");
-		s.addSound("bassattack_-2o.ogg");
-		s.addSound("bassattack_1o.ogg");
-		s.addSound("bassattack_2o.ogg");
-		
-		s.addSound("bd_-1o.ogg");
-		s.addSound("bd_-2o.ogg");
-		s.addSound("bd_1o.ogg");
-		s.addSound("bd_2o.ogg");
-		
-		s.addSound("hat_-1o.ogg");
-		s.addSound("hat_-2o.ogg");
-		s.addSound("hat_1o.ogg");
-		s.addSound("hat_2o.ogg");
-		
-		s.addSound("snare_-1o.ogg");
-		s.addSound("snare_-2o.ogg");
-		s.addSound("snare_1o.ogg");
-		s.addSound("snare_2o.ogg");
+		// XXX: TODO: MC172: REGISTER SOUNDS VIA FORGE
+//		SoundManager s;
+//		try {
+//			s = Minecraft.getMinecraft().sndManager;
+//		} catch (Exception e) {
+//			e.printStackTrace();
+//			return;
+//		}
+//		
+//		if (s == null) {
+//			return;
+//		}
+//		
+//		s.addSound("harp_-1o.ogg");
+//		s.addSound("harp_-2o.ogg");
+//		s.addSound("harp_1o.ogg");
+//		s.addSound("harp_2o.ogg");
+//		
+//		s.addSound("bassattack_-1o.ogg");
+//		s.addSound("bassattack_-2o.ogg");
+//		s.addSound("bassattack_1o.ogg");
+//		s.addSound("bassattack_2o.ogg");
+//		
+//		s.addSound("bd_-1o.ogg");
+//		s.addSound("bd_-2o.ogg");
+//		s.addSound("bd_1o.ogg");
+//		s.addSound("bd_2o.ogg");
+//		
+//		s.addSound("hat_-1o.ogg");
+//		s.addSound("hat_-2o.ogg");
+//		s.addSound("hat_1o.ogg");
+//		s.addSound("hat_2o.ogg");
+//		
+//		s.addSound("snare_-1o.ogg");
+//		s.addSound("snare_-2o.ogg");
+//		s.addSound("snare_1o.ogg");
+//		s.addSound("snare_2o.ogg");
 	}
 
 	public static void setUpSynthPool() {
@@ -2716,12 +2721,12 @@ public class Minetunes {
 	 *            place to begin search from
 	 * @param distance
 	 *            2 is a good value for finding "adjacent" frames
-	 * @param item
+	 * @param targetItems
 	 *            item ids that you wish to search for
 	 * @return a list, possibly empty, of found items
 	 */
 	public static LinkedList<ItemStack> getFramedItemsNearby(World world,
-			Point3D location, int distance, int... item) {
+			Point3D location, int distance, Item... targetItems) {
 		LinkedList<ItemStack> found = new LinkedList<ItemStack>();
 		for (Object entityObj : world.loadedEntityList) {
 			Entity entity = (Entity) entityObj;
@@ -2734,8 +2739,8 @@ public class Minetunes {
 					ItemStack framedItem = frame.getDisplayedItem();
 
 					if (framedItem != null) {
-						for (int i : item) {
-							if (i == framedItem.itemID) {
+						for (Item targetItem : targetItems) {
+							if (Item.getIdFromItem(framedItem.getItem()) == Item.getIdFromItem(targetItem)) {
 								found.add(framedItem);
 								break;
 							}

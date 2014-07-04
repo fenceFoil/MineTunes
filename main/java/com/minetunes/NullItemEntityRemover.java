@@ -43,41 +43,42 @@ public class NullItemEntityRemover implements TickListener {
 	 */
 	@Override
 	public boolean onTick(float partialTick, Minecraft minecraft) {
-		for (int i = 0; i < minecraft.theWorld.loadedEntityList.size(); i++) {
-			Object o = minecraft.theWorld.loadedEntityList.get(i);
-			if (o instanceof EntityItem && !(o instanceof EntityItemDisplay)) {
-				EntityItem e = (EntityItem) o;
-				if (e.getEntityItem().itemID == 0) {
-					// Buggy item stack found
-					// Kill it with fire!
-					System.err
-							.println("MineTunes: Destroyed a buggy EntityItem in the Client. This is a nasty jukebox bug in Vanilla Minecraft (See https://mojang.atlassian.net/browse/MC-2711)");
-					e.setDead();
-				}
-			}
-		}
-		if (minecraft.getIntegratedServer() != null
-				&& minecraft.getIntegratedServer().worldServers != null) {
-			int serverNum = 0;
-			for (WorldServer server : minecraft.getIntegratedServer().worldServers) {
-				for (int i = 0; i < server.loadedEntityList.size(); i++) {
-					Object o = server.loadedEntityList.get(i);
-					if (o instanceof EntityItem) {
-						EntityItem e = (EntityItem) o;
-						if (e.getEntityItem().itemID == 0) {
-							// Buggy item stack found
-							// Kill it with fire!
-							System.err
-									.println("MineTunes: Destroyed a buggy EntityItem in WorldServer #"
-											+ serverNum
-											+ ". This is a nasty jukebox bug in Vanilla Minecraft (See https://mojang.atlassian.net/browse/MC-2711)");
-							e.setDead();
-						}
-					}
-				}
-				serverNum++;
-			}
-		}
+		// XXX: MC172: Bug fixed, this part of mod unnecessary?
+//		for (int i = 0; i < minecraft.theWorld.loadedEntityList.size(); i++) {
+//			Object o = minecraft.theWorld.loadedEntityList.get(i);
+//			if (o instanceof EntityItem && !(o instanceof EntityItemDisplay)) {
+//				EntityItem e = (EntityItem) o;
+//				if (e.getEntityItem().itemID == 0) {
+//					// Buggy item stack found
+//					// Kill it with fire!
+//					System.err
+//							.println("MineTunes: Destroyed a buggy EntityItem in the Client. This is a nasty jukebox bug in Vanilla Minecraft (See https://mojang.atlassian.net/browse/MC-2711)");
+//					e.setDead();
+//				}
+//			}
+//		}
+//		if (minecraft.getIntegratedServer() != null
+//				&& minecraft.getIntegratedServer().worldServers != null) {
+//			int serverNum = 0;
+//			for (WorldServer server : minecraft.getIntegratedServer().worldServers) {
+//				for (int i = 0; i < server.loadedEntityList.size(); i++) {
+//					Object o = server.loadedEntityList.get(i);
+//					if (o instanceof EntityItem) {
+//						EntityItem e = (EntityItem) o;
+//						if (e.getEntityItem().itemID == 0) {
+//							// Buggy item stack found
+//							// Kill it with fire!
+//							System.err
+//									.println("MineTunes: Destroyed a buggy EntityItem in WorldServer #"
+//											+ serverNum
+//											+ ". This is a nasty jukebox bug in Vanilla Minecraft (See https://mojang.atlassian.net/browse/MC-2711)");
+//							e.setDead();
+//						}
+//					}
+//				}
+//				serverNum++;
+//			}
+//		}
 		return true;
 	}
 

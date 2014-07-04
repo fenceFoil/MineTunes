@@ -28,6 +28,7 @@ import java.util.Map;
 
 import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
+import net.minecraft.init.Blocks;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntityNote;
 
@@ -152,8 +153,8 @@ public class EntityNoteBlockTooltip extends Entity {
 		life -= 0.05f;
 
 		if (life <= 0
-				|| worldObj.getBlockId(noteBlockPoint.x, noteBlockPoint.y,
-						noteBlockPoint.z) != Block.music.blockID) {
+				|| worldObj.getBlock(noteBlockPoint.x, noteBlockPoint.y,
+						noteBlockPoint.z) != Blocks.noteblock) {
 			setDead();
 		}
 

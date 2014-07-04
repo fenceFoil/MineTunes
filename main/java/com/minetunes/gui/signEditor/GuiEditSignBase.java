@@ -36,6 +36,10 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.gui.inventory.GuiEditSign;
+import net.minecraft.client.network.NetHandlerPlayClient;
+import net.minecraft.client.renderer.tileentity.TileEntityRendererDispatcher;
+import net.minecraft.init.Blocks;
+import net.minecraft.network.play.client.C12PacketUpdateSign;
 import net.minecraft.tileentity.TileEntitySign;
 import net.minecraft.util.ChatAllowedCharacters;
 
@@ -236,7 +240,7 @@ public class GuiEditSignBase extends GuiEditSign {
 			GL11.glRotatef(180F, 0.0F, 1.0F, 0.0F);
 			Block block = sign.getBlockType();
 
-			if (block == Block.signPost) {
+			if (block == Blocks.standing_sign) {
 				float f1 = (float) (sign.getBlockMetadata() * 360) / 16F;
 				GL11.glRotatef(f1, 0.0F, 1.0F, 0.0F);
 				GL11.glTranslatef(0.0F, -1.0625F, 0.0F);
@@ -266,7 +270,7 @@ public class GuiEditSignBase extends GuiEditSign {
 				sign.lineBeingEdited = editLine;
 			}
 
-			TileEntityRenderer.instance.renderTileEntityAt(sign, -0.5D, -0.75D,
+			TileEntityRendererDispatcher.instance.renderTileEntityAt(sign, -0.5D, -0.75D,
 					-0.5D, 0f);
 			sign.lineBeingEdited = -1;
 			GL11.glPopMatrix();
@@ -451,7 +455,7 @@ public class GuiEditSignBase extends GuiEditSign {
 		// Save sign's text to the buffer
 		addTextToSavedSigns(sign.signText);
 
-		sign.onInventoryChanged();
+		sign.markDirty();
 		mc.displayGuiScreen(null);
 
 		// Prevent clicking done button from activating sign
@@ -467,9 +471,9 @@ public class GuiEditSignBase extends GuiEditSign {
 	 * @param entitySign
 	 */
 	public static void sendSignPacket(TileEntitySign entitySign) {
-		NetClientHandler sender = Minecraft.getMinecraft().getNetHandler();
+		NetHandlerPlayClient sender = Minecraft.getMinecraft().getNetHandler();
 		if (sender != null) {
-			sender.addToSendQueue(new Packet130UpdateSign(entitySign.xCoord,
+			sender.addToSendQueue(new C12PacketUpdateSign(entitySign.xCoord,
 					entitySign.yCoord, entitySign.zCoord, entitySign.signText));
 		}
 	}

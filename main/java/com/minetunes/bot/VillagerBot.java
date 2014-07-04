@@ -25,6 +25,7 @@
 package com.minetunes.bot;
 
 import net.minecraft.client.Minecraft;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLiving;
 
 import com.minetunes.bot.action.BotAction;
@@ -50,7 +51,8 @@ public class VillagerBot extends Bot {
 		addSupportedAction(RiseAction.class);
 
 		// Create a creepily still-looking testificate dude
-		villagerEntity = new EntityVillagerBot(Minecraft.getMinecraft().theWorld);
+		villagerEntity = new EntityVillagerBot(
+				Minecraft.getMinecraft().theWorld);
 
 		double var2 = x;
 		double var4 = y;
@@ -67,25 +69,25 @@ public class VillagerBot extends Bot {
 		Entity[] var11 = var10.getParts();
 
 		if (var11 != null) {
-			int var12 = 12341234 - var10.entityId;
+			int var12 = 12341234 - var10.getEntityId();
 			Entity[] var13 = var11;
 			int var14 = var11.length;
 
 			for (int var15 = 0; var15 < var14; ++var15) {
 				Entity var16 = var13[var15];
-				var16.entityId += var12;
+				var16.setEntityId(var16.getEntityId() + var12);
 			}
 		}
 
-		var10.entityId = 45645656;
+		var10.setEntityId(45645656);
 		var10.setPositionAndRotation(var2, var4, var6, var8, var9);
 		var10.motionX = (double) ((float) 0 / 8000.0F);
 		var10.motionY = (double) ((float) 0 / 8000.0F);
 		var10.motionZ = (double) ((float) 0 / 8000.0F);
-		Minecraft.getMinecraft().theWorld
-				.addEntityToWorld(var10.entityId, var10);
+		Minecraft.getMinecraft().theWorld.addEntityToWorld(var10.getEntityId(),
+				var10);
 	}
-	
+
 	@Override
 	public void doAction(BotAction action) {
 		super.doAction(action);

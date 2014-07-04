@@ -30,10 +30,13 @@ import java.util.LinkedList;
 import java.util.List;
 
 import net.minecraft.client.Minecraft;
+import net.minecraft.init.Items;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.nbt.NBTTagString;
+import net.minecraft.network.Packet;
 import net.minecraft.util.ChatAllowedCharacters;
 import net.minecraft.util.EnumChatFormatting;
 
@@ -57,11 +60,11 @@ import com.minetunes.config.MinetunesConfig;
  * A BookWrapper is also a BookSource, one book long.
  */
 public class BookWrapper implements BookSource {
-	/**
-	 * The Minecraft ID numbers for book items of different kinds
-	 */
-	public static final int ITEM_ID_BOOK_AND_QUILL = 386;
-	public static final int ITEM_ID_SIGNED_BOOK = 387;
+	// /**
+	// * The Minecraft ID numbers for book items of different kinds
+	// */
+	// public static final int ITEM_ID_BOOK_AND_QUILL = 386;
+	// public static final int ITEM_ID_SIGNED_BOOK = 387;
 
 	public static final int MAX_BOOK_PAGES = 50;
 
@@ -193,7 +196,8 @@ public class BookWrapper implements BookSource {
 	 * @param itemStack
 	 */
 	protected void setBookItem(ItemStack itemStack) {
-		if (itemStack.itemID == ITEM_ID_SIGNED_BOOK) {
+		if (Item.getIdFromItem(itemStack.getItem()) == Item
+				.getIdFromItem(Items.written_book)) {
 			bookUnsigned = false;
 		} else {
 			bookUnsigned = true;
@@ -232,8 +236,10 @@ public class BookWrapper implements BookSource {
 			return false;
 		}
 
-		if (itemStack.itemID == ITEM_ID_BOOK_AND_QUILL
-				|| itemStack.itemID == ITEM_ID_SIGNED_BOOK) {
+		if (Item.getIdFromItem(itemStack.getItem()) == Item
+				.getIdFromItem(Items.written_book)
+				|| Item.getIdFromItem(itemStack.getItem()) == Item
+						.getIdFromItem(Items.writable_book)) {
 			return true;
 		} else {
 			return false;

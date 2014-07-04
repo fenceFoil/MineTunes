@@ -33,6 +33,7 @@ import net.minecraft.block.Block;
 import net.minecraft.block.BlockNote;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.Minecraft;
+import net.minecraft.init.Blocks;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.tileentity.TileEntityNote;
 import net.minecraft.tileentity.TileEntitySign;
@@ -56,17 +57,17 @@ import com.minetunes.signs.keywords.NoteblockTriggerKeyword;
  * 
  */
 public class BlockNoteMinetunes extends BlockNote {
-	@Override
-	public Icon getBlockTexture(IBlockAccess par1iBlockAccess, int par2,
-			int par3, int par4, int par5) {
-		// TODO Auto-generated method stub
-		return super.getBlockTexture(par1iBlockAccess, par2, par3, par4, par5);
-	}
+//	@Override
+//	public Icon getBlockTexture(IBlockAccess par1iBlockAccess, int par2,
+//			int par3, int par4, int par5) {
+//		// TODO Auto-generated method stub
+//		return super.getBlockTexture(par1iBlockAccess, par2, par3, par4, par5);
+//	}
 
-	@Override
-	public void registerIcons(IconRegister par1IconRegister) {
-		this.blockIcon = par1IconRegister.registerIcon("noteblock");
-	}
+//	@Override
+//	public void registerIcons(IconRegister par1IconRegister) {
+//		this.blockIcon = par1IconRegister.registerIcon("noteblock");
+//	}
 
 	public static HashMap<String, String> screenNames = new HashMap<String, String>();
 
@@ -186,7 +187,7 @@ public class BlockNoteMinetunes extends BlockNote {
 			int noteTypeNum, int noteBlockSetting) {
 
 		// Save note block setting
-		TileEntity tile = world.getBlockTileEntity(x, y, z);
+		TileEntity tile = world.getTileEntity(x, y, z);
 		if (tile instanceof TileEntityNote) {
 			// Decide if noteblock is being tuned
 			boolean isTuning = false;
@@ -267,14 +268,14 @@ public class BlockNoteMinetunes extends BlockNote {
 			// If point has no sign, ignore it
 			Block blockType = SignTuneParser.getSignBlockType(nearby.get(i),
 					tile.getWorldObj());
-			if (blockType == null || blockType == Block.signPost) {
+			if (blockType == null || blockType == Blocks.standing_sign) {
 				// Not a sign, or definitely not attached to noteblock
 				nearby.set(i, null);
 				lastNull = i;
-			} else if (blockType == signWall) {
+			} else if (blockType == Blocks.wall_sign) {
 				// Ignore wall signs not attached to noteblock
 				TileEntity signTile = (TileEntity) tile.getWorldObj()
-						.getBlockTileEntity(nearby.get(i).x, nearby.get(i).y,
+						.getTileEntity(nearby.get(i).x, nearby.get(i).y,
 								nearby.get(i).z);
 				if (signTile == null || !(signTile instanceof TileEntitySign)) {
 					// If the sign's tile entity can't be found, ignore sign
@@ -325,7 +326,7 @@ public class BlockNoteMinetunes extends BlockNote {
 	private LinkedList<String> lyricBuffer = new LinkedList<String>();
 
 	private void activateAdjacentSign(Point3D signPoint, TileEntityNote noteTile) {
-		TileEntity tileEntity = noteTile.getWorldObj().getBlockTileEntity(
+		TileEntity tileEntity = noteTile.getWorldObj().getTileEntity(
 				signPoint.x, signPoint.y, signPoint.z);
 		if (tileEntity instanceof TileEntitySignMinetunes) {
 			TileEntitySignMinetunes tile = (TileEntitySignMinetunes) tileEntity;
@@ -388,7 +389,7 @@ public class BlockNoteMinetunes extends BlockNote {
 	 * @return
 	 */
 	public static String getNoteTypeForBlock(World world, int x, int y, int z) {
-		Material baseMaterial = world.getBlockMaterial(x, y - 1, z);
+		Material baseMaterial = world.getBlock(x, y - 1, z).getMaterial();
 
 		byte instrumentNum = 0;
 		if (baseMaterial == Material.rock) {
@@ -458,11 +459,11 @@ public class BlockNoteMinetunes extends BlockNote {
 			return 0;
 		}
 
-		int blockID = Minecraft.getMinecraft().theWorld.getBlockId(x, y, z);
+		Block block = Minecraft.getMinecraft().theWorld.getBlock(x, y, z);
 		// System.out.println (blockID);
-		if (blockID == Block.netherrack.blockID) {
+		if (block == Blocks.netherrack) {
 			return -1;
-		} else if (blockID == Block.whiteStone.blockID) {
+		} else if (block == Blocks.end_stone) {
 			return 1;
 		} else {
 			return 0;

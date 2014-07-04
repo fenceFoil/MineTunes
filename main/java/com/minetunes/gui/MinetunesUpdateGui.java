@@ -7,6 +7,7 @@ import java.net.URI;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiScreen;
+import net.minecraft.util.Util;
 import net.minecraft.util.Util.EnumOS;
 
 import org.lwjgl.Sys;

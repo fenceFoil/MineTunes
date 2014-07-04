@@ -33,8 +33,10 @@ import java.util.LinkedList;
 import java.util.Map;
 import java.util.Set;
 
+import net.minecraft.block.Block;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiScreen;
+import net.minecraft.init.Blocks;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.tileentity.TileEntitySign;
 import net.minecraft.util.ResourceLocation;
@@ -609,12 +611,12 @@ public class GuiEditSignTune extends GuiEditSignBase {
 			}
 		}
 
-//		// Handle autocorrect for SFXInst
-//		if (keyCode == Keyboard.KEY_T
-//				&& sign.signText[editLine].equalsIgnoreCase("sfxinst")) {
-//			sign.signText[editLine] = "SFXInst2";
-//			editChar = sign.signText[editLine].length();
-//		}
+		// // Handle autocorrect for SFXInst
+		// if (keyCode == Keyboard.KEY_T
+		// && sign.signText[editLine].equalsIgnoreCase("sfxinst")) {
+		// sign.signText[editLine] = "SFXInst2";
+		// editChar = sign.signText[editLine].length();
+		// }
 
 		updateMineTunesElements();
 	}
@@ -1492,25 +1494,18 @@ public class GuiEditSignTune extends GuiEditSignBase {
 				helpTextArea.setText("§cThis sign points at itself!");
 			} else {
 				// Not pointing at itself
-				int pointedBlockID = mc.theWorld.getBlockId(pointedAtBlock.x,
+				Block pointedBlock = mc.theWorld.getBlock(pointedAtBlock.x,
 						pointedAtBlock.y, pointedAtBlock.z);
-				Block pointedBlock = null;
-				for (Block b : Block.blocksList) {
-					if (b != null && b.blockID == pointedBlockID) {
-						// Found the block!
-						pointedBlock = b;
-					}
-				}
-				if (pointedBlockID == 0) {
-					// Gotos point at air
-					helpTextArea.setText("§eGotos on sign point at thin air.");
-				} else if (pointedBlock == null) {
+				if (pointedBlock == null) {
 					helpTextArea
 							.setText("§eGotos on sign point at something that isn't a sign.");
+				} else if (pointedBlock == Blocks.air) {
+					// Gotos point at air
+					helpTextArea.setText("§eGotos on sign point at thin air.");
 				} else if (SignTuneParser.getSignBlockType(pointedAtBlock,
 						mc.theWorld) != null) {
 					// Get sign's text
-					TileEntity pointedEntity = mc.theWorld.getBlockTileEntity(
+					TileEntity pointedEntity = mc.theWorld.getTileEntity(
 							pointedAtBlock.x, pointedAtBlock.y,
 							pointedAtBlock.z);
 					if (pointedEntity instanceof TileEntitySign) {

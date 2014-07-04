@@ -31,7 +31,7 @@ import cpw.mods.fml.common.Mod.EventHandler;
 import cpw.mods.fml.common.Mod.Instance;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
 
-@Mod(modid = "MineTunes", name = "MineTunes", version = "3.0", useMetadata = true)
+@Mod(modid = "MineTunes", name = "MineTunes", version = "3.10", useMetadata = true)
 public class MinetunesForgeLauncher {
 
 	@Instance("MineTunes")

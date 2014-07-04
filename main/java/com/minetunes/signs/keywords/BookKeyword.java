@@ -25,6 +25,8 @@ package com.minetunes.signs.keywords;
 
 import java.util.LinkedList;
 
+import net.minecraft.init.Items;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntitySign;
 import net.minecraft.world.World;
@@ -71,8 +73,8 @@ public class BookKeyword extends SignTuneKeyword {
 			StringBuilder readMusicString) {
 
 		LinkedList<ItemStack> nearbyBooks = Minetunes.getFramedItemsNearby(
-				world, location, 2, Item.writableBook.itemID,
-				Item.writtenBook.itemID);
+				world, location, 2, Items.writable_book,
+				Items.written_book);
 
 		for (ItemStack item : nearbyBooks) {
 			boolean failure = false;

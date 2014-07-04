@@ -32,6 +32,8 @@ import java.io.IOException;
 import java.util.LinkedList;
 
 import net.minecraft.client.Minecraft;
+import net.minecraft.init.Blocks;
+import net.minecraft.util.Util;
 import net.minecraft.util.Util.EnumOS;
 
 import org.lwjgl.input.Keyboard;
@@ -91,7 +93,7 @@ public class KeypressProcessor {
 			// block is called, they are used here instead in setting up the
 			// tune noteblock key
 			if (b.getMainKey() == TUNE_NOTEBLOCK_KEY_UNSET) {
-				b.setMainKey(Minecraft.getMinecraft().gameSettings.keyBindForward.keyCode);
+				b.setMainKey(Minecraft.getMinecraft().gameSettings.keyBindForward.getKeyCode());
 				writeConfig();
 			}
 
@@ -205,8 +207,8 @@ public class KeypressProcessor {
 						minecraft.objectMouseOver.blockX,
 						minecraft.objectMouseOver.blockY,
 						minecraft.objectMouseOver.blockZ);
-				if (minecraft.theWorld.getBlockId(hoverPoint.x, hoverPoint.y,
-						hoverPoint.z) == Block.music.blockID) {
+				if (minecraft.theWorld.getBlock(hoverPoint.x, hoverPoint.y,
+						hoverPoint.z) == Blocks.noteblock) {
 					minecraft.displayGuiScreen(new NoteblockTunerGui(
 							hoverPoint));
 

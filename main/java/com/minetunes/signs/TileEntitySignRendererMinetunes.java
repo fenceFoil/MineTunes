@@ -5,6 +5,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.model.ModelSign;
 import net.minecraft.client.renderer.tileentity.TileEntitySignRenderer;
+import net.minecraft.init.Blocks;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.tileentity.TileEntitySign;
 import net.minecraft.util.MathHelper;
@@ -222,7 +223,7 @@ public class TileEntitySignRendererMinetunes extends TileEntitySignRenderer {
 			// and are mounted on an opaque block
 			if (renderSign) {
 				if (signFacing == playerFacingThisTick
-						&& signEntity.blockType == Block.signWall) {
+						&& signEntity.blockType == Blocks.wall_sign) {
 					if (signEntity.isAnchorBlockOpaque()) {
 						renderSign = false;
 						invisibleSignsThisTick++;
@@ -301,7 +302,7 @@ public class TileEntitySignRendererMinetunes extends TileEntitySignRenderer {
 
 		// Handle damage indication
 		// Shrink signposts
-		if (signEntity.blockType == Block.signPost) {
+		if (signEntity.blockType == Blocks.standing_sign) {
 			f = f * (1f - ((float) signEntity.damage / 10f));
 		} else {
 			// If a wall sign, shrink less.
@@ -311,7 +312,7 @@ public class TileEntitySignRendererMinetunes extends TileEntitySignRenderer {
 		blackout = 1f - ((float) signEntity.damage / 10f);
 
 		// Render sign
-		if (block == Block.signPost) {
+		if (block == Blocks.standing_sign) {
 			GL11.glTranslatef((float) par2 + 0.5F, (float) par4 + 0.75F * f,
 					(float) par6 + 0.5F);
 			float f1 = (float) (signEntity.getBlockMetadata() * 360) / 16F;
@@ -470,7 +471,7 @@ public class TileEntitySignRendererMinetunes extends TileEntitySignRenderer {
 			boolean blinkTextStateOn) {
 		String[] text = signEntity.getSignTextNoCodes();
 
-		FontRenderer fontrenderer = getFontRenderer();
+		FontRenderer fontrenderer = func_147498_b();
 		int j = 0;
 
 		for (int currRenderLine = 0; currRenderLine < text.length; currRenderLine++) {

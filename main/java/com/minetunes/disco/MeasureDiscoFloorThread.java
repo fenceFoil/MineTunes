@@ -27,6 +27,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.LinkedList;
 
+import net.minecraft.init.Blocks;
 import net.minecraft.tileentity.TileEntitySign;
 import net.minecraft.world.World;
 
@@ -82,7 +83,7 @@ public class MeasureDiscoFloorThread extends Thread {
 			Point3D currBlock = floodFillQueue.pollLast();
 			// Only add if it isn't already added and the new block is wool
 			if (!foundBlocks.contains(currBlock)
-					&& world.getBlockId(currBlock.x, currBlock.y, currBlock.z) == Block.cloth.blockID) {
+					&& world.getBlock(currBlock.x, currBlock.y, currBlock.z) == Blocks.wool) {
 				foundBlocks.add(new DiscoFloorBlock(currBlock,
 						world.getBlockMetadata(currBlock.x, currBlock.y,
 								currBlock.z)));

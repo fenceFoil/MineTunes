@@ -27,6 +27,7 @@ package com.minetunes;
 
 import java.util.LinkedList;
 
+import net.minecraft.block.Block;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
 
@@ -169,11 +170,18 @@ public class Point3D {
 		return returns.toArray(new Point3D[returns.size()]);
 	}
 
+	/**
+	 * XXX: MC172: GetIdFromBlock untested, may be broken / may break this function.
+	 * @param world
+	 * @param blockID
+	 * @param blockPoint
+	 * @return
+	 */
 	public static int getNumAdjacent(World world, int blockID,
 			Point3D blockPoint) {
 		int found = 0;
 		for (Point3D p : getAdjacentBlocks(blockPoint)) {
-			int id = world.getBlockId(p.x, p.y, p.z);
+			int id = Block.getIdFromBlock(world.getBlock(p.x, p.y, p.z));
 			if (id == blockID) {
 				found++;
 			}

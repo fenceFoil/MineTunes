@@ -26,6 +26,7 @@ package com.minetunes.signs;
 import java.util.HashMap;
 
 import net.minecraft.client.Minecraft;
+import net.minecraft.init.Blocks;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntitySign;
 
@@ -229,7 +230,7 @@ public class TileEntitySignMinetunes extends TileEntitySign {
 			if (Minetunes.rand.nextInt(100000) == 0) {
 				worldObj.spawnParticle("heart", xCoord + 0.5, yCoord + 0.5,
 						zCoord + 0.5, 0, 0.1, 0);
-			} else if (blockType == Block.signPost
+			} else if (blockType == Blocks.standing_sign
 					&& Minetunes.rand.nextInt(50) == 0) {
 				worldObj.spawnParticle("smoke", xCoord + 0.5, yCoord,
 						zCoord + 0.5, 0, 0.02, 0);
@@ -261,7 +262,7 @@ public class TileEntitySignMinetunes extends TileEntitySign {
 				if (Minetunes.rand.nextInt(500) == 0) {
 					Point3D anchor = SignTuneParser.getBlockAttachedTo(this);
 					for (Point3D p : Point3D.getAdjacentBlocks(anchor)) {
-						if (worldObj.getBlockId(p.x, p.y, p.z) == Block.lever.blockID) {
+						if (worldObj.getBlock(p.x, p.y, p.z) == Blocks.lever) {
 							// Wiggle lever
 							int metadata = worldObj.getBlockMetadata(p.x, p.y,
 									p.z);
@@ -301,9 +302,9 @@ public class TileEntitySignMinetunes extends TileEntitySign {
 			try {
 				Point3D blockBehindSign = SignTuneParser
 						.getBlockAttachedTo(this);
-				if (Block.blocksList[Minecraft.getMinecraft().theWorld
-						.getBlockId(blockBehindSign.x, blockBehindSign.y,
-								blockBehindSign.z)].isOpaqueCube()) {
+				if (Minecraft.getMinecraft().theWorld
+						.getBlock(blockBehindSign.x, blockBehindSign.y,
+								blockBehindSign.z).isOpaqueCube()) {
 					isAnchorOpaque = true;
 				}
 				opaqueAnchorCalculated = true;

@@ -26,6 +26,7 @@ import java.util.Map;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.inventory.GuiEditSign;
+import net.minecraft.network.Packet;
 import net.minecraft.tileentity.TileEntitySign;
 
 import com.fencefoil.signWatcher.interfaces.SignChangedListener;

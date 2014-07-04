@@ -29,6 +29,7 @@ import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.Random;
 
+import net.minecraft.init.Blocks;
 import net.minecraft.tileentity.TileEntitySign;
 import net.minecraft.world.World;
 
@@ -147,7 +148,7 @@ public class DiscoFloor {
 
 	public void turnOff(World world) {
 		for (DiscoFloorBlock b : blockList) {
-			if (world.getBlockId(b.x, b.y, b.z) == Block.cloth.blockID) {
+			if (world.getBlock(b.x, b.y, b.z) == Blocks.wool) {
 				// TODO: Is 2 really the value we want?
 				world.setBlockMetadataWithNotify(b.x, b.y, b.z,
 						b.originalBlockMeta, 2);
@@ -167,7 +168,7 @@ public class DiscoFloor {
 			Integer[] pulsePallet = pulsePalettes.get(rand
 					.nextInt(pulsePalettes.size()));
 			for (DiscoFloorBlock b : blockList) {
-				if (world.getBlockId(b.x, b.y, b.z) == Block.cloth.blockID) {
+				if (world.getBlock(b.x, b.y, b.z) == Blocks.wool) {
 					// TODO: Is 2 really the value we want?
 					world.setBlockMetadataWithNotify(b.x, b.y, b.z,
 							pulsePallet[rand.nextInt(pulsePallet.length)], 2);

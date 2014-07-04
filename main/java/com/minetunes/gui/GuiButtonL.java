@@ -143,7 +143,7 @@ public class GuiButtonL extends GuiButton {
 	public void drawButton(Minecraft mc, int mx, int my) {
 		if (visible) {
 			// Check for hover
-			field_82253_i = isMouseOver(mx, my);
+			field_146123_n = isMouseOver(mx, my);
 
 			// Set up texture
 			// GL11.glBindTexture(GL11.GL_TEXTURE_2D,
@@ -169,7 +169,7 @@ public class GuiButtonL extends GuiButton {
 			int labelColor = 0xE0E0E0;
 			if (!enabled) {
 				labelColor = 0xFFA0A0A0;
-			} else if (field_82253_i) {
+			} else if (field_146123_n) {
 				labelColor = 0xFFFFA0;
 			}
 

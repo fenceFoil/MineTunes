@@ -35,6 +35,8 @@ import net.minecraft.block.BlockJukebox.TileEntityJukebox;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiMainMenu;
 import net.minecraft.client.multiplayer.WorldClient;
+import net.minecraft.init.Blocks;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.tileentity.TileEntityNote;
@@ -332,7 +334,8 @@ public class BlockTune implements BlockTuneAccess {
 		}
 
 		// Update text on adjacent sign
-		if (Point3D.getNumAdjacent(world, Block.signWall.blockID, nodePoint) > 0) {
+		if (Point3D.getNumAdjacent(world,
+				Block.getIdFromBlock(Blocks.wall_sign), nodePoint) > 0) {
 			TileEntitySign tileEntitySign = getAdjacentSignTileEntity(nodePoint);
 			if (tileEntitySign != null) {
 				if (updateCount % 200 == 0) {
@@ -492,9 +495,9 @@ public class BlockTune implements BlockTuneAccess {
 	 * @return
 	 */
 	private ItemStack getItemstackForWorldBlock(World world, int x, int y, int z) {
-		int id = world.getBlockId(x, y, z);
-		if (id == 0) {
-			id = Block.music.blockID;
+		Block id = world.getBlock(x, y, z);
+		if (id == Blocks.air) {
+			id = Blocks.noteblock;
 		}
 		ItemStack returnStack = new ItemStack(id, 0, world.getBlockMetadata(x,
 				y, z));
@@ -531,7 +534,7 @@ public class BlockTune implements BlockTuneAccess {
 	 */
 	private boolean isAdjacentSwitchOn(World world, Point3D block) {
 		for (Point3D p : Point3D.getAdjacentBlocks(block)) {
-			if (world.getBlockId(p.x, p.y, p.z) == Block.lever.blockID) {
+			if (world.getBlock(p.x, p.y, p.z) == Blocks.lever) {
 				if ((world.getBlockMetadata(p.x, p.y, p.z) & 0x8) == 0x8) {
 					// Lever is on
 					return true;
@@ -552,17 +555,18 @@ public class BlockTune implements BlockTuneAccess {
 	}
 
 	private boolean checkExistingStructure(World world) {
-		if (Point3D.getNumAdjacent(world, Block.lever.blockID, nodePoint) < 1) {
+		if (Point3D.getNumAdjacent(world, Block.getIdFromBlock(Blocks.lever),
+				nodePoint) < 1) {
 			return false;
 		}
 
-		if (world.getBlockId(corners.startCorner.x, corners.startCorner.y,
-				corners.startCorner.z) != Block.jukebox.blockID) {
+		if (world.getBlock(corners.startCorner.x, corners.startCorner.y,
+				corners.startCorner.z) != Blocks.jukebox) {
 			return false;
 		}
 
 		for (Point3D cornerPoint : corners.getCornersExceptStart()) {
-			if (world.getBlockId(cornerPoint.x, cornerPoint.y, cornerPoint.z) != Block.music.blockID) {
+			if (world.getBlock(cornerPoint.x, cornerPoint.y, cornerPoint.z) != Blocks.noteblock) {
 				return false;
 			}
 		}
@@ -631,8 +635,8 @@ public class BlockTune implements BlockTuneAccess {
 			Point3D nodePoint) {
 		// Check that the basic components are attached before verifying the
 		// corners
-		int leversFound = Point3D.getNumAdjacent(world, Block.lever.blockID,
-				nodePoint);
+		int leversFound = Point3D.getNumAdjacent(world,
+				Block.getIdFromBlock(Blocks.lever), nodePoint);
 		if (leversFound <= 0) {
 			return false;
 		}
@@ -818,8 +822,7 @@ public class BlockTune implements BlockTuneAccess {
 			// Get point referenced
 			Point3D readPoint = corners.getInteriorPoint(frameNum, y);
 
-			int pointID = world.getBlockId(readPoint.x, readPoint.y,
-					readPoint.z);
+			int pointID = world.getBlock(readPoint.x, readPoint.y, readPoint.z);
 			if (pointID != 0) {
 				int pointMeta = world.getBlockMetadata(readPoint.x,
 						readPoint.y, readPoint.z);
@@ -916,7 +919,7 @@ public class BlockTune implements BlockTuneAccess {
 	private boolean blockAreSimilar(ItemStack cornerItem, int pointID,
 			int pointMeta) {
 		// If ids are dissimilar, then duh, the blocks are different
-		if (cornerItem.itemID != pointID) {
+		if (Item.getIdFromItem(cornerItem.getItem()) != pointID) {
 			return false;
 		}
 

@@ -34,6 +34,7 @@ import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.EntityClientPlayerMP;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.tileentity.TileEntitySign;
@@ -66,7 +67,7 @@ import com.minetunes.signs.keywords.SignTuneKeyword;
 /**
  * Contains members which were previously located in
  * net.minecraft.src.BlockSign. NOT used to replace the vanilla BlockSign for
- * the fields Block.signWall and Block.signPost, does NOT extend BlockSign
+ * the fields Blocks.wall_sign and Blocks.standing_sign, does NOT extend BlockSign
  * 
  */
 public class SignTuneParser {
@@ -1061,8 +1062,8 @@ public class SignTuneParser {
 			// nextSignPoint.y, nextSignPoint.z);
 			// }
 			//
-			// if (!(nextBlockType == Block.signPost.blockID || nextBlockType ==
-			// Block.signWall.blockID)) {
+			// if (!(nextBlockType == Blocks.standing_sign.blockID || nextBlockType ==
+			// Blocks.wall_sign.blockID)) {
 			// // Thin air. Throw error.
 			// String signText2 = "";
 			// for (String s : currSignTileEntity.signText) {
@@ -1593,7 +1594,7 @@ public class SignTuneParser {
 	}
 
 	public static int getSignFacing(int signMetadata, Block signType) {
-		if (signType == Block.signPost) {
+		if (signType == Blocks.standing_sign) {
 			if (signMetadata == 0x0F || signMetadata == 0x00
 					|| signMetadata == 0x01 || signMetadata == 0x02) {
 				// South
@@ -1647,7 +1648,7 @@ public class SignTuneParser {
 	 * @return
 	 */
 	public static int getSignFacingDegrees(int signMetadata, Block signType) {
-		if (signType == Block.signPost) {
+		if (signType == Blocks.standing_sign) {
 			return (int) ((360f / 16f) * (float) signMetadata);
 		} else {
 			// Attached to wall. Note the different ordering.
@@ -1679,16 +1680,16 @@ public class SignTuneParser {
 	 * 
 	 * @param world
 	 * @param point
-	 * @return Block.signpost, Block.signWall, or null
+	 * @return Blocks.standing_sign, Blocks.wall_sign, or null
 	 */
 	public static Block getSignBlockType(Point3D point, World world) {
 		int blockId = world.getBlockId(point.x, point.y, point.z);
 		if (blockId == 63) {
 			// Signpost
-			return Block.signPost;
+			return Blocks.standing_sign;
 		} else if (blockId == 68) {
 			// Wall-sign
-			return Block.signWall;
+			return Blocks.wall_sign;
 		} else {
 			// Not a sign - return null
 			return null;
@@ -1702,7 +1703,7 @@ public class SignTuneParser {
 	// * @param point
 	// * @param whitelist
 	// * Can be null
-	// * @return Block.signpost, Block.signWall, or null. Also, null if block is
+	// * @return Blocks.standing_sign, Blocks.wall_sign, or null. Also, null if block is
 	// * not on whitelist
 	// */
 	// public static Block getSignBlockTypeIfWhitelisted(Point3D point,
@@ -1717,10 +1718,10 @@ public class SignTuneParser {
 	// int blockId = world.getBlockId(point.x, point.y, point.z);
 	// if (blockId == 63) {
 	// // Signpost
-	// return Block.signPost;
+	// return Blocks.standing_sign;
 	// } else if (blockId == 68) {
 	// // Wall-sign
-	// return Block.signWall;
+	// return Blocks.wall_sign;
 	// } else {
 	// // Not a sign - return null
 	// return null;
@@ -1777,10 +1778,10 @@ public class SignTuneParser {
 		Block blockType = anchor.blockType;
 		Point3D returnBlock = new Point3D(anchor.xCoord, anchor.yCoord,
 				anchor.zCoord);
-		if (blockType == Block.signPost) {
+		if (blockType == Blocks.standing_sign) {
 			// Block is below sign
 			returnBlock.y--;
-		} else if (blockType == Block.signWall) {
+		} else if (blockType == Blocks.wall_sign) {
 			// Block is behind sign
 			returnBlock = getCoordsRelativeToSign(anchor, 0, 0, -1);
 		}

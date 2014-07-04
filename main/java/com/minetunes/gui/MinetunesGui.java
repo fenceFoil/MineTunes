@@ -34,6 +34,7 @@ import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.Timer;
+import net.minecraft.util.Util;
 import net.minecraft.util.Util.EnumOS;
 
 import org.lwjgl.Sys;
